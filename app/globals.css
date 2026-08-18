@@ -1,0 +1,336 @@
+/*
+ * Timber & Ink — global tokens and the handful of rules that inline styles
+ * cannot express (hover, focus, media queries, contenteditable affordances).
+ *
+ * Everything else lives next to the markup in lib/tokens.ts, mirroring the
+ * design prototypes in design_handoff_photography_site/design/.
+ */
+
+:root {
+  /* Surfaces */
+  --desk-page: #0b1a1b;
+  --desk-content: #0d1f20;
+  --ink: #142a2b;
+  --cream: #fffdf6;
+  --paper: #f3efe2;
+  --paper-stock: #efeadc;
+  --paper-card: #f6f3ec;
+
+  /* Text */
+  --text-primary: #e8e3d7;
+  --text-bright: #f4f0e6;
+  --text-wordmark: #f1ede2;
+  --text-muted: #aebab5;
+  --text-faint: #9daba6;
+  --text-ink-muted: #5d6d6a;
+  --text-ink-soft: #3a4d4b;
+  --text-ink-mid: #2c3f3e;
+
+  /* Accents */
+  --amber: #c6862f;
+  --amber-hover: #dca24a;
+  --amber-hand: #d9a354;
+  --amber-hand-hover: #e8bc6a;
+  --hand-body: #d8d2c4;
+
+  /* Rules */
+  --rule-strong: rgba(232, 227, 215, 0.34);
+  --rule: rgba(232, 227, 215, 0.3);
+  --rule-faint: rgba(232, 227, 215, 0.16);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* Layout */
+  --shell-max: 1120px;
+  --shell-pad: clamp(22px, 5vw, 34px);
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--desk-page);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: var(--amber);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--amber-hover);
+}
+
+img {
+  max-width: 100%;
+}
+
+/* --- Hover behaviours ---------------------------------------------------- */
+
+/* Header / footer navigation */
+.nav-link:hover {
+  color: var(--text-wordmark);
+  border-bottom-color: var(--rule-strong);
+}
+
+.nav-link[aria-current="page"]:hover {
+  border-bottom-color: var(--amber);
+}
+
+.menu-link:hover {
+  background: rgba(20, 42, 43, 0.05);
+}
+
+.footer-link:hover {
+  border-bottom-color: var(--amber);
+  color: var(--text-wordmark);
+}
+
+.hand-link:hover {
+  color: var(--amber-hand-hover);
+}
+
+.admin-toggle:hover {
+  color: var(--text-faint);
+}
+
+.admin-logout:hover {
+  color: var(--text-primary);
+}
+
+.quiet-button:hover {
+  color: var(--text-primary);
+}
+
+.ink-quiet-button:hover {
+  color: var(--ink);
+}
+
+.outline-button:hover {
+  background: rgba(232, 227, 215, 0.07);
+}
+
+.lightbox-button:hover {
+  background: rgba(232, 227, 215, 0.14);
+}
+
+.lightbox-step:hover {
+  background: rgba(232, 227, 215, 0.1);
+}
+
+/* Taped prints lift and straighten a little under the cursor */
+.print {
+  transition: transform 240ms var(--ease-out);
+}
+
+.print-lift-1:hover {
+  transform: translateY(-3px) rotate(-0.6deg);
+}
+
+.print-lift-2:hover {
+  transform: translateY(-3px) rotate(-0.4deg);
+}
+
+.print-lift-3:hover {
+  transform: translateY(-3px) rotate(-0.5deg);
+}
+
+.pile-lift-a:hover {
+  transform: translateY(-4px) rotate(0.6deg);
+}
+
+.pile-lift-b:hover {
+  transform: translateY(-4px) rotate(-0.5deg);
+}
+
+.pile-lift-c:hover {
+  transform: translateY(-4px) rotate(0.4deg);
+}
+
+.pile-lift-d:hover {
+  transform: translateY(-4px) rotate(-0.6deg);
+}
+
+.pile-lift-e:hover {
+  transform: translateY(-4px) rotate(0.5deg);
+}
+
+.pile-lift-flat:hover {
+  transform: translateY(-4px);
+}
+
+/* About portrait replace-overlay */
+.portrait-replace {
+  opacity: 0;
+  transition: opacity 150ms;
+}
+
+.portrait-replace:hover,
+.portrait-replace:focus-visible {
+  opacity: 1;
+}
+
+/* --- Design-system controls --------------------------------------------- */
+
+.ti-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 3px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1;
+  white-space: nowrap;
+  transition: background 160ms var(--ease-out), color 160ms var(--ease-out),
+    border-color 160ms var(--ease-out);
+}
+
+.ti-button-lg {
+  min-height: 48px;
+  padding: 0 22px;
+}
+
+.ti-button-primary {
+  border: 1px solid var(--text-wordmark);
+  background: var(--text-wordmark);
+  color: var(--ink);
+}
+
+.ti-button-primary:hover {
+  background: #fffdf6;
+  border-color: #fffdf6;
+}
+
+.ti-button-secondary {
+  border: 1px solid rgba(232, 227, 215, 0.4);
+  background: transparent;
+  color: var(--text-primary);
+}
+
+.ti-button-secondary:hover {
+  background: rgba(232, 227, 215, 0.08);
+  border-color: rgba(232, 227, 215, 0.62);
+}
+
+/* On paper stock the secondary outline needs ink, not cream. */
+.on-paper .ti-button-secondary {
+  border-color: rgba(20, 42, 43, 0.35);
+  color: var(--ink);
+}
+
+.on-paper .ti-button-secondary:hover {
+  background: rgba(20, 42, 43, 0.06);
+  border-color: rgba(20, 42, 43, 0.55);
+}
+
+.on-paper .ti-button-primary {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: #f1ede2;
+}
+
+.on-paper .ti-button-primary:hover {
+  background: #1d3536;
+  border-color: #1d3536;
+}
+
+.ti-input {
+  width: 100%;
+  min-height: 42px;
+  padding: 0 12px;
+  border: 1px solid rgba(20, 42, 43, 0.28);
+  border-radius: 3px;
+  background: var(--ink);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  font-size: 16px;
+}
+
+.ti-input::placeholder {
+  color: rgba(232, 227, 215, 0.45);
+}
+
+.ti-input:focus {
+  outline: none;
+  border-color: var(--amber);
+  box-shadow: 0 0 0 2px rgba(198, 134, 47, 0.28);
+}
+
+.ti-field-label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: var(--font-ui);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-ink-mid);
+}
+
+.ti-field-error {
+  margin-top: 7px;
+  min-height: 16px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  color: #7c4a2c;
+}
+
+.admin-input:focus {
+  outline: none;
+  border-color: var(--amber);
+}
+
+/* --- Inline editing ------------------------------------------------------ */
+
+[contenteditable="true"] {
+  outline: none;
+  border-radius: 2px;
+}
+
+[contenteditable="true"]:hover {
+  outline: 1px dashed rgba(198, 134, 47, 0.55);
+  outline-offset: 3px;
+  cursor: text;
+  background: rgba(198, 134, 47, 0.07);
+}
+
+[contenteditable="true"]:focus {
+  outline: 1px solid var(--amber);
+  outline-offset: 3px;
+  background: rgba(198, 134, 47, 0.1);
+}
+
+/* --- Responsive ---------------------------------------------------------- */
+
+.wide-only {
+  display: flex;
+}
+
+.narrow-only {
+  display: none;
+}
+
+@media (max-width: 720px) {
+  .wide-only {
+    display: none;
+  }
+
+  .narrow-only {
+    display: block;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .print,
+  .ti-button,
+  .portrait-replace {
+    transition: none;
+  }
+}
