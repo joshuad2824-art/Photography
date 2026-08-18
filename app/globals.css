@@ -334,3 +334,30 @@ img {
     transition: none;
   }
 }
+
+.ti-tab:hover {
+  color: var(--text-wordmark);
+}
+
+/* Admin worksheets sit on paper: quiet ink buttons, not cream-on-cream. */
+.ink-button:hover {
+  background: rgba(20, 42, 43, 0.06);
+}
+
+.danger-button:hover {
+  color: #5a3520;
+}
+
+.danger-solid:hover {
+  background: #5a3520;
+  border-color: #5a3520;
+}
+
+.drop-zone {
+  transition: background 140ms var(--ease-out), border-color 140ms var(--ease-out);
+}
+
+.drop-zone[data-over="true"] {
+  background: rgba(198, 134, 47, 0.12);
+  border-color: rgba(198, 134, 47, 0.6);
+}

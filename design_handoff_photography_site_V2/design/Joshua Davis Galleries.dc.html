@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/surfaces.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/base.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/styles.css">
+  <script src="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/_ds_bundle.js"></script>
+  <script src="https://unpkg.com/lucide@0.451.0/dist/umd/lucide.min.js"></script>
+  <script src="./cms.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grape+Nuts&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0b1a1b; }
+    :root { --font-hand: "Grape Nuts", "Bradley Hand", cursive; }
+    * { box-sizing: border-box; }
+    a { color: #C6862F; text-decoration: none; }
+    a:hover { color: #DCA24A; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { outline: 1px dashed rgba(198,134,47,0.55); outline-offset: 3px; cursor: text; background: rgba(198,134,47,0.07); }
+    [contenteditable="true"]:focus { outline: 1px solid #C6862F; outline-offset: 3px; background: rgba(198,134,47,0.1); }
+  </style>
+</helmet>
+
+<div data-screen-label="Galleries" style="min-height:100vh;background:#0d1f20;color:#E8E3D7;font-family:var(--font-body);position:relative;overflow-x:hidden">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 1180px at 4% 300px, rgba(198,134,47,0.155), rgba(0,0,0,0) 68%),radial-gradient(74% 48% at 16% 86%, rgba(198,134,47,0.15), rgba(0,0,0,0) 72%),radial-gradient(46% 30% at 84% 6%, rgba(120,150,140,0.07), rgba(0,0,0,0) 74%)"></div>
+  <sc-if value="{{ wear }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.9;background-image:url('textures/desk-wear.png');background-size:100% 100%;background-repeat:no-repeat"></div></sc-if>
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.34;background-image:url('textures/desk-grain.png');background-size:256px 256px;background-repeat:repeat"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.34) 100%)"></div>
+
+  <header style="position:relative;z-index:5;max-width:1120px;margin:0 auto;padding:clamp(22px,5vw,30px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2" style-hover="color:#F1EDE2">Joshua Davis</a>
+      <div contentEditable="{{ f.tagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tagline.onBlur }}" style="margin-top:9px;font-family:var(--font-hand);font-size:23px;line-height:1;color:#D9A354">{{ f.tagline.text }}</div>
+    </div>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-bottom:4px">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:0;border-radius:3px;cursor:pointer;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">Menu<span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0">▾</span></button>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;z-index:9;top:calc(100% + 12px);right:0;min-width:220px;transform:rotate(-0.8deg);background:#f6f3ec;padding:8px 0;box-shadow:0 22px 44px rgba(0,0,0,0.55),inset 0 0 0 1px rgba(20,42,43,0.12)">
+        <div style="position:absolute;top:-13px;right:26px;width:76px;height:26px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e" style-hover="background:rgba(20,42,43,0.05)">{{ f.navHome.text }}</a>
+        <a href="#" aria-current="page" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#142A2B;border-top:1px solid rgba(20,42,43,0.1);box-shadow:inset 3px 0 0 #C6862F">{{ f.navGalleries.text }}</a>
+        <a href="Joshua%20Davis%20Your%20Session.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navSession.text }}</a>
+        <a href="Joshua%20Davis%20About.dc.html" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navAbout.text }}</a>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:2px clamp(16px,2.4vw,22px)">
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navHome.text }}</a>
+      <a href="#" aria-current="page" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#F1EDE2;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid #C6862F">{{ f.navGalleries.text }}</a>
+      <a href="Joshua%20Davis%20Your%20Session.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navSession.text }}</a>
+      <a href="Joshua%20Davis%20About.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navAbout.text }}</a>
+    </nav>
+    </sc-if>
+  </header>
+
+  <div style="position:relative;z-index:3;max-width:1120px;margin:22px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="height:2px;background:#E8E3D7"></div>
+    <div style="height:1px;margin-top:3px;background:rgba(232,227,215,0.34)"></div>
+  </div>
+
+  <sc-if value="{{ atIndex }}" hint-placeholder-val="{{ true }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(34px,6vw,48px) clamp(22px,5vw,34px) 0">
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:16px 22px">
+      <h1 contentEditable="{{ f.indexTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.indexTitle.onBlur }}" style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(32px,4.4vw,50px);line-height:1.02;color:#F4F0E6">{{ f.indexTitle.text }}</h1>
+      <div contentEditable="{{ f.indexHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.indexHand.onBlur }}" style="font-family:var(--font-hand);font-size:clamp(22px,2.2vw,27px);line-height:1.2;color:#D9A354;padding-bottom:6px">{{ f.indexHand.text }}</div>
+    </div>
+    <p contentEditable="{{ f.indexIntro.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.indexIntro.onBlur }}" style="margin:18px 0 0;max-width:52ch;font-size:16px;line-height:1.62;color:#AEBAB5;text-wrap:pretty">{{ f.indexIntro.text }}</p>
+
+    <div style="margin-top:clamp(38px,5vw,54px);columns:300px;column-gap:clamp(28px,4vw,40px)">
+
+      <div onClick="{{ open.treeline }}" style="break-inside:avoid;margin:0 0 clamp(34px,4.4vw,46px);width:100%;transform:rotate(-1.4deg);cursor:pointer">
+        <div style="background:#fffdf6;padding:13px 13px 17px;box-shadow:0 24px 46px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px) rotate(0.6deg)">
+          <img src="photos/high-country.jpg" alt="Grass and ridgeline above the treeline" style="width:100%;display:block;aspect-ratio:3 / 2;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.pTreelineTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pTreelineTitle.onBlur }}" style="margin-top:12px;font-family:var(--font-editorial);font-weight:700;font-size:24px;line-height:1.1;color:#142A2B">{{ f.pTreelineTitle.text }}</div>
+          <div contentEditable="{{ f.pTreelineHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pTreelineHand.onBlur }}" style="margin-top:6px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#3a4d4b">{{ f.pTreelineHand.text }}</div>
+          <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+            <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Ridges &amp; rocks</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">2024 – 2026</div>
+          </div>
+        </div>
+        <div style="position:relative;height:0"><sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-6px;right:16px;width:104px;height:28px;transform:rotate(-9deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if></div>
+      </div>
+
+      <div onClick="{{ open.downtown }}" style="break-inside:avoid;margin:0 0 clamp(34px,4.4vw,46px);width:92%;transform:rotate(1.5deg);cursor:pointer">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 24px 46px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px) rotate(-0.5deg)">
+          <img src="photos/street-01-crossing.jpg" alt="A boy waiting at a downtown crossing" style="width:100%;display:block;aspect-ratio:4 / 5;object-fit:cover;object-position:50% 30%;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.pDowntownTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pDowntownTitle.onBlur }}" style="margin-top:12px;font-family:var(--font-editorial);font-weight:700;font-size:24px;line-height:1.1;color:#142A2B">{{ f.pDowntownTitle.text }}</div>
+          <div contentEditable="{{ f.pDowntownHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pDowntownHand.onBlur }}" style="margin-top:6px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#3a4d4b">{{ f.pDowntownHand.text }}</div>
+          <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+            <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Sidewalks</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">Tulsa · ongoing</div>
+          </div>
+        </div>
+        <div style="position:relative;height:0"><sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-7px;left:-12px;width:92px;height:26px;transform:rotate(-11deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if></div>
+      </div>
+
+      <div onClick="{{ open.weather }}" style="break-inside:avoid;margin:0 0 clamp(34px,4.4vw,46px);margin-left:6%;width:94%;transform:rotate(-0.8deg);cursor:pointer">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 24px 46px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px) rotate(0.4deg)">
+          <img src="photos/the-gap.jpg" alt="A figure standing in a gap between two rock faces" style="width:100%;display:block;aspect-ratio:2 / 3;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.pWeatherTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pWeatherTitle.onBlur }}" style="margin-top:12px;font-family:var(--font-editorial);font-weight:700;font-size:24px;line-height:1.1;color:#142A2B">{{ f.pWeatherTitle.text }}</div>
+          <div contentEditable="{{ f.pWeatherHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pWeatherHand.onBlur }}" style="margin-top:6px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#3a4d4b">{{ f.pWeatherHand.text }}</div>
+          <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+            <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Fog &amp; sleet</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">Mostly the Ozarks</div>
+          </div>
+        </div>
+        <div style="position:relative;height:0"><sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-8px;left:22px;width:88px;height:25px;transform:rotate(7deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if></div>
+      </div>
+
+      <div onClick="{{ open.home }}" style="break-inside:avoid;margin:0 0 clamp(34px,4.4vw,46px);width:88%;transform:rotate(2deg);cursor:pointer">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 24px 46px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px) rotate(-0.6deg)">
+          <img src="photos/street-02-grin.jpg" alt="A boy in a fur-hooded coat, grinning" style="width:100%;display:block;aspect-ratio:1 / 1;object-fit:cover;object-position:50% 28%;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.pHomeTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pHomeTitle.onBlur }}" style="margin-top:12px;font-family:var(--font-editorial);font-weight:700;font-size:24px;line-height:1.1;color:#142A2B">{{ f.pHomeTitle.text }}</div>
+          <div contentEditable="{{ f.pHomeHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pHomeHand.onBlur }}" style="margin-top:6px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#3a4d4b">{{ f.pHomeHand.text }}</div>
+          <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+            <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Family</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">Home · kitchen light</div>
+          </div>
+        </div>
+        <div style="position:relative;height:0"><sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-7px;right:-12px;width:92px;height:26px;transform:rotate(-14deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if></div>
+      </div>
+
+      <div onClick="{{ open.odds }}" style="break-inside:avoid;margin:0 0 clamp(34px,4.4vw,46px);margin-left:4%;width:96%;transform:rotate(-1.9deg);cursor:pointer">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 24px 46px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px) rotate(0.5deg)">
+          <img src="photos/street-03-walking.jpg" alt="A figure walking away down a wet sidewalk" style="width:100%;display:block;aspect-ratio:3 / 4;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.pOddsTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pOddsTitle.onBlur }}" style="margin-top:12px;font-family:var(--font-editorial);font-weight:700;font-size:24px;line-height:1.1;color:#142A2B">{{ f.pOddsTitle.text }}</div>
+          <div contentEditable="{{ f.pOddsHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.pOddsHand.onBlur }}" style="margin-top:6px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#3a4d4b">{{ f.pOddsHand.text }}</div>
+          <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:9px;align-items:center">
+            <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Whatever's left</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">Nothing sorted yet</div>
+          </div>
+        </div>
+        <div style="position:relative;height:0"><sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-6px;left:-14px;width:98px;height:27px;transform:rotate(11deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if></div>
+      </div>
+
+    </div>
+
+    <div style="margin-top:clamp(30px,4vw,44px);padding-top:26px;border-top:1px solid rgba(232,227,215,0.3);display:flex;flex-wrap:wrap;gap:14px 26px;align-items:baseline;justify-content:space-between">
+      <div contentEditable="{{ f.footerNote.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerNote.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1.3;color:#D9A354;max-width:34ch">{{ f.footerNote.text }}</div>
+      <a href="Joshua%20Davis%20Your%20Session.dc.html" contentEditable="{{ f.footerLinkLabel.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerLinkLabel.onBlur }}" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#F1EDE2;padding:11px 0 9px;border-bottom:2px solid rgba(232,227,215,0.34)" style-hover="border-bottom-color:#C6862F;color:#F1EDE2">{{ f.footerLinkLabel.text }}</a>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ atGallery }}" hint-placeholder-val="{{ false }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(30px,5vw,44px) clamp(22px,5vw,34px) 0">
+    <button type="button" onClick="{{ backToIndex }}" style="display:inline-flex;align-items:center;gap:9px;min-height:44px;padding:0;border:0;background:transparent;cursor:pointer;font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354" style-hover="color:#E8BC6A">← back to the drawer</button>
+
+    <div style="margin-top:14px;display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 24px">
+      <h1 style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(30px,4.2vw,48px);line-height:1.03;color:#F4F0E6">{{ g.title }}</h1>
+      <div style="display:inline-block;padding:6px 13px;border-radius:3px;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55);margin-bottom:8px">{{ g.meta }}</div>
+    </div>
+    <div style="margin-top:16px;font-family:var(--font-hand);font-size:clamp(22px,2.2vw,27px);line-height:1.34;color:#D8D2C4;max-width:44ch;text-wrap:pretty">{{ g.note }}</div>
+
+    <div style="margin-top:22px;height:1px;background:rgba(232,227,215,0.3)"></div>
+
+    <div style="margin-top:clamp(34px,4.4vw,48px);columns:280px;column-gap:clamp(28px,4vw,40px)">
+      <sc-for list="{{ g.photos }}" as="p" hint-placeholder-count="6">
+        <div onClick="{{ p.onOpen }}" style="break-inside:avoid;margin:0 0 clamp(32px,4vw,44px);cursor:pointer;width:{{ p.w }};margin-left:{{ p.ml }};transform:rotate({{ p.rot }})">
+          <div style="background:#fffdf6;padding:11px 11px 15px;box-shadow:0 22px 44px rgba(0,0,0,0.5);transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-4px)">
+            <div role="img" aria-label="{{ p.cap }}" style="{{ p.frame }}"></div>
+            <div style="margin-top:10px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#142A2B">{{ p.cap }}</div>
+            <div style="margin-top:9px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ p.plate }}</div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="margin-top:clamp(26px,4vw,40px);display:flex;flex-wrap:wrap;gap:16px 26px;align-items:baseline;justify-content:space-between">
+      <div style="font-family:var(--font-hand);font-size:23px;line-height:1.25;color:#AEBAB5;max-width:38ch">More from this pile once I've had a night at the scanner.</div>
+      <button type="button" onClick="{{ backToIndex }}" style="min-height:44px;padding:0;border:0;background:transparent;cursor:pointer;font-family:var(--font-hand);font-size:26px;line-height:1;color:#D9A354;border-bottom:2px solid rgba(198,134,47,0.5)" style-hover="color:#E8BC6A">back to the drawer →</button>
+    </div>
+  </section>
+  </sc-if>
+
+  <footer style="position:relative;z-index:3;max-width:1120px;margin:78px auto 0;padding:0 clamp(22px,5vw,34px) 0">
+    <div style="height:1px;background:rgba(232,227,215,0.3)"></div>
+    <div style="padding:26px 0 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div style="font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</div>
+        <div contentEditable="{{ f.footerContact.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerContact.onBlur }}" style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#9DABA6">{{ f.footerContact.text }}</div>
+      </div>
+      <div contentEditable="{{ f.footerTagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerTagline.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354">{{ f.footerTagline.text }}</div>
+    </div>
+    <sc-if value="{{ engraving }}" hint-placeholder-val="{{ true }}"><div style="position:relative;overflow:hidden;height:clamp(92px,24vw,132px);margin-top:14px">
+      <img src="graphics/engraving-moose-puffin.png" alt="" aria-hidden="true" style="position:absolute;right:0;top:-20px;width:min(410px,80vw);opacity:0.4;pointer-events:none">
+    </div></sc-if>
+
+    <div style="margin-top:18px;padding:14px 0 26px;border-top:1px solid rgba(232,227,215,0.16);display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+      <sc-if value="{{ admin }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#D9A354">Editing as admin — click any text to change it</div>
+        <button type="button" onClick="{{ adminLogout }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9DABA6;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#E8E3D7">Log out</button>
+      </sc-if>
+      <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <input type="password" placeholder="admin password" value="{{ apw }}" onChange="{{ onApw }}" onKeyDown="{{ onApwKey }}" style="min-height:34px;padding:0 10px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.5);color:#E8E3D7;font-family:var(--font-mono);font-size:11px"/>
+            <button type="button" onClick="{{ tryAdmin }}" style="min-height:34px;padding:0 12px;border:0;border-radius:3px;cursor:pointer;background:#C6862F;color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Sign in</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#c98a5a">{{ apwErr }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ adminClosed }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleAdminOpen }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#4d5a57;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#9DABA6">Admin</button>
+        </sc-if>
+      </sc-if>
+    </div>
+  </footer>
+
+  <sc-if value="{{ lightOpen }}" hint-placeholder-val="{{ false }}">
+  <div role="dialog" aria-modal="true" style="position:fixed;inset:0;z-index:40;background:rgba(6,14,15,0.92);display:flex;flex-direction:column;gap:8px;padding:clamp(10px,2vw,22px)">
+    <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(680px 520px at 50% 42%, rgba(198,134,47,0.16), rgba(0,0,0,0) 70%)"></div>
+    <button type="button" onClick="{{ closeLight }}" aria-label="Close" style="position:fixed;z-index:3;top:clamp(10px,2vw,22px);right:clamp(10px,2vw,22px);min-width:44px;min-height:44px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.7);cursor:pointer;color:#E8E3D7;font-family:var(--font-mono);font-size:18px;line-height:1" style-hover="background:rgba(232,227,215,0.14)">×</button>
+
+    <div style="position:relative;flex:1;min-height:0;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:0">
+      <div style="flex:0 1 auto;min-width:0;min-height:0;max-width:min(880px,100%);height:100%;display:flex;flex-direction:column;align-items:center">
+        <div style="{{ cardStyle }}">
+          <div role="img" aria-label="{{ light.cap }}" style="{{ light.frame }}"></div>
+          <div style="{{ capStyle }}">
+            <div style="font-family:var(--font-hand);font-size:clamp(21px,2.2vw,26px);line-height:1.26;color:#142A2B">{{ light.cap }}</div>
+            <div style="margin-top:10px;display:flex;flex-wrap:wrap;gap:4px 10px;align-items:baseline;justify-content:space-between">
+              <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ light.plate }}</div>
+              <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ light.exif }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position:relative;display:flex;align-items:center;justify-content:center;gap:clamp(14px,3vw,26px)">
+      <button type="button" onClick="{{ prevLight }}" aria-label="Previous photo" style="flex:0 0 auto;width:46px;height:46px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:transparent;cursor:pointer;color:#E8E3D7;font-family:var(--font-mono);font-size:16px" style-hover="background:rgba(232,227,215,0.1)">←</button>
+      <div style="min-width:0;font-family:var(--font-mono);font-size:10px;letter-spacing:0.14em;text-transform:uppercase;color:#9DABA6;text-align:center">{{ lightCount }}</div>
+      <button type="button" onClick="{{ nextLight }}" aria-label="Next photo" style="flex:0 0 auto;width:46px;height:46px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:transparent;cursor:pointer;color:#E8E3D7;font-family:var(--font-mono);font-size:16px" style-hover="background:rgba(232,227,215,0.1)">→</button>
+    </div>
+  </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tape&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Tape strips&quot;},&quot;wear&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Worn desk texture&quot;},&quot;engraving&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Footer engraving&quot;}}">
+class Component extends DCLogic {
+  state = { view: "index", gid: "treeline", light: -1, narrow: false, menuOpen: false, vw: 1200, vh: 900, admin: false, adminOpen: false, apw: "", apwErr: "" };
+
+  DATA = {
+    treeline: {
+      title: "Above the treeline",
+      sub: "2024–2026",
+      note: "Two summers of walking uphill, mostly to stand somewhere quiet for a while. The light did what it wanted.",
+      photos: [
+        { src: "photos/high-country.jpg", cap: "Two days of walking for four minutes of light.", plate: "Plate 01 · Above the treeline", exif: "35mm · f/8 · 1/250", ratio: "3 / 2", pos: "50% 50%", w: "100%", ml: "0", rot: "-1.2deg" },
+        { src: "photos/the-gap.jpg", cap: "Stood there long enough to lose the feeling in my hands.", plate: "Plate 02 · The gap", exif: "35mm · f/5.6 · 1/125", ratio: "2 / 3", pos: "50% 50%", w: "94%", ml: "6%", rot: "1.4deg" }
+      ]
+    },
+    downtown: {
+      title: "Downtown, waiting",
+      sub: "Tulsa · ongoing",
+      note: "Six blocks I walk most weeks. Nobody here is going anywhere in a hurry, which is the whole reason I like it.",
+      photos: [
+        { src: "photos/street-01-crossing.jpg", cap: "He waited out three green lights before he'd look up.", plate: "Plate 01 · Fifth & Boston", exif: "35mm · f/2.8 · 1/160", ratio: "2 / 3", pos: "50% 40%", w: "100%", ml: "0", rot: "1.3deg" },
+        { src: "photos/street-02-grin.jpg", cap: "Then, all at once, he did.", plate: "Plate 02 · Fifth & Boston", exif: "35mm · f/2.8 · 1/200", ratio: "4 / 5", pos: "50% 30%", w: "94%", ml: "6%", rot: "-1.5deg" },
+        { src: "photos/street-03-walking.jpg", cap: "Wet sidewalk, streetlight doing all the work.", plate: "Plate 03 · Boulder Ave", exif: "35mm · f/2 · 1/60", ratio: "2 / 3", pos: "50% 55%", w: "100%", ml: "0", rot: "0.9deg" }
+      ]
+    },
+    weather: {
+      title: "Weather I stood in",
+      sub: "Mostly the Ozarks",
+      note: "Fog, sleet, and one hailstorm I should have driven away from. Bad weather makes better pictures than a clear day ever has.",
+      photos: [
+        { src: "photos/the-gap.jpg", cap: "The fog came up the valley faster than I could pack the bag.", plate: "Plate 01 · Fog line", exif: "35mm · f/5.6 · 1/125", ratio: "2 / 3", pos: "50% 50%", w: "100%", ml: "0", rot: "-1.4deg" },
+        { src: "photos/high-country.jpg", cap: "Sleet, sideways, for about nine minutes.", plate: "Plate 02 · Sleet", exif: "35mm · f/8 · 1/500", ratio: "3 / 2", pos: "50% 40%", w: "94%", ml: "6%", rot: "1.2deg" },
+        { src: "photos/street-03-walking.jpg", cap: "Everyone else had the sense to go inside.", plate: "Plate 03 · Downpour", exif: "35mm · f/2.8 · 1/60", ratio: "3 / 4", pos: "50% 50%", w: "100%", ml: "0", rot: "0.7deg" }
+      ]
+    },
+    home: {
+      title: "The people I live with",
+      sub: "Home · kitchen light",
+      note: "Mostly taken from a chair, usually while somebody told me to put the camera down. I did not.",
+      photos: [
+        { src: "photos/street-02-grin.jpg", cap: "New coat. He wore it inside for two days.", plate: "Plate 01 · Kitchen", exif: "50mm · f/1.8 · 1/125", ratio: "4 / 5", pos: "50% 28%", w: "100%", ml: "0", rot: "1.1deg" },
+        { src: "photos/street-01-crossing.jpg", cap: "Waiting on pancakes with real patience.", plate: "Plate 02 · Saturday", exif: "35mm · f/2 · 1/80", ratio: "2 / 3", pos: "50% 35%", w: "94%", ml: "6%", rot: "-1.5deg" },
+        { src: "photos/street-03-walking.jpg", cap: "Down the driveway to the bus, one last look back.", plate: "Plate 03 · August", exif: "50mm · f/2.8 · 1/250", ratio: "3 / 4", pos: "50% 45%", w: "100%", ml: "0", rot: "0.8deg" }
+      ]
+    },
+    odds: {
+      title: "Odds and ends",
+      sub: "Unsorted",
+      note: "Frames that don't belong to anything yet. Some of them will end up in a pile of their own eventually.",
+      photos: [
+        { src: "photos/street-03-walking.jpg", cap: "Somebody's morning, not mine.", plate: "Plate 01 · Unsorted", exif: "35mm · f/4 · 1/200", ratio: "2 / 3", pos: "50% 50%", w: "100%", ml: "0", rot: "-1.2deg" },
+        { src: "photos/high-country.jpg", cap: "Pulled over on the shoulder for this one.", plate: "Plate 02 · Unsorted", exif: "50mm · f/8 · 1/400", ratio: "3 / 2", pos: "50% 60%", w: "96%", ml: "4%", rot: "1.5deg" },
+        { src: "photos/the-gap.jpg", cap: "I have no idea what made me stop here.", plate: "Plate 03 · Unsorted", exif: "35mm · f/5.6 · 1/160", ratio: "4 / 5", pos: "50% 40%", w: "100%", ml: "0", rot: "0.6deg" },
+        { src: "photos/street-01-crossing.jpg", cap: "Out of focus and I kept it anyway.", plate: "Plate 04 · Unsorted", exif: "35mm · f/2 · 1/60", ratio: "2 / 3", pos: "50% 30%", w: "92%", ml: "6%", rot: "-1.7deg" },
+        { src: "photos/street-02-grin.jpg", cap: "Last frame on the roll, always the loosest one.", plate: "Plate 05 · Unsorted", exif: "50mm · f/2.8 · 1/125", ratio: "1 / 1", pos: "50% 28%", w: "100%", ml: "0", rot: "1deg" }
+      ]
+    }
+  };
+
+  componentDidMount() {
+    this.mq = window.matchMedia("(max-width: 720px)");
+    this.sync = () => this.setState({ narrow: this.mq.matches, menuOpen: false });
+    this.sync();
+    this.mq.addEventListener("change", this.sync);
+    this.onResize = () => this.setState({ vw: window.innerWidth, vh: window.innerHeight });
+    this.onResize();
+    window.addEventListener("resize", this.onResize);
+    this.keys = e => {
+      if (this.state.light < 0) return;
+      if (e.key === "Escape") this.setLight(-1);
+      if (e.key === "ArrowRight") this.step(1);
+      if (e.key === "ArrowLeft") this.step(-1);
+    };
+    document.addEventListener("keydown", this.keys);
+    this.away = e => { if (this.state.menuOpen && !e.target.closest("[aria-expanded]")) this.setState({ menuOpen: false }); };
+    document.addEventListener("click", this.away);
+    if (window.JDCms) this.setState({ admin: window.JDCms.isAdmin() });
+  }
+  ed(id, fallback) {
+    const admin = this.state.admin;
+    const text = window.JDCms ? window.JDCms.text(id, fallback) : fallback;
+    return { text, editable: admin || undefined, onBlur: admin ? (e => window.JDCms.setText(id, e.currentTarget.textContent)) : undefined };
+  }
+  tryAdmin() {
+    if (window.JDCms && window.JDCms.login(this.state.apw)) this.setState({ admin: true, adminOpen: false, apw: "", apwErr: "" });
+    else this.setState({ apwErr: "That isn't it." });
+  }
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener("change", this.sync);
+    window.removeEventListener("resize", this.onResize);
+    document.body.style.overflow = "";
+    document.removeEventListener("keydown", this.keys);
+    document.removeEventListener("click", this.away);
+  }
+
+  setLight(i) {
+    document.body.style.overflow = i >= 0 ? "hidden" : "";
+    this.setState({ light: i });
+  }
+  photos() { return this.DATA[this.state.gid].photos; }
+  step(d) {
+    const n = this.photos().length;
+    this.setLight((this.state.light + d + n) % n);
+  }
+  openGallery(gid) {
+    document.body.style.overflow = "";
+    this.setState({ view: "gallery", gid, light: -1, menuOpen: false });
+    window.scrollTo(0, 0);
+  }
+
+  renderVals() {
+    const f = {
+      tagline: this.ed("site.tagline", "photographs, mostly close to home"),
+      navHome: this.ed("nav.home", "Home"),
+      navGalleries: this.ed("nav.galleries", "Galleries"),
+      navSession: this.ed("nav.session", "YOUR SESSION"),
+      navAbout: this.ed("nav.about", "About"),
+      indexTitle: this.ed("galleries.title", "The drawer"),
+      indexHand: this.ed("galleries.hand", "no filing system to speak of"),
+      indexIntro: this.ed("galleries.intro", "Piles rather than folders. A walk, a drive, a bad-weather afternoon — whatever ended up belonging together. Pick one up and see."),
+      pTreelineTitle: this.ed("galleries.treelineTitle", "Above the treeline"),
+      pTreelineHand: this.ed("galleries.treelineHand", "Two summers of walking uphill."),
+      pDowntownTitle: this.ed("galleries.downtownTitle", "Downtown, waiting"),
+      pDowntownHand: this.ed("galleries.downtownHand", "Corners, crossings, people not in a hurry."),
+      pWeatherTitle: this.ed("galleries.weatherTitle", "Weather I stood in"),
+      pWeatherHand: this.ed("galleries.weatherHand", "Fog, sleet, and one hailstorm I should have driven away from."),
+      pHomeTitle: this.ed("galleries.homeTitle", "The people I live with"),
+      pHomeHand: this.ed("galleries.homeHand", "The ones I'd grab first if the house went up."),
+      pOddsTitle: this.ed("galleries.oddsTitle", "Odds and ends"),
+      pOddsHand: this.ed("galleries.oddsHand", "Frames that don't belong to anything yet."),
+      footerNote: this.ed("galleries.footerNote", "For your personal gallery from our photoshoot together, open 'Private Gallery' or 'Session'."),
+      footerLinkLabel: this.ed("galleries.footerLinkLabel", "Open a private gallery"),
+      footerContact: this.ed("site.footerContact", "Tulsa, Oklahoma · Timberandink@outlook.com"),
+      footerTagline: this.ed("site.footerTagline", "made in spare moments")
+    };
+    const g = this.DATA[this.state.gid];
+    const frame = p => ({
+      width: "100%",
+      display: "block",
+      aspectRatio: p.ratio,
+      backgroundImage: "url('" + p.src + "')",
+      backgroundSize: "cover",
+      backgroundPosition: p.pos,
+      filter: "saturate(0.84) contrast(1.04)"
+    });
+    const photos = g.photos.map((p, i) => ({ ...p, frame: frame(p), onOpen: () => this.setLight(i) }));
+    const li = this.state.light;
+    const lp = li >= 0 ? g.photos[li] : null;
+    const box = (() => {
+      const pad = this.state.vw < 560 ? 10 : 16;
+      const availW = Math.min(880, this.state.vw - (this.state.vw < 560 ? 20 : 44)) - pad * 2;
+      const availH = this.state.vh - 44 - 54 - pad * 2 - 104;
+      const r = lp ? lp.ratio.split("/")[0].trim() / lp.ratio.split("/")[1].trim() : 1;
+      const h = Math.max(160, Math.min(availH, availW / r));
+      return { w: Math.round(h * r), h: Math.round(h), pad };
+    })();
+    return {
+      f,
+      tape: this.props.tape !== false,
+      wear: this.props.wear !== false,
+      engraving: this.props.engraving !== false,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      admin: this.state.admin,
+      notAdmin: !this.state.admin,
+      adminOpen: this.state.adminOpen,
+      adminClosed: !this.state.adminOpen,
+      apw: this.state.apw,
+      apwErr: this.state.apwErr,
+      onApw: e => this.setState({ apw: e.target.value, apwErr: "" }),
+      onApwKey: e => { if (e.key === "Enter") this.tryAdmin(); },
+      tryAdmin: () => this.tryAdmin(),
+      toggleAdminOpen: () => this.setState(s => ({ adminOpen: !s.adminOpen })),
+      adminLogout: () => { if (window.JDCms) window.JDCms.logout(); this.setState({ admin: false }); },
+      atIndex: this.state.view === "index",
+      atGallery: this.state.view === "gallery",
+      backToIndex: () => { document.body.style.overflow = ""; this.setState({ view: "index", light: -1 }); window.scrollTo(0, 0); },
+      open: {
+        treeline: () => this.openGallery("treeline"),
+        downtown: () => this.openGallery("downtown"),
+        weather: () => this.openGallery("weather"),
+        home: () => this.openGallery("home"),
+        odds: () => this.openGallery("odds")
+      },
+      g: {
+        title: g.title,
+        meta: g.photos.length + (g.photos.length === 1 ? " print · " : " prints · ") + g.sub,
+        note: g.note,
+        photos
+      },
+      cardStyle: {
+        background: "#fffdf6",
+        padding: box.pad + "px",
+        boxShadow: "0 34px 70px rgba(0,0,0,0.62)",
+        display: "flex",
+        flexDirection: "column",
+        gap: "12px"
+      },
+      capStyle: { width: box.w + "px" },
+      lightOpen: li >= 0,
+      light: lp ? {
+        cap: lp.cap,
+        plate: lp.plate,
+        exif: lp.exif,
+        frame: {
+          width: box.w + "px",
+          height: box.h + "px",
+          backgroundImage: "url('" + lp.src + "')",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          filter: "saturate(0.84) contrast(1.04)"
+        }
+      } : { cap: "", plate: "", exif: "", frame: {} },
+      lightCount: li >= 0 ? g.title + " · " + (li + 1) + " of " + g.photos.length : "",
+      closeLight: () => this.setLight(-1),
+      prevLight: () => this.step(-1),
+      nextLight: () => this.step(1)
+    };
+  }
+}
+</script>
+</body>
+</html>

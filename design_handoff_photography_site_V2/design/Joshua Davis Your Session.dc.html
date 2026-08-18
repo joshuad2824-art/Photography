@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/surfaces.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/base.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/styles.css">
+  <script src="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/_ds_bundle.js"></script>
+  <script src="./cms.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grape+Nuts&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0b1a1b; }
+    :root { --font-hand: "Grape Nuts", "Bradley Hand", cursive; }
+    * { box-sizing: border-box; }
+    a { color: #C6862F; text-decoration: none; }
+    a:hover { color: #DCA24A; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { outline: 1px dashed rgba(198,134,47,0.55); outline-offset: 3px; cursor: text; background: rgba(198,134,47,0.07); }
+    [contenteditable="true"]:focus { outline: 1px solid #C6862F; outline-offset: 3px; background: rgba(198,134,47,0.1); }
+  </style>
+</helmet>
+
+<div data-screen-label="Your session" style="min-height:100vh;background:#0d1f20;color:#E8E3D7;font-family:var(--font-body);position:relative;overflow-x:hidden">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 1180px at 4% 300px, rgba(198,134,47,0.155), rgba(0,0,0,0) 68%),radial-gradient(74% 48% at 16% 86%, rgba(198,134,47,0.15), rgba(0,0,0,0) 72%),radial-gradient(46% 30% at 84% 6%, rgba(120,150,140,0.07), rgba(0,0,0,0) 74%)"></div>
+  <sc-if value="{{ wear }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.9;background-image:url('textures/desk-wear.png');background-size:100% 100%;background-repeat:no-repeat"></div></sc-if>
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.34;background-image:url('textures/desk-grain.png');background-size:256px 256px;background-repeat:repeat"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.34) 100%)"></div>
+
+  <header style="position:relative;z-index:5;max-width:1120px;margin:0 auto;padding:clamp(22px,5vw,30px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2" style-hover="color:#F1EDE2">Joshua Davis</a>
+      <div contentEditable="{{ f.tagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tagline.onBlur }}" style="margin-top:9px;font-family:var(--font-hand);font-size:23px;line-height:1;color:#D9A354">{{ f.tagline.text }}</div>
+    </div>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-bottom:4px">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:0;border-radius:3px;cursor:pointer;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">Menu<span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0">▾</span></button>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;z-index:9;top:calc(100% + 12px);right:0;min-width:220px;transform:rotate(-0.8deg);background:#f6f3ec;padding:8px 0;box-shadow:0 22px 44px rgba(0,0,0,0.55),inset 0 0 0 1px rgba(20,42,43,0.12)">
+        <div style="position:absolute;top:-13px;right:26px;width:76px;height:26px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e" style-hover="background:rgba(20,42,43,0.05)">{{ f.navHome.text }}</a>
+        <a href="Joshua%20Davis%20Galleries.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navGalleries.text }}</a>
+        <a href="#" aria-current="page" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#142A2B;border-top:1px solid rgba(20,42,43,0.1);box-shadow:inset 3px 0 0 #C6862F">{{ f.navSession.text }}</a>
+        <a href="Joshua%20Davis%20About.dc.html" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navAbout.text }}</a>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:2px clamp(16px,2.4vw,22px)">
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navHome.text }}</a>
+      <a href="Joshua%20Davis%20Galleries.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navGalleries.text }}</a>
+      <a href="#" aria-current="page" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#F1EDE2;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid #C6862F">{{ f.navSession.text }}</a>
+      <a href="Joshua%20Davis%20About.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navAbout.text }}</a>
+    </nav>
+    </sc-if>
+  </header>
+
+  <div style="position:relative;z-index:3;max-width:1120px;margin:22px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="height:2px;background:#E8E3D7"></div>
+    <div style="height:1px;margin-top:3px;background:rgba(232,227,215,0.34)"></div>
+  </div>
+
+  <sc-if value="{{ locked }}" hint-placeholder-val="{{ true }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(38px,6vw,60px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;gap:clamp(30px,4vw,48px);align-items:flex-start">
+    <div style="flex:1.3 1 380px;min-width:0">
+      <div contentEditable="{{ f.lockedBadge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.lockedBadge.onBlur }}" style="display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">{{ f.lockedBadge.text }}</div>
+      <h1 contentEditable="{{ f.lockedTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.lockedTitle.onBlur }}" style="margin:14px 0 0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(32px,4.4vw,50px);line-height:1.02;color:#F4F0E6;text-wrap:pretty">{{ f.lockedTitle.text }}</h1>
+      <div contentEditable="{{ f.lockedHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.lockedHand.onBlur }}" style="margin:20px 0 0;font-family:var(--font-hand);font-size:clamp(22px,2.3vw,28px);line-height:1.34;color:#D8D2C4;max-width:38ch;text-wrap:pretty">{{ f.lockedHand.text }}</div>
+      <p contentEditable="{{ f.lockedBody.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.lockedBody.onBlur }}" style="margin:22px 0 0;max-width:44ch;font-size:16px;line-height:1.62;color:#AEBAB5;text-wrap:pretty">{{ f.lockedBody.text }}</p>
+      <div contentEditable="{{ f.lockedEmail.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.lockedEmail.onBlur }}" style="margin-top:26px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:#9DABA6">{{ f.lockedEmail.text }}</div>
+    </div>
+
+    <div style="flex:1 1 330px;min-width:0;transform:rotate(-0.8deg)">
+      <div data-stock="paper" style="position:relative;background:#f6f3ec;padding:clamp(22px,3vw,30px);box-shadow:0 26px 54px rgba(0,0,0,0.52)">
+        <div style="position:absolute;top:-14px;left:-16px;width:112px;height:29px;transform:rotate(-17deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <div contentEditable="{{ f.formHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.formHand.onBlur }}" style="font-family:var(--font-hand);font-size:26px;line-height:1.24;color:#142A2B">{{ f.formHand.text }}</div>
+        <div style="margin-top:16px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="e.g. cottonwood" value="{{ pw }}" onChange="{{ onPw }}" onKeyDown="{{ onPwKey }}" hint-size="100%,42px"></x-import>
+        </div>
+        <div style="margin-top:9px;min-height:20px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#7c4a2c">{{ note }}</div>
+        <div style="margin-top:12px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" fullWidth="{{ true }}" onClick="{{ tryUnlock }}" hint-size="100%,48px">Open my gallery</x-import>
+        </div>
+        <div contentEditable="{{ f.formHint.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.formHint.onBlur }}" style="margin-top:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">{{ f.formHint.text }}</div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ false }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(32px,5vw,46px) clamp(22px,5vw,34px) 0">
+
+    <div style="display:flex;flex-wrap:wrap;align-items:flex-end;gap:14px 24px">
+      <h1 contentEditable="{{ f.clientName.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.clientName.onBlur }}" style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(30px,4.2vw,48px);line-height:1.03;color:#F4F0E6">{{ f.clientName.text }}</h1>
+      <div contentEditable="{{ f.clientHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.clientHand.onBlur }}" style="font-family:var(--font-hand);font-size:clamp(22px,2.2vw,26px);line-height:1.2;color:#D9A354;padding-bottom:6px">{{ f.clientHand.text }}</div>
+    </div>
+    <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:10px 12px;align-items:center">
+      <div contentEditable="{{ f.metaBadge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.metaBadge.onBlur }}" style="display:inline-block;padding:6px 13px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">{{ f.metaBadge.text }}</div>
+      <div contentEditable="{{ f.expiryBadge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.expiryBadge.onBlur }}" style="display:inline-block;padding:6px 13px;border-radius:3px;transform:rotate(-1.1deg);background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.24em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">{{ f.expiryBadge.text }}</div>
+      <button type="button" onClick="{{ lock }}" style="min-height:44px;padding:0 4px;border:0;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9DABA6" style-hover="color:#E8E3D7">Close the drawer</button>
+    </div>
+
+    <div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+      <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ downloadAll }}" hint-size="auto,48px">Download all full-size</x-import>
+      <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" size="lg" onClick="{{ share }}" hint-size="auto,48px">Copy a link for family</x-import>
+      <button type="button" onClick="{{ toggleOnlyKept }}" style="min-height:48px;padding:0 18px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#E8E3D7" style-hover="background:rgba(232,227,215,0.07)">{{ keptLabel }}</button>
+    </div>
+    <div style="margin-top:12px;min-height:22px;font-family:var(--font-hand);font-size:22px;line-height:1.2;color:#D9A354">{{ toast }}</div>
+
+    <div style="margin-top:26px;height:1px;background:rgba(232,227,215,0.3)"></div>
+
+    <div style="margin-top:clamp(32px,4.4vw,46px);columns:280px;column-gap:clamp(28px,4vw,40px)">
+      <sc-for list="{{ shown }}" as="p" hint-placeholder-count="6">
+        <div style="break-inside:avoid;margin:0 0 clamp(32px,4vw,44px);width:{{ p.w }};margin-left:{{ p.ml }};transform:rotate({{ p.rot }})">
+          <div style="background:#fffdf6;padding:11px 11px 14px;box-shadow:0 22px 44px rgba(0,0,0,0.5)">
+            <img src="{{ p.src }}" alt="{{ p.cap }}" style="width:100%;display:block;object-fit:cover;filter:saturate(0.84) contrast(1.04);aspect-ratio:{{ p.ratio }};object-position:{{ p.pos }}">
+            <div style="margin-top:10px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ p.plate }}</div>
+            <div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between">
+              <button type="button" onClick="{{ p.onKeep }}" aria-pressed="{{ p.kept }}" style="min-height:40px;padding:0 12px;border-radius:3px;cursor:pointer;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;border:1px solid rgba(20,42,43,0.24);background:{{ p.keepBg }};color:{{ p.keepFg }}">{{ p.keepLabel }}</button>
+              <button type="button" onClick="{{ p.onDownload }}" style="min-height:40px;padding:0 12px;border:0;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a" style-hover="color:#142A2B">Download</button>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <sc-if value="{{ emptyKept }}" hint-placeholder-val="{{ false }}">
+    <div style="padding:44px 0 8px;font-family:var(--font-hand);font-size:26px;line-height:1.3;color:#D8D2C4">Nothing kept yet. Plenty of time.</div>
+    </sc-if>
+
+    <div style="margin-top:clamp(36px,5vw,54px);position:relative;transform:rotate(-0.5deg);background:#f3efe2;box-shadow:0 26px 54px rgba(0,0,0,0.52);padding:clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)">
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(20px,4.4vw,40px) + clamp(14px,5.4vw,34px));width:1px;background:rgba(160,66,44,0.34)"></div>
+      <div style="position:relative;padding-left:clamp(38px,10vw,66px);max-width:58ch">
+        <div contentEditable="{{ f.noteBody.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.noteBody.onBlur }}" style="font-family:var(--font-hand);font-size:clamp(21px,4.4vw,27px);line-height:1.28;color:#142A2B">{{ f.noteBody.text }}</div>
+        <div style="margin-top:clamp(24px,4vw,32px);font-family:var(--font-hand);font-size:clamp(26px,5vw,32px);line-height:1;color:#142A2B">Joshua</div>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  <footer style="position:relative;z-index:3;max-width:1120px;margin:78px auto 0;padding:0 clamp(22px,5vw,34px) 0">
+    <div style="height:1px;background:rgba(232,227,215,0.3)"></div>
+    <div style="padding:26px 0 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div style="font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</div>
+        <div contentEditable="{{ f.footerContact.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerContact.onBlur }}" style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#9DABA6">{{ f.footerContact.text }}</div>
+      </div>
+      <div contentEditable="{{ f.footerTagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerTagline.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354">{{ f.footerTagline.text }}</div>
+    </div>
+    <sc-if value="{{ engraving }}" hint-placeholder-val="{{ true }}"><div style="position:relative;overflow:hidden;height:clamp(92px,24vw,132px);margin-top:14px">
+      <img src="graphics/engraving-moose-puffin.png" alt="" aria-hidden="true" style="position:absolute;right:0;top:-20px;width:min(410px,80vw);opacity:0.4;pointer-events:none">
+    </div></sc-if>
+
+    <div style="margin-top:18px;padding:14px 0 26px;border-top:1px solid rgba(232,227,215,0.16);display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+      <sc-if value="{{ admin }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#D9A354">Editing as admin — click any text to change it</div>
+        <button type="button" onClick="{{ adminLogout }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9DABA6;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#E8E3D7">Log out</button>
+      </sc-if>
+      <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <input type="password" placeholder="admin password" value="{{ apw }}" onChange="{{ onApw }}" onKeyDown="{{ onApwKey }}" style="min-height:34px;padding:0 10px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.5);color:#E8E3D7;font-family:var(--font-mono);font-size:11px"/>
+            <button type="button" onClick="{{ tryAdmin }}" style="min-height:34px;padding:0 12px;border:0;border-radius:3px;cursor:pointer;background:#C6862F;color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Sign in</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#c98a5a">{{ apwErr }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ adminClosed }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleAdminOpen }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#4d5a57;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#9DABA6">Admin</button>
+        </sc-if>
+      </sc-if>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tape&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Tape strips&quot;},&quot;wear&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Worn desk texture&quot;},&quot;engraving&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Footer engraving&quot;}}">
+class Component extends DCLogic {
+  state = { pw: "", note: "", open: false, kept: {}, onlyKept: false, toast: "", narrow: false, menuOpen: false, admin: false, adminOpen: false, apw: "", apwErr: "" };
+  WORDS = { hartley: 1, cottonwood: 1, fellowship: 1 };
+
+  PHOTOS = [
+    { src: "photos/street-02-grin.jpg", cap: "", plate: "IMG 4412", ratio: "4 / 5", pos: "50% 28%", w: "100%", ml: "0", rot: "1.1deg" },
+    { src: "photos/street-01-crossing.jpg", cap: "", plate: "IMG 4418", ratio: "2 / 3", pos: "50% 35%", w: "94%", ml: "6%", rot: "-1.4deg" },
+    { src: "photos/high-country.jpg", cap: "", plate: "IMG 4427", ratio: "3 / 2", pos: "50% 55%", w: "100%", ml: "0", rot: "0.8deg" },
+    { src: "photos/street-03-walking.jpg", cap: "", plate: "IMG 4431", ratio: "3 / 4", pos: "50% 45%", w: "92%", ml: "4%", rot: "-1deg" },
+    { src: "photos/street-02-grin.jpg", cap: "", plate: "IMG 4440", ratio: "1 / 1", pos: "50% 26%", w: "100%", ml: "0", rot: "1.5deg" },
+    { src: "photos/the-gap.jpg", cap: "", plate: "IMG 4446", ratio: "2 / 3", pos: "50% 30%", w: "96%", ml: "2%", rot: "-0.7deg" },
+    { src: "photos/street-01-crossing.jpg", cap: "", plate: "IMG 4452", ratio: "4 / 5", pos: "50% 40%", w: "100%", ml: "0", rot: "0.9deg" },
+    { src: "photos/street-03-walking.jpg", cap: "", plate: "IMG 4459", ratio: "2 / 3", pos: "50% 50%", w: "90%", ml: "6%", rot: "-1.6deg" }
+  ];
+
+  componentDidMount() {
+    this.mq = window.matchMedia("(max-width: 720px)");
+    this.sync = () => this.setState({ narrow: this.mq.matches, menuOpen: false });
+    this.sync();
+    this.mq.addEventListener("change", this.sync);
+    this.away = e => { if (this.state.menuOpen && !e.target.closest("[aria-expanded]")) this.setState({ menuOpen: false }); };
+    document.addEventListener("click", this.away);
+    if (window.JDCms) this.setState({ admin: window.JDCms.isAdmin() });
+  }
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener("change", this.sync);
+    document.removeEventListener("click", this.away);
+    if (this.t) clearTimeout(this.t);
+  }
+  ed(id, fallback) {
+    const admin = this.state.admin;
+    const text = window.JDCms ? window.JDCms.text(id, fallback) : fallback;
+    return { text, editable: admin || undefined, onBlur: admin ? (e => window.JDCms.setText(id, e.currentTarget.textContent)) : undefined };
+  }
+  tryAdmin() {
+    if (window.JDCms && window.JDCms.login(this.state.apw)) this.setState({ admin: true, adminOpen: false, apw: "", apwErr: "" });
+    else this.setState({ apwErr: "That isn't it." });
+  }
+
+  say(msg) {
+    this.setState({ toast: msg });
+    if (this.t) clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ toast: "" }), 3600);
+  }
+  attempt() {
+    const v = this.state.pw.trim().toLowerCase();
+    if (!v) { this.setState({ note: "I'll need the word first." }); return; }
+    if (this.WORDS[v]) { this.setState({ open: true, note: "", pw: "" }); window.scrollTo(0, 0); return; }
+    this.setState({ note: "That one doesn't open anything — try the word I sent you." });
+  }
+
+  renderVals() {
+    const f = {
+      tagline: this.ed("site.tagline", "photographs, mostly close to home"),
+      navHome: this.ed("nav.home", "Home"),
+      navGalleries: this.ed("nav.galleries", "Galleries"),
+      navSession: this.ed("nav.session", "YOUR SESSION"),
+      navAbout: this.ed("nav.about", "About"),
+      lockedBadge: this.ed("session.lockedBadge", "A private drawer"),
+      lockedTitle: this.ed("session.lockedTitle", "Your gallery is waiting"),
+      lockedHand: this.ed("session.lockedHand", "I sent you a word. It opens your gallery and nothing else — no account, no password to remember."),
+      lockedBody: this.ed("session.lockedBody", "If you've lost the word, write to me and I'll send it again. If you'd rather I take the gallery down early, that's fine too — say so and it's gone that day."),
+      lockedEmail: this.ed("session.lockedEmail", "Timberandink@outlook.com"),
+      formHand: this.ed("session.formHand", "The word I sent you"),
+      formHint: this.ed("session.formHint", "Case doesn't matter. Try cottonwood to look around."),
+      clientName: this.ed("session.clientName", "The Hartleys"),
+      clientHand: this.ed("session.clientHand", "an hour before dark, out at Turkey Mountain"),
+      metaBadge: this.ed("session.metaBadge", "March 2026 · 24 frames"),
+      expiryBadge: this.ed("session.expiryBadge", "Files here until Oct 3"),
+      noteBody: this.ed("session.noteBody", "Mark the ones you want printed and I'll get them ordered — no charge, that's part of it. The full-size files are yours to keep; I'd back them up somewhere that isn't a phone."),
+      footerContact: this.ed("site.footerContact", "Tulsa, Oklahoma · Timberandink@outlook.com"),
+      footerTagline: this.ed("site.footerTagline", "made in spare moments")
+    };
+    const keptCount = Object.keys(this.state.kept).filter(k => this.state.kept[k]).length;
+    const list = this.PHOTOS.map((p, i) => {
+      const kept = !!this.state.kept[i];
+      return {
+        ...p,
+        kept,
+        keepLabel: kept ? "Kept" : "Keep this one",
+        keepBg: kept ? "#142A2B" : "transparent",
+        keepFg: kept ? "#F1EDE2" : "#2c3f3e",
+        onKeep: () => this.setState(s => ({ kept: { ...s.kept, [i]: !s.kept[i] } })),
+        onDownload: () => this.say("Downloading " + p.plate + " — full size, straight off the desk.")
+      };
+    });
+    const shown = this.state.onlyKept ? list.filter(p => p.kept) : list;
+    return {
+      f,
+      tape: this.props.tape !== false,
+      wear: this.props.wear !== false,
+      engraving: this.props.engraving !== false,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      admin: this.state.admin,
+      notAdmin: !this.state.admin,
+      adminOpen: this.state.adminOpen,
+      adminClosed: !this.state.adminOpen,
+      apw: this.state.apw,
+      apwErr: this.state.apwErr,
+      onApw: e => this.setState({ apw: e.target.value, apwErr: "" }),
+      onApwKey: e => { if (e.key === "Enter") this.tryAdmin(); },
+      tryAdmin: () => this.tryAdmin(),
+      toggleAdminOpen: () => this.setState(s => ({ adminOpen: !s.adminOpen })),
+      adminLogout: () => { if (window.JDCms) window.JDCms.logout(); this.setState({ admin: false }); },
+      locked: !this.state.open,
+      unlocked: this.state.open,
+      pw: this.state.pw,
+      note: this.state.note,
+      onPw: e => this.setState({ pw: e.target.value, note: "" }),
+      onPwKey: e => { if (e.key === "Enter") this.attempt(); },
+      tryUnlock: () => this.attempt(),
+      lock: () => { this.setState({ open: false, toast: "" }); window.scrollTo(0, 0); },
+      shown,
+      emptyKept: this.state.onlyKept && keptCount === 0,
+      keptLabel: this.state.onlyKept ? "Show all 8" : (keptCount ? "Show the " + keptCount + " kept" : "Show only kept"),
+      toggleOnlyKept: () => this.setState(s => ({ onlyKept: !s.onlyKept })),
+      toast: this.state.toast,
+      downloadAll: () => this.say("All 24 files on their way — about 480 MB, so give it a minute."),
+      share: () => this.say("Link copied. It opens the same drawer, no word needed.")
+    };
+  }
+}
+
+</script>
+</body>
+</html>

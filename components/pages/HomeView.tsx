@@ -5,6 +5,9 @@ import { Editable } from "../Editable";
 import { Photo } from "../Photo";
 import { SiteFrame } from "../SiteFrame";
 import { Button, Field, Input } from "../ui";
+import { patchCaption } from "../album-actions";
+import type { Album, AlbumPhoto } from "@/lib/albums";
+import { homeCardScatter } from "@/lib/scatter";
 import {
   badgeDark,
   badgeIvory,
@@ -22,53 +25,12 @@ import {
   tape,
 } from "@/lib/tokens";
 
-/** The three prints pasted into the "lately" strip, each tilted its own way. */
-const RECENT = [
-  {
-    src: "/photos/street-01-crossing.jpg",
-    alt: "A boy waiting at a downtown crossing",
-    captionId: "home.card1",
-    plate: "Plate 01 · Fifth & Boston",
-    plateRotation: "rotate(-1.4deg)",
-    cardRotation: "rotate(1.1deg)",
-    marginTop: undefined as string | undefined,
-    lift: "print-lift-1",
-    tape: {
-      stock: "cream" as const,
-      geometry: { top: -11, right: -12, width: 92, height: 27, transform: "rotate(16deg)" },
-    },
-  },
-  {
-    src: "/photos/the-gap.jpg",
-    alt: "A figure standing in a gap between two rock faces",
-    captionId: "home.card2",
-    plate: "Plate 02 · Above the treeline",
-    plateRotation: "rotate(1.2deg)",
-    cardRotation: "rotate(-1.4deg)",
-    marginTop: "clamp(0px,3vw,26px)",
-    lift: "print-lift-2",
-    tape: {
-      stock: "olive" as const,
-      geometry: { top: -12, left: -13, width: 100, height: 28, transform: "rotate(-19deg)" },
-    },
-  },
-  {
-    src: "/photos/street-02-grin.jpg",
-    alt: "A boy in a fur-hooded coat, grinning",
-    captionId: "home.card3",
-    plate: "Plate 02 · Downtown",
-    plateRotation: "rotate(-0.9deg)",
-    cardRotation: "rotate(0.7deg)",
-    marginTop: "clamp(0px,1vw,8px)",
-    lift: "print-lift-3",
-    tape: {
-      stock: "olive" as const,
-      geometry: { bottom: -10, right: -11, width: 86, height: 25, transform: "rotate(-12deg)" },
-    },
-  },
-];
-
-export function HomeView() {
+export function HomeView({
+  picks,
+}: {
+  /** Photographs Joshua has flagged for the home page, in album order. */
+  picks: Array<{ album: Album; photo: AlbumPhoto }>;
+}) {
   const [passphrase, setPassphrase] = useState("");
   const [note, setNote] = useState("");
   const [busy, setBusy] = useState(false);
@@ -269,49 +231,50 @@ export function HomeView() {
             alignItems: "start",
           }}
         >
-          {RECENT.map((card) => (
-            <div
-              key={card.captionId}
-              style={{
-                position: "relative",
-                transform: card.cardRotation,
-                marginTop: card.marginTop,
-              }}
-            >
+          {picks.map(({ album, photo }, index) => {
+            const scatter = homeCardScatter(index);
+            return (
               <div
-                className={`print ${card.lift}`}
-                style={printMat("12px 12px 16px")}
+                key={photo.id}
+                style={{
+                  position: "relative",
+                  transform: `rotate(${scatter.rotate})`,
+                  marginTop: scatter.marginTop,
+                }}
               >
-                <Photo
-                  src={card.src}
-                  alt={card.alt}
-                  ratio="2 / 3"
-                  sizes="(max-width: 720px) 92vw, 340px"
-                />
-                <Editable
-                  id={card.captionId}
-                  style={{
-                    marginTop: 11,
-                    fontFamily: "var(--font-hand)",
-                    fontSize: 23,
-                    lineHeight: 1.2,
-                    color: "var(--ink)",
-                  }}
-                />
-                <div style={{ marginTop: 10 }}>
-                  <div
-                    style={badgeDark("sm", { transform: card.plateRotation })}
-                  >
-                    {card.plate}
+                <div
+                  className={`print ${scatter.liftClass}`}
+                  style={printMat("12px 12px 16px")}
+                >
+                  <Photo
+                    src={photo.src}
+                    alt={photo.cap || `${album.name} — ${photo.plate}`}
+                    ratio="2 / 3"
+                    position={photo.pos}
+                    sizes="(max-width: 720px) 92vw, 340px"
+                  />
+                  <Editable
+                    value={photo.cap}
+                    placeholder="a line in your hand, if it wants one"
+                    onSave={(next) => void patchCaption(album, photo.id, next)}
+                    style={{
+                      marginTop: 11,
+                      fontFamily: "var(--font-hand)",
+                      fontSize: 23,
+                      lineHeight: 1.2,
+                      color: "var(--ink)",
+                    }}
+                  />
+                  <div style={{ marginTop: 10 }}>
+                    <div style={badgeDark("sm", { transform: scatter.plateRotate })}>
+                      {photo.plate}
+                    </div>
                   </div>
                 </div>
+                <div aria-hidden style={scatter.tape} />
               </div>
-              <div
-                aria-hidden
-                style={tape(card.tape.stock, card.tape.geometry)}
-              />
-            </div>
-          ))}
+            );
+          })}
         </div>
 
         <div

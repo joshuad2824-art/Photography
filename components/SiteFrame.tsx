@@ -18,10 +18,12 @@ import {
 export function SiteFrame({
   active,
   editablePhoto = false,
+  footerVariant = "site",
   children,
 }: {
   active: NavKey;
   editablePhoto?: boolean;
+  footerVariant?: "site" | "admin";
   children: ReactNode;
 }) {
   return (
@@ -33,7 +35,7 @@ export function SiteFrame({
 
       <Header active={active} />
       {children}
-      <Footer editablePhoto={editablePhoto} />
+      <Footer editablePhoto={editablePhoto} variant={footerVariant} />
     </div>
   );
 }

@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/surfaces.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/base.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/styles.css">
+  <script src="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/_ds_bundle.js"></script>
+  <script src="./cms.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grape+Nuts&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0b1a1b; }
+    :root { --font-hand: "Grape Nuts", "Bradley Hand", cursive; }
+    * { box-sizing: border-box; }
+    a { color: #C6862F; text-decoration: none; }
+    a:hover { color: #DCA24A; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { outline: 1px dashed rgba(198,134,47,0.55); outline-offset: 3px; cursor: text; background: rgba(198,134,47,0.07); }
+    [contenteditable="true"]:focus { outline: 1px solid #C6862F; outline-offset: 3px; background: rgba(198,134,47,0.1); }
+  </style>
+</helmet>
+
+<div data-screen-label="Admin — client galleries" style="min-height:100vh;background:#0d1f20;color:#E8E3D7;font-family:var(--font-body);position:relative;overflow-x:hidden">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 1180px at 4% 300px, rgba(198,134,47,0.155), rgba(0,0,0,0) 68%),radial-gradient(74% 48% at 16% 86%, rgba(198,134,47,0.15), rgba(0,0,0,0) 72%),radial-gradient(46% 30% at 84% 6%, rgba(120,150,140,0.07), rgba(0,0,0,0) 74%)"></div>
+  <sc-if value="{{ wear }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.9;background-image:url('textures/desk-wear.png');background-size:100% 100%;background-repeat:no-repeat"></div></sc-if>
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.34;background-image:url('textures/desk-grain.png');background-size:256px 256px;background-repeat:repeat"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.34) 100%)"></div>
+
+  <header style="position:relative;z-index:5;max-width:1120px;margin:0 auto;padding:clamp(22px,5vw,30px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</a>
+      <div contentEditable="{{ f.tagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tagline.onBlur }}" style="margin-top:9px;font-family:var(--font-hand);font-size:23px;line-height:1;color:#D9A354">{{ f.tagline.text }}</div>
+    </div>
+
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-bottom:4px;margin-left:auto">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:0;border-radius:3px;cursor:pointer;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">Menu<span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0">▾</span></button>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;z-index:9;top:calc(100% + 12px);right:0;min-width:220px;transform:rotate(-0.8deg);background:#f6f3ec;padding:8px 0;box-shadow:0 22px 44px rgba(0,0,0,0.55),inset 0 0 0 1px rgba(20,42,43,0.12)">
+        <div style="position:absolute;top:-13px;right:26px;width:76px;height:26px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.05)">Home</a>
+        <a href="Joshua%20Davis%20Galleries.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2C3F3E;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">Galleries</a>
+        <a href="Joshua%20Davis%20Your%20Session.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2C3F3E;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">Your session</a>
+        <a href="Joshua%20Davis%20About.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2C3F3E;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">About</a>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:2px clamp(16px,2.4vw,22px)">
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">Home</a>
+      <a href="Joshua%20Davis%20Galleries.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">Galleries</a>
+      <a href="Joshua%20Davis%20Your%20Session.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">Your session</a>
+      <a href="Joshua%20Davis%20About.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">About</a>
+    </nav>
+    </sc-if>
+  </header>
+
+  <div style="position:relative;z-index:3;max-width:1120px;margin:22px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="height:2px;background:#E8E3D7"></div>
+    <div style="height:1px;margin-top:3px;background:rgba(232,227,215,0.34)"></div>
+  </div>
+
+  <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ false }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(38px,6vw,60px) clamp(22px,5vw,34px) 0">
+    <div style="max-width:52ch">
+      <div style="display:inline-block;transform:rotate(-2.1deg) translateY(2px);margin-left:-5px;padding:9px 17px 8px;border-radius:4px;background:linear-gradient(180deg,#243530 0%,#16241f 46%,#0e1815 100%);color:#EDF1E9;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;text-shadow:0 -1px 0 rgba(0,0,0,0.78),0 1px 0 rgba(255,255,255,0.4);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.62),inset 0 0 0 1px rgba(255,255,255,0.05),0 5px 12px rgba(0,0,0,0.5)">Back of house</div>
+      <h1 style="margin:14px 0 0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(32px,4.4vw,50px);line-height:1.02;color:#F4F0E6;text-wrap:pretty">This part of the desk is mine</h1>
+      <div style="margin:20px 0 0;font-family:var(--font-hand);font-size:clamp(22px,2.3vw,28px);line-height:1.34;color:#D8D2C4;text-wrap:pretty">If you're me: sign in with the Admin control at the bottom of the page and this turns into the drawer index.</div>
+      <div style="margin-top:26px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.08em;color:#9DABA6">Nothing here is public. No gallery, no word, no client name.</div>
+    </div>
+  </section>
+  </sc-if>
+
+  <sc-if value="{{ admin }}" hint-placeholder-val="{{ true }}">
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(32px,5vw,46px) clamp(22px,5vw,34px) 0">
+
+    <div>
+      <div style="display:inline-block;transform:rotate(-1.4deg) translateY(1px);margin-left:-4px;padding:9px 17px 8px;border-radius:4px;background:linear-gradient(180deg,#243530 0%,#16241f 46%,#0e1815 100%);color:#EDF1E9;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.32em;text-transform:uppercase;text-shadow:0 -1px 0 rgba(0,0,0,0.78),0 1px 0 rgba(255,255,255,0.4);box-shadow:inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.62),inset 0 0 0 1px rgba(255,255,255,0.05),0 5px 12px rgba(0,0,0,0.5)">Back of house</div>
+      <h1 style="margin:12px 0 0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(30px,4.2vw,46px);line-height:1.03;color:#F4F0E6">The desk drawer</h1>
+    </div>
+
+    <div style="margin-top:clamp(22px,3vw,30px)">
+      <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Tabs" items="{{ tabItems }}" value="{{ tab }}" onChange="{{ setTab }}" tone="dark" hint-size="100%,38px"></x-import>
+    </div>
+
+    <div style="margin-top:clamp(20px,3vw,28px);display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:18px 24px">
+      <div style="font-family:var(--font-hand);font-size:clamp(21px,2.2vw,26px);line-height:1.3;color:#D8D2C4">{{ countLine }}</div>
+      <sc-if value="{{ cListing }}" hint-placeholder-val="{{ false }}">
+        <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ newGallery }}" hint-size="auto,48px">New gallery</x-import>
+      </sc-if>
+      <sc-if value="{{ pListing }}" hint-placeholder-val="{{ true }}">
+        <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ newAlbum }}" hint-size="auto,48px">New album</x-import>
+      </sc-if>
+    </div>
+
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div role="status" style="margin-top:20px;display:inline-block;padding:10px 14px;border:1px solid rgba(198,134,47,0.45);border-radius:3px;background:rgba(198,134,47,0.1);font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#E8C58A">{{ toast }}</div>
+    </sc-if>
+
+    <sc-if value="{{ cEditing }}" hint-placeholder-val="{{ false }}">
+    <div data-stock="paper" style="margin-top:clamp(26px,4vw,38px);position:relative;background:#f3efe2;box-shadow:0 26px 54px rgba(0,0,0,0.52);padding:clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)">
+      <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:calc(clamp(20px,4.4vw,40px) + clamp(14px,5.4vw,34px));width:1px;background:rgba(160,66,44,0.34)"></div>
+      <div style="position:relative;padding-left:clamp(38px,10vw,66px)">
+
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 20px">
+          <h2 style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(25px,3vw,34px);line-height:1.05;color:#142A2B">{{ formTitle }}</h2>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ formStamp }}</div>
+        </div>
+
+        <div style="margin-top:26px;display:grid;gap:22px clamp(20px,3vw,32px);grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="Client name" error="{{ errName }}" hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="The Hartleys" value="{{ fName }}" onChange="{{ onName }}" hint-size="100%,42px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="The word that opens it" error="{{ errWord }}" hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="cottonwood" value="{{ fWord }}" onChange="{{ onWord }}" hint-size="100%,42px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="Shoot date" hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" type="date" value="{{ fShot }}" onChange="{{ onShot }}" hint-size="100%,42px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="Files here until" hint="{{ expiryHint }}" hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" type="date" value="{{ fUntil }}" onChange="{{ onUntil }}" hint-size="100%,42px"></x-import>
+          </x-import>
+        </div>
+
+        <div style="margin-top:30px">
+          <div style="font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#2C3F3E">Photographs</div>
+
+          <div onDrop="{{ onDrop }}" onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" style="margin-top:12px;padding:clamp(20px,3vw,28px);border:1px dashed rgba(20,42,43,0.34);border-radius:3px;background:rgba(255,253,246,0.6);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px">
+            <div style="min-width:0">
+              <div style="font-family:var(--font-hand);font-size:24px;line-height:1.24;color:#142A2B">{{ dropLine }}</div>
+              <div style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">Full-size JPEGs off the card are fine — the web sizes get made for you.</div>
+            </div>
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" size="lg" onClick="{{ openPicker }}" hint-size="auto,48px">Choose files</x-import>
+            <input type="file" multiple="{{ true }}" accept="image/*" ref="{{ fileRef }}" onChange="{{ onFiles }}" style="display:none"/>
+          </div>
+
+          <sc-if value="{{ noPhotos }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">Nothing in this gallery yet. Plenty of time.</div>
+          </sc-if>
+
+          <sc-if value="{{ hasPhotos }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:16px;display:flex;flex-wrap:wrap;gap:14px">
+            <sc-for list="{{ photos }}" as="p">
+              <div style="width:104px">
+                <div style="background:#fffdf6;padding:5px;box-shadow:0 3px 10px rgba(20,42,43,0.22)">
+                  <div role="img" style="width:100%;aspect-ratio:1 / 1;background-image:url(&quot;{{ p.src }}&quot;);background-size:cover;background-position:center;filter:saturate(0.84) contrast(1.04)"></div>
+                </div>
+                <div style="margin-top:6px;display:flex;align-items:center;justify-content:space-between;gap:2px">
+                  <button type="button" onClick="{{ p.onLeft }}" title="Move earlier" style="min-width:26px;min-height:26px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">‹</button>
+                  <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;color:#5d6d6a">{{ p.n }}</div>
+                  <button type="button" onClick="{{ p.onRight }}" title="Move later" style="min-width:26px;min-height:26px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">›</button>
+                  <button type="button" onClick="{{ p.onRemove }}" title="Take this one out" style="min-width:26px;min-height:26px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#7c4a2c" style-hover="background:rgba(124,74,44,0.08)">×</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ save }}" hint-size="auto,48px">Save the gallery</x-import>
+          <button type="button" onClick="{{ cancel }}" style="min-height:48px;padding:0 8px;border:0;background:transparent;cursor:pointer;font-family:var(--font-ui);font-size:13px;letter-spacing:0.02em;color:#5d6d6a" style-hover="color:#142A2B">Never mind</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ cListing }}" hint-placeholder-val="{{ false }}">
+    <div style="margin-top:clamp(26px,4vw,38px);display:flex;flex-direction:column;gap:clamp(18px,2.6vw,26px)">
+      <sc-for list="{{ rows }}" as="g">
+        <div data-stock="paper" style="position:relative;background:#f6f3ec;box-shadow:0 22px 44px rgba(0,0,0,0.5);padding:clamp(20px,3vw,28px) clamp(20px,3vw,30px)">
+          <div style="display:flex;flex-wrap:wrap;align-items:flex-start;justify-content:space-between;gap:16px 24px">
+            <div style="min-width:0;flex:1 1 260px">
+              <div style="display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px">
+                <h2 style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(22px,2.6vw,28px);line-height:1.05;color:#142A2B">{{ g.name }}</h2>
+                <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:{{ g.badgeBg }};color:{{ g.badgeFg }};font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase">{{ g.badge }}</div>
+              </div>
+              <div style="margin-top:10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">{{ g.meta }}</div>
+              <div style="margin-top:8px;font-family:var(--font-hand);font-size:21px;line-height:1.25;color:#2C3F3E">{{ g.wordLine }}</div>
+            </div>
+
+            <div style="display:flex;flex-wrap:wrap;gap:12px;align-items:center">
+              <sc-if value="{{ g.calm }}" hint-placeholder-val="{{ true }}">
+                <div style="display:flex;flex-wrap:nowrap;align-items:center;gap:12px">
+                  <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" onClick="{{ g.onEdit }}" hint-size="auto,40px">Edit</x-import>
+                  <button type="button" onClick="{{ g.onCopy }}" style="min-height:40px;padding:0 8px;border:0;background:transparent;cursor:pointer;white-space:nowrap;font-family:var(--font-ui);font-size:13px;color:#5d6d6a" style-hover="color:#142A2B">Copy the link</button>
+                  <button type="button" onClick="{{ g.onAskDelete }}" style="min-height:40px;padding:0 8px;border:0;background:transparent;cursor:pointer;white-space:nowrap;font-family:var(--font-ui);font-size:13px;color:#7c4a2c" style-hover="color:#5a3520">Take it down</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ g.confirming }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+                  <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#7c4a2c">The word stops working straight away.</div>
+                  <button type="button" onClick="{{ g.onConfirmDelete }}" style="min-height:40px;padding:0 14px;border:1px solid #7c4a2c;border-radius:3px;background:#7c4a2c;cursor:pointer;font-family:var(--font-ui);font-size:13px;color:#F6F3EC" style-hover="background:#5a3520;border-color:#5a3520">Take it down</button>
+                  <button type="button" onClick="{{ g.onCancelDelete }}" style="min-height:40px;padding:0 8px;border:0;background:transparent;cursor:pointer;font-family:var(--font-ui);font-size:13px;color:#5d6d6a" style-hover="color:#142A2B">Keep it</button>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+
+          <div style="margin-top:18px;display:flex;flex-wrap:wrap;gap:8px">
+            <sc-for list="{{ g.thumbs }}" as="t">
+              <div style="background:#fffdf6;padding:4px;box-shadow:0 2px 7px rgba(20,42,43,0.2)">
+                <div role="img" style="width:58px;aspect-ratio:1 / 1;background-image:url(&quot;{{ t.src }}&quot;);background-size:cover;background-position:center;filter:saturate(0.84) contrast(1.04)"></div>
+              </div>
+            </sc-for>
+            <sc-if value="{{ g.hasMore }}" hint-placeholder-val="{{ false }}">
+              <div style="display:flex;align-items:center;padding:0 10px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">{{ g.more }}</div>
+            </sc-if>
+          </div>
+        </div>
+      </sc-for>
+
+      <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-hand);font-size:24px;line-height:1.3;color:#D8D2C4">Nothing in the drawer yet. Plenty of time.</div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pListing }}" hint-placeholder-val="{{ true }}">
+    <div style="margin-top:clamp(26px,4vw,38px);display:flex;flex-direction:column;gap:clamp(16px,2.4vw,22px)">
+      <sc-for list="{{ albums }}" as="a">
+        <div data-stock="paper" style="position:relative;background:#f6f3ec;box-shadow:0 22px 44px rgba(0,0,0,0.5);padding:clamp(16px,2.4vw,22px) clamp(18px,2.6vw,26px);display:flex;flex-wrap:wrap;align-items:center;gap:16px 22px">
+          <div style="background:#fffdf6;padding:5px;box-shadow:0 3px 10px rgba(20,42,43,0.22)">
+            <div role="img" style="width:74px;aspect-ratio:1 / 1;background-image:url(&quot;{{ a.cover }}&quot;);background-size:cover;background-position:center;filter:saturate(0.84) contrast(1.04)"></div>
+          </div>
+
+          <div style="flex:1 1 220px;min-width:0">
+            <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px">
+              <h2 style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(20px,2.4vw,26px);line-height:1.06;color:#142A2B">{{ a.name }}</h2>
+              <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:{{ a.badgeBg }};color:{{ a.badgeFg }};font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase">{{ a.badge }}</div>
+            </div>
+            <div style="margin-top:8px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#5d6d6a">{{ a.meta }}</div>
+          </div>
+
+          <div style="display:flex;flex-wrap:nowrap;align-items:center;gap:6px">
+            <button type="button" onClick="{{ a.onUp }}" title="Show this one earlier on Galleries" style="min-width:30px;min-height:34px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">↑</button>
+            <div style="min-width:34px;text-align:center;font-family:var(--font-mono);font-size:10px;letter-spacing:0.06em;color:#5d6d6a">{{ a.place }}</div>
+            <button type="button" onClick="{{ a.onDown }}" title="Show this one later on Galleries" style="min-width:30px;min-height:34px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">↓</button>
+          </div>
+
+          <div style="display:flex;flex-wrap:nowrap;align-items:center;gap:10px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" onClick="{{ a.onEdit }}" hint-size="auto,40px">Edit</x-import>
+            <button type="button" onClick="{{ a.onToggleLive }}" style="min-height:40px;padding:0 8px;border:0;background:transparent;cursor:pointer;white-space:nowrap;font-family:var(--font-ui);font-size:13px;color:#5d6d6a" style-hover="color:#142A2B">{{ a.liveAction }}</button>
+          </div>
+        </div>
+      </sc-for>
+
+      <sc-if value="{{ noAlbums }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-hand);font-size:24px;line-height:1.3;color:#D8D2C4">No piles yet. Plenty of time.</div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <sc-if value="{{ pEditing }}" hint-placeholder-val="{{ false }}">
+    <div data-stock="paper" style="margin-top:clamp(26px,4vw,38px);position:relative;background:#f3efe2;box-shadow:0 26px 54px rgba(0,0,0,0.52);padding:clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)">
+      <div aria-hidden="true" style="position:absolute;top:0;bottom:0;left:calc(clamp(20px,4.4vw,40px) + clamp(14px,5.4vw,34px));width:1px;background:rgba(160,66,44,0.34)"></div>
+      <div style="position:relative;padding-left:clamp(38px,10vw,66px)">
+
+        <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:10px 20px">
+          <h2 style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(25px,3vw,34px);line-height:1.05;color:#142A2B">{{ albumTitle }}</h2>
+          <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ albumStamp }}</div>
+        </div>
+
+        <div style="margin-top:26px;display:grid;gap:22px clamp(20px,3vw,32px);grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="Album name" error="{{ errAlbum }}" hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="Above the treeline" value="{{ aName }}" onChange="{{ onAlbumName }}" hint-size="100%,42px"></x-import>
+          </x-import>
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="The line under the title" hint="Shown on the Galleries index." hint-size="100%,76px">
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="Tulsa · ongoing" value="{{ aSub }}" onChange="{{ onAlbumSub }}" hint-size="100%,42px"></x-import>
+          </x-import>
+        </div>
+
+        <div style="margin-top:30px">
+          <div style="display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:8px 18px">
+            <div style="font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#2C3F3E">Photographs</div>
+            <div style="font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">{{ homeLine }}</div>
+          </div>
+
+          <div onDrop="{{ onDropAlbum }}" onDragOver="{{ onDragOver }}" onDragLeave="{{ onDragLeave }}" style="margin-top:12px;padding:clamp(20px,3vw,28px);border:1px dashed rgba(20,42,43,0.34);border-radius:3px;background:rgba(255,253,246,0.6);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:14px 20px">
+            <div style="min-width:0">
+              <div style="font-family:var(--font-hand);font-size:24px;line-height:1.24;color:#142A2B">{{ albumDropLine }}</div>
+              <div style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">Up to forty in a pile reads comfortably — after that, start another.</div>
+            </div>
+            <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" size="lg" onClick="{{ openAlbumPicker }}" hint-size="auto,48px">Choose files</x-import>
+            <input type="file" multiple="{{ true }}" accept="image/*" ref="{{ albumFileRef }}" onChange="{{ onAlbumFiles }}" style="display:none"/>
+          </div>
+
+          <sc-if value="{{ albumEmpty }}" hint-placeholder-val="{{ false }}">
+            <div style="margin-top:14px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em;color:#5d6d6a">Nothing in this pile yet.</div>
+          </sc-if>
+
+          <sc-if value="{{ albumHasPhotos }}" hint-placeholder-val="{{ true }}">
+          <div style="margin-top:8px">
+            <sc-for list="{{ albumPhotos }}" as="p">
+              <div style="padding:16px 0;border-top:1px solid rgba(20,42,43,0.12);display:flex;flex-wrap:wrap;align-items:center;gap:14px 16px">
+                <div style="background:#fffdf6;padding:4px;box-shadow:0 2px 7px rgba(20,42,43,0.2)">
+                  <div role="img" style="width:64px;aspect-ratio:1 / 1;background-image:url(&quot;{{ p.src }}&quot;);background-size:cover;background-position:center;filter:saturate(0.84) contrast(1.04)"></div>
+                </div>
+                <div style="flex:1 1 150px;min-width:0">
+                  <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="IMG 4412" value="{{ p.plate }}" onChange="{{ p.onPlate }}" hint-size="100%,42px"></x-import>
+                </div>
+                <div style="flex:1.6 1 190px;min-width:0">
+                  <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="a line in your hand, if it wants one" value="{{ p.cap }}" onChange="{{ p.onCap }}" hint-size="100%,42px"></x-import>
+                </div>
+                <div style="display:flex;flex-wrap:nowrap;align-items:center;gap:6px">
+                  <button type="button" onClick="{{ p.onCover }}" title="Use this one as the album cover" style="min-height:34px;padding:0 10px;border-radius:3px;cursor:pointer;white-space:nowrap;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.06em;background:{{ p.coverBg }};color:{{ p.coverFg }};border:1px solid {{ p.coverBd }}">Cover</button>
+                  <button type="button" onClick="{{ p.onHome }}" title="Show this one in Pasted in lately, on the home page" style="min-height:34px;padding:0 10px;border-radius:3px;cursor:pointer;white-space:nowrap;font-family:var(--font-ui);font-size:11px;font-weight:600;letter-spacing:0.06em;background:{{ p.homeBg }};color:{{ p.homeFg }};border:1px solid {{ p.homeBd }}">Home</button>
+                  <button type="button" onClick="{{ p.onUp }}" title="Move earlier" style="min-width:28px;min-height:34px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">‹</button>
+                  <button type="button" onClick="{{ p.onDown }}" title="Move later" style="min-width:28px;min-height:34px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#2C3F3E" style-hover="background:rgba(20,42,43,0.06)">›</button>
+                  <button type="button" onClick="{{ p.onRemove }}" title="Take this one out" style="min-width:28px;min-height:34px;border:1px solid rgba(20,42,43,0.22);border-radius:3px;background:transparent;cursor:pointer;font-family:var(--font-mono);font-size:12px;color:#7c4a2c" style-hover="background:rgba(124,74,44,0.08)">×</button>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          </sc-if>
+        </div>
+
+        <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:center;gap:12px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ saveAlbum }}" hint-size="auto,48px">{{ saveAlbumLabel }}</x-import>
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" size="lg" onClick="{{ toggleAlbumLive }}" hint-size="auto,48px">{{ albumLiveLabel }}</x-import>
+          <button type="button" onClick="{{ cancelAlbum }}" style="min-height:48px;padding:0 8px;border:0;background:transparent;cursor:pointer;font-family:var(--font-ui);font-size:13px;letter-spacing:0.02em;color:#5d6d6a" style-hover="color:#142A2B">Never mind</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </section>
+  </sc-if>
+
+  <footer style="position:relative;z-index:3;max-width:1120px;margin:78px auto 0;padding:0 clamp(22px,5vw,34px) 0">
+    <div style="height:1px;background:rgba(232,227,215,0.3)"></div>
+    <div style="padding:26px 0 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div style="font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</div>
+        <div contentEditable="{{ f.footerContact.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerContact.onBlur }}" style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#9DABA6">{{ f.footerContact.text }}</div>
+      </div>
+      <div contentEditable="{{ f.footerTagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerTagline.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354">{{ f.footerTagline.text }}</div>
+    </div>
+    <sc-if value="{{ engraving }}" hint-placeholder-val="{{ true }}"><div style="position:relative;overflow:hidden;height:clamp(92px,24vw,132px);margin-top:14px">
+      <img src="graphics/engraving-moose-puffin.png" alt="" aria-hidden="true" style="position:absolute;right:0;top:-20px;width:min(410px,80vw);opacity:0.4;pointer-events:none">
+    </div></sc-if>
+
+    <div style="margin-top:18px;padding:14px 0 26px;border-top:1px solid rgba(232,227,215,0.16);display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+      <sc-if value="{{ admin }}" hint-placeholder-val="{{ true }}">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#D9A354">Signed in — this page is only yours</div>
+        <button type="button" onClick="{{ adminLogout }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9DABA6;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#E8E3D7">Log out</button>
+      </sc-if>
+      <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ false }}">
+        <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <input type="password" placeholder="admin password" value="{{ apw }}" onChange="{{ onApw }}" onKeyDown="{{ onApwKey }}" style="min-height:34px;padding:0 10px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.5);color:#E8E3D7;font-family:var(--font-mono);font-size:11px"/>
+            <button type="button" onClick="{{ tryAdmin }}" style="min-height:34px;padding:0 12px;border:0;border-radius:3px;cursor:pointer;background:#C6862F;color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Sign in</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#c98a5a">{{ apwErr }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ adminClosed }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleAdminOpen }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#4d5a57;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#9DABA6">Admin</button>
+        </sc-if>
+      </sc-if>
+    </div>
+  </footer>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;expiryDays&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:60,&quot;tsType&quot;:&quot;number&quot;,&quot;min&quot;:7,&quot;max&quot;:365,&quot;step&quot;:1,&quot;unit&quot;:&quot;days&quot;,&quot;section&quot;:&quot;Galleries&quot;,&quot;label&quot;:&quot;Default expiry&quot;},&quot;hideExpired&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Galleries&quot;,&quot;label&quot;:&quot;Hide taken-down galleries&quot;},&quot;wear&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Desk&quot;,&quot;label&quot;:&quot;Worn desk texture&quot;},&quot;engraving&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Desk&quot;,&quot;label&quot;:&quot;Footer engraving&quot;}}">
+class Component extends DCLogic {
+  state = {
+    narrow: false, menuOpen: false,
+    admin: false, adminOpen: false, apw: "", apwErr: "",
+    tab: "photos",
+    editing: false, editId: null, confirmId: null, toast: "",
+    form: { name: "", word: "", shot: "", until: "", photos: [] },
+    errName: "", errWord: "",
+    albumEditing: false, albumEditId: null, errAlbum: "",
+    albumForm: { name: "", sub: "", live: false, cover: 0, photos: [] },
+    albums: [
+      { id: "a1", name: "Above the treeline", sub: "2024–2026", live: true, cover: 0, photos: [
+        { src: "photos/high-country.jpg", plate: "IMG 3311", cap: "the last mile, uphill", home: true },
+        { src: "photos/the-gap.jpg", plate: "IMG 3318", cap: "", home: false },
+        { src: "photos/street-03-walking.jpg", plate: "IMG 3324", cap: "", home: false },
+        { src: "photos/high-country.jpg", plate: "IMG 3330", cap: "", home: false }
+      ] },
+      { id: "a2", name: "Downtown, waiting", sub: "Tulsa · ongoing", live: true, cover: 1, photos: [
+        { src: "photos/street-01-crossing.jpg", plate: "IMG 4412", cap: "", home: false },
+        { src: "photos/street-02-grin.jpg", plate: "IMG 4418", cap: "he liked being asked", home: true },
+        { src: "photos/street-03-walking.jpg", plate: "IMG 4424", cap: "", home: false },
+        { src: "photos/street-01-crossing.jpg", plate: "IMG 4431", cap: "", home: false },
+        { src: "photos/street-02-grin.jpg", plate: "IMG 4436", cap: "", home: false }
+      ] },
+      { id: "a3", name: "Weather I stood in", sub: "Mostly the Ozarks", live: true, cover: 0, photos: [
+        { src: "photos/the-gap.jpg", plate: "IMG 2210", cap: "sleet, and worth it", home: true },
+        { src: "photos/high-country.jpg", plate: "IMG 2216", cap: "", home: false },
+        { src: "photos/the-gap.jpg", plate: "IMG 2223", cap: "", home: false }
+      ] },
+      { id: "a4", name: "The people I live with", sub: "Home · kitchen light", live: true, cover: 0, photos: [
+        { src: "photos/street-02-grin.jpg", plate: "IMG 5501", cap: "", home: false },
+        { src: "photos/street-03-walking.jpg", plate: "IMG 5507", cap: "", home: false }
+      ] },
+      { id: "a5", name: "Odds and ends", sub: "Unsorted", live: false, cover: 0, photos: [
+        { src: "photos/street-01-crossing.jpg", plate: "IMG 6602", cap: "", home: false },
+        { src: "photos/high-country.jpg", plate: "IMG 6611", cap: "", home: false }
+      ] }
+    ],
+    galleries: [
+      { id: "g1", name: "The Hartleys", word: "cottonwood", shot: "2026-08-09", until: "2026-10-08",
+        photos: ["photos/street-02-grin.jpg","photos/street-01-crossing.jpg","photos/high-country.jpg","photos/street-03-walking.jpg","photos/the-gap.jpg","photos/street-02-grin.jpg","photos/street-01-crossing.jpg","photos/street-03-walking.jpg"] },
+      { id: "g2", name: "Renner + Mae", word: "fellowship", shot: "2026-07-19", until: "2026-09-17",
+        photos: ["photos/the-gap.jpg","photos/high-country.jpg","photos/street-03-walking.jpg","photos/street-01-crossing.jpg","photos/street-02-grin.jpg","photos/high-country.jpg"] },
+      { id: "g3", name: "The Okerlunds", word: "sycamore", shot: "2026-05-30", until: "2026-07-29",
+        photos: ["photos/high-country.jpg","photos/street-01-crossing.jpg","photos/the-gap.jpg","photos/street-02-grin.jpg"] }
+    ]
+  };
+
+  componentDidMount() {
+    this.mq = window.matchMedia("(max-width: 720px)");
+    this.sync = () => this.setState({ narrow: this.mq.matches, menuOpen: false });
+    this.sync();
+    this.mq.addEventListener("change", this.sync);
+    this.away = e => { if (this.state.menuOpen && !e.target.closest("[aria-expanded]")) this.setState({ menuOpen: false }); };
+    document.addEventListener("click", this.away);
+    this.readAdmin();
+  }
+  readAdmin() {
+    // cms.js loads from <helmet>, so it may not have evaluated yet at mount.
+    // Keep looking for it — signing out is the only thing that clears this page.
+    let tries = 0;
+    const look = () => {
+      if (window.JDCms) {
+        this.setState({ admin: window.JDCms.isAdmin() });
+        return;
+      }
+      if (++tries < 40) this.cmsTimer = setTimeout(look, 80);
+    };
+    look();
+    this.onLoad = () => look();
+    window.addEventListener("load", this.onLoad);
+  }
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener("change", this.sync);
+    document.removeEventListener("click", this.away);
+    if (this.onLoad) window.removeEventListener("load", this.onLoad);
+    if (this.cmsTimer) clearTimeout(this.cmsTimer);
+    if (this.t) clearTimeout(this.t);
+  }
+
+  ed(id, fallback) {
+    const admin = this.state.admin;
+    const text = window.JDCms ? window.JDCms.text(id, fallback) : fallback;
+    return { text, editable: admin || undefined, onBlur: admin ? (e => window.JDCms.setText(id, e.currentTarget.textContent)) : undefined };
+  }
+
+  tryAdmin() {
+    if (window.JDCms && window.JDCms.login(this.state.apw)) this.setState({ admin: true, adminOpen: false, apw: "", apwErr: "" });
+    else this.setState({ apwErr: "That isn't it." });
+  }
+
+  say(msg) {
+    this.setState({ toast: msg });
+    if (this.t) clearTimeout(this.t);
+    this.t = setTimeout(() => this.setState({ toast: "" }), 3600);
+  }
+
+  iso(d) { return d.toISOString().slice(0, 10); }
+  plusDays(n) { const d = new Date(); d.setDate(d.getDate() + n); return this.iso(d); }
+  pretty(s) {
+    if (!s) return "—";
+    const [y, m, d] = s.split("-").map(Number);
+    const months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+    return months[m - 1] + " " + d + ", " + y;
+  }
+  expired(s) { return !!s && s < this.iso(new Date()); }
+
+  blank() {
+    const days = this.props.expiryDays ?? 60;
+    return { name: "", word: "", shot: this.iso(new Date()), until: this.plusDays(days), photos: [] };
+  }
+
+  addFiles(list) {
+    const files = Array.from(list || []).filter(f => f.type.indexOf("image/") === 0);
+    if (!files.length) return;
+    const srcs = files.map(f => URL.createObjectURL(f));
+    this.setState(s => ({ form: { ...s.form, photos: s.form.photos.concat(srcs) } }));
+    this.say(files.length + (files.length === 1 ? " photograph added." : " photographs added."));
+  }
+
+  move(i, dir) {
+    this.setState(s => {
+      const p = s.form.photos.slice();
+      const j = i + dir;
+      if (j < 0 || j >= p.length) return null;
+      const tmp = p[i]; p[i] = p[j]; p[j] = tmp;
+      return { form: { ...s.form, photos: p } };
+    });
+  }
+
+  HOME_MAX = 3;
+
+  homeCount() {
+    const st = this.state;
+    let n = 0;
+    st.albums.forEach(a => {
+      if (st.albumEditing && a.id === st.albumEditId) return;
+      a.photos.forEach(p => { if (p.home) n++; });
+    });
+    if (st.albumEditing) st.albumForm.photos.forEach(p => { if (p.home) n++; });
+    return n;
+  }
+
+  blankAlbum() { return { name: "", sub: "", live: false, cover: 0, photos: [] }; }
+
+  addAlbumFiles(list) {
+    const files = Array.from(list || []).filter(f => f.type.indexOf("image/") === 0);
+    if (!files.length) return;
+    const added = files.map(f => ({ src: URL.createObjectURL(f), plate: "", cap: "", home: false }));
+    this.setState(s => ({ albumForm: { ...s.albumForm, photos: s.albumForm.photos.concat(added) } }));
+    this.say(files.length + (files.length === 1 ? " photograph added." : " photographs added."));
+  }
+
+  setAlbumPhoto(i, patch) {
+    this.setState(s => {
+      const photos = s.albumForm.photos.slice();
+      photos[i] = { ...photos[i], ...patch };
+      return { albumForm: { ...s.albumForm, photos } };
+    });
+  }
+
+  moveAlbumPhoto(i, dir) {
+    this.setState(s => {
+      const photos = s.albumForm.photos.slice();
+      const j = i + dir;
+      if (j < 0 || j >= photos.length) return null;
+      const tmp = photos[i]; photos[i] = photos[j]; photos[j] = tmp;
+      let cover = s.albumForm.cover;
+      if (cover === i) cover = j; else if (cover === j) cover = i;
+      return { albumForm: { ...s.albumForm, photos, cover } };
+    });
+  }
+
+  toggleHome(i) {
+    const p = this.state.albumForm.photos[i];
+    if (!p) return;
+    if (!p.home && this.homeCount() >= this.HOME_MAX) {
+      this.say("Three is all the home page has room for — take one out first.");
+      return;
+    }
+    this.setAlbumPhoto(i, { home: !p.home });
+  }
+
+  moveAlbum(id, dir) {
+    this.setState(s => {
+      const list = s.albums.slice();
+      const i = list.findIndex(a => a.id === id);
+      const j = i + dir;
+      if (i < 0 || j < 0 || j >= list.length) return null;
+      const tmp = list[i]; list[i] = list[j]; list[j] = tmp;
+      return { albums: list };
+    });
+  }
+
+  saveAlbum() {
+    const f = this.state.albumForm;
+    if (!f.name.trim()) { this.setState({ errAlbum: "A pile needs a name." }); return; }
+    const wasEdit = !!this.state.albumEditId;
+    const rec = { ...f, name: f.name.trim(), sub: f.sub.trim() };
+    this.setState(s => {
+      const list = s.albums.slice();
+      if (s.albumEditId) {
+        const i = list.findIndex(a => a.id === s.albumEditId);
+        if (i > -1) list[i] = { ...list[i], ...rec };
+      } else {
+        list.push({ ...rec, id: "a" + Date.now() });
+      }
+      return { albums: list, albumEditing: false, albumEditId: null, errAlbum: "", albumForm: this.blankAlbum() };
+    });
+    this.say(wasEdit ? "Saved." : (rec.live ? "Saved, and it's live." : "Saved as a draft — nobody sees it yet."));
+  }
+
+  save() {
+    const f = this.state.form;
+    const errName = f.name.trim() ? "" : "A name helps me find it again.";
+    const errWord = f.word.trim() ? "" : "They'll need a word to get in.";
+    if (errName || errWord) { this.setState({ errName, errWord }); return; }
+    const rec = { ...f, name: f.name.trim(), word: f.word.trim().toLowerCase() };
+    const wasEdit = !!this.state.editId;
+    this.setState(s => {
+      const list = s.galleries.slice();
+      if (s.editId) {
+        const i = list.findIndex(g => g.id === s.editId);
+        if (i > -1) list[i] = { ...list[i], ...rec };
+      } else {
+        list.unshift({ ...rec, id: "g" + Date.now() });
+      }
+      return { galleries: list, editing: false, editId: null, errName: "", errWord: "", form: this.blank() };
+    });
+    this.say(wasEdit ? "Saved." : "Saved. Send them the word when you're ready.");
+  }
+
+  renderVals() {
+    const st = this.state;
+    const days = this.props.expiryDays ?? 60;
+    const hideExpired = this.props.hideExpired ?? false;
+
+    const f = {
+      tagline: this.ed("site.tagline", "photographs, mostly close to home"),
+      footerContact: this.ed("site.footerContact", "Timberandink@outlook.com"),
+      footerTagline: this.ed("site.footerTagline", "thanks for looking")
+    };
+
+    const visible = hideExpired ? st.galleries.filter(g => !this.expired(g.until)) : st.galleries;
+
+    const rows = visible.map(g => {
+      const gone = this.expired(g.until);
+      const confirming = st.confirmId === g.id;
+      return {
+        id: g.id,
+        name: g.name,
+        badge: gone ? "Taken down " + this.pretty(g.until) : "Here until " + this.pretty(g.until),
+        badgeBg: gone ? "linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%)" : "linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%)",
+        badgeFg: gone ? "#EEF0E8" : "#1d2a28",
+        meta: g.photos.length + (g.photos.length === 1 ? " photograph" : " photographs") + " · shot " + this.pretty(g.shot),
+        wordLine: "the word is " + g.word,
+        thumbs: g.photos.slice(0, 6).map((src, i) => ({ src, key: g.id + i })),
+        hasMore: g.photos.length > 6,
+        more: "+ " + (g.photos.length - 6) + " more",
+        calm: !confirming,
+        confirming,
+        onEdit: () => this.setState({ editing: true, editId: g.id, confirmId: null, errName: "", errWord: "", form: { name: g.name, word: g.word, shot: g.shot, until: g.until, photos: g.photos.slice() } }),
+        onCopy: () => {
+          const link = "joshuadavis.photo/session?k=" + g.id + "-" + Math.random().toString(36).slice(2, 10);
+          if (navigator.clipboard) navigator.clipboard.writeText(link).catch(() => {});
+          this.say("Link copied. It opens the gallery without the word.");
+        },
+        onAskDelete: () => this.setState({ confirmId: g.id }),
+        onCancelDelete: () => this.setState({ confirmId: null }),
+        onConfirmDelete: () => {
+          this.setState(s => ({ galleries: s.galleries.filter(x => x.id !== g.id), confirmId: null }));
+          this.say(g.name + " is down. The word no longer opens anything.");
+        }
+      };
+    });
+
+    const photos = st.form.photos.map((src, i) => ({
+      src, n: i + 1, key: src + i,
+      onLeft: () => this.move(i, -1),
+      onRight: () => this.move(i, 1),
+      onRemove: () => this.setState(s => ({ form: { ...s.form, photos: s.form.photos.filter((_, j) => j !== i) } }))
+    }));
+
+    const n = visible.length;
+    const onPhotos = st.tab === "photos";
+    const live = st.albums.filter(a => a.live).length;
+    const drafts = st.albums.length - live;
+
+    const albums = st.albums.map((a, i) => ({
+      id: a.id,
+      name: a.name,
+      cover: (a.photos[a.cover] || a.photos[0] || {}).src || "photos/high-country.jpg",
+      badge: a.live ? "Live" : "Draft",
+      badgeBg: a.live ? "linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%)" : "linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%)",
+      badgeFg: a.live ? "#1d2a28" : "#EEF0E8",
+      meta: a.photos.length + (a.photos.length === 1 ? " photograph · " : " photographs · ") + (a.sub || "no line yet"),
+      place: (i + 1) + " / " + st.albums.length,
+      liveAction: a.live ? "Take it off the site" : "Publish it",
+      onUp: () => this.moveAlbum(a.id, -1),
+      onDown: () => this.moveAlbum(a.id, 1),
+      onEdit: () => this.setState({ albumEditing: true, albumEditId: a.id, errAlbum: "", albumForm: { name: a.name, sub: a.sub, live: a.live, cover: a.cover, photos: a.photos.map(p => ({ ...p })) } }),
+      onToggleLive: () => {
+        this.setState(s => ({ albums: s.albums.map(x => x.id === a.id ? { ...x, live: !x.live } : x) }));
+        this.say(a.live ? a.name + " is off the site." : a.name + " is live.");
+      }
+    }));
+
+    const af = st.albumForm;
+    const albumPhotos = af.photos.map((p, i) => ({
+      src: p.src, plate: p.plate, cap: p.cap, key: p.src + i,
+      coverBg: af.cover === i ? "#142A2B" : "transparent",
+      coverFg: af.cover === i ? "#F6F3EC" : "#5d6d6a",
+      coverBd: af.cover === i ? "#142A2B" : "rgba(20,42,43,0.22)",
+      homeBg: p.home ? "#C6862F" : "transparent",
+      homeFg: p.home ? "#1d2a28" : "#5d6d6a",
+      homeBd: p.home ? "#C6862F" : "rgba(20,42,43,0.22)",
+      onPlate: e => this.setAlbumPhoto(i, { plate: e.target.value }),
+      onCap: e => this.setAlbumPhoto(i, { cap: e.target.value }),
+      onCover: () => this.setState(s => ({ albumForm: { ...s.albumForm, cover: i } })),
+      onHome: () => this.toggleHome(i),
+      onUp: () => this.moveAlbumPhoto(i, -1),
+      onDown: () => this.moveAlbumPhoto(i, 1),
+      onRemove: () => this.setState(s => {
+        const photos = s.albumForm.photos.filter((_, j) => j !== i);
+        const cover = Math.min(s.albumForm.cover, Math.max(0, photos.length - 1));
+        return { albumForm: { ...s.albumForm, photos, cover } };
+      })
+    }));
+
+    const chosen = this.homeCount();
+
+    return {
+      tabItems: [{ value: "photos", label: "My photographs" }, { value: "clients", label: "Client galleries" }],
+      tab: st.tab,
+      setTab: v => this.setState({ tab: v, confirmId: null }),
+
+      albums, noAlbums: albums.length === 0,
+      pListing: onPhotos && !st.albumEditing,
+      pEditing: onPhotos && st.albumEditing,
+      cListing: !onPhotos && !st.editing,
+      cEditing: !onPhotos && st.editing,
+
+      albumTitle: st.albumEditId ? (af.name || "A pile") : "A new album",
+      albumStamp: af.live ? "Changes go live at once" : "A draft — nobody sees it yet",
+      aName: af.name, aSub: af.sub, errAlbum: st.errAlbum,
+      onAlbumName: e => this.setState(s => ({ albumForm: { ...s.albumForm, name: e.target.value }, errAlbum: "" })),
+      onAlbumSub: e => this.setState(s => ({ albumForm: { ...s.albumForm, sub: e.target.value } })),
+      albumPhotos, albumHasPhotos: albumPhotos.length > 0, albumEmpty: albumPhotos.length === 0,
+      albumDropLine: albumPhotos.length ? "Drop more in — they land at the end." : "Drag photographs here from your Mac.",
+      homeLine: chosen + " of 3 chosen for the home page",
+      albumFileRef: el => { this.albumFile = el; },
+      openAlbumPicker: () => { if (this.albumFile) this.albumFile.click(); },
+      onAlbumFiles: e => { this.addAlbumFiles(e.target.files); e.target.value = ""; },
+      onDropAlbum: e => { e.preventDefault(); this.addAlbumFiles(e.dataTransfer && e.dataTransfer.files); },
+      saveAlbumLabel: af.live ? "Save the album" : "Save the draft",
+      albumLiveLabel: af.live ? "Take it off the site" : "Publish it",
+      toggleAlbumLive: () => this.setState(s => ({ albumForm: { ...s.albumForm, live: !s.albumForm.live } })),
+      saveAlbum: () => this.saveAlbum(),
+      cancelAlbum: () => this.setState({ albumEditing: false, albumEditId: null, errAlbum: "" }),
+      newAlbum: () => this.setState({ albumEditing: true, albumEditId: null, errAlbum: "", albumForm: this.blankAlbum() }),
+      wear: this.props.wear ?? true,
+      engraving: this.props.engraving ?? true,
+      f,
+      narrow: st.narrow, wide: !st.narrow,
+      menuOpen: st.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+
+      admin: st.admin, notAdmin: !st.admin,
+      adminOpen: st.adminOpen, adminClosed: !st.adminOpen,
+      apw: st.apw, apwErr: st.apwErr,
+      onApw: e => this.setState({ apw: e.target.value, apwErr: "" }),
+      onApwKey: e => { if (e.key === "Enter") this.tryAdmin(); },
+      tryAdmin: () => this.tryAdmin(),
+      toggleAdminOpen: () => this.setState(s => ({ adminOpen: !s.adminOpen })),
+      adminLogout: () => { if (window.JDCms) window.JDCms.logout(); this.setState({ admin: false, editing: false }); },
+
+      countLine: onPhotos
+        ? (st.albums.length === 0
+            ? "no piles yet"
+            : live + (live === 1 ? " pile on the site" : " piles on the site") + (drafts ? " · " + drafts + " still a draft" : "") + " — top of the list shows first")
+        : (n === 0 ? "nothing in the drawer yet" : (n === 1 ? "one in the drawer" : n + " in the drawer — newest first")),
+      rows, noRows: rows.length === 0,
+      listing: !st.editing, editing: st.editing,
+      toast: st.toast, hasToast: !!st.toast,
+
+      formTitle: st.editId ? "Editing " + (st.form.name || "a gallery") : "A new gallery",
+      formStamp: st.editId ? "Saved changes go live at once" : "Nobody sees this until you save",
+      fName: st.form.name, fWord: st.form.word, fShot: st.form.shot, fUntil: st.form.until,
+      errName: st.errName, errWord: st.errWord,
+      expiryHint: days + " days out, unless you'd rather something else.",
+      onName: e => this.setState(s => ({ form: { ...s.form, name: e.target.value }, errName: "" })),
+      onWord: e => this.setState(s => ({ form: { ...s.form, word: e.target.value }, errWord: "" })),
+      onShot: e => this.setState(s => ({ form: { ...s.form, shot: e.target.value } })),
+      onUntil: e => this.setState(s => ({ form: { ...s.form, until: e.target.value } })),
+
+      photos, hasPhotos: photos.length > 0, noPhotos: photos.length === 0,
+      dropLine: photos.length ? "Drop more in — they land at the end." : "Drag photographs here from your Mac.",
+      fileRef: el => { this.file = el; },
+      openPicker: () => { if (this.file) this.file.click(); },
+      onFiles: e => { this.addFiles(e.target.files); e.target.value = ""; },
+      onDrop: e => { e.preventDefault(); this.addFiles(e.dataTransfer && e.dataTransfer.files); },
+      onDragOver: e => { e.preventDefault(); },
+      onDragLeave: e => { e.preventDefault(); },
+
+      newGallery: () => this.setState({ editing: true, editId: null, confirmId: null, errName: "", errWord: "", form: this.blank() }),
+      save: () => this.save(),
+      cancel: () => this.setState({ editing: false, editId: null, errName: "", errWord: "" })
+    };
+  }
+}
+</script>
+</body>
+</html>

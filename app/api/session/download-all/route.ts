@@ -3,10 +3,9 @@ import { Readable } from "node:stream";
 import { ZipArchive } from "archiver";
 import { NextResponse } from "next/server";
 import { currentGallery } from "@/lib/auth";
+import { photoPath } from "@/lib/client-sessions";
 
 export const runtime = "nodejs";
-
-const PHOTO_ROOT = path.join(process.cwd(), "public");
 
 /**
  * Zip-on-demand for "Download all full-size".
@@ -24,8 +23,8 @@ export async function GET() {
   const folder = session.name.replace(/[^\w]+/g, "-");
 
   for (const photo of session.photos) {
-    archive.file(path.join(PHOTO_ROOT, photo.file), {
-      name: `${folder}/${photo.plate.replace(/\s+/g, "-")}${path.extname(photo.file)}`,
+    archive.file(photoPath(photo), {
+      name: `${folder}/${photo.plate.replace(/\s+/g, "-")}.jpg`,
     });
   }
 
