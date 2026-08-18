@@ -1,0 +1,12 @@
+node_modules/
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+.env
+.env.local
+.DS_Store
+
+# Runtime store: edited copy, client-gallery records, portrait uploads.
+# Seeded from lib/ on first run; point DATA_DIR at a volume in production.
+/data/
