@@ -1,0 +1,112 @@
+name: Checks and deploy
+
+# Pull requests get the checks. A merge to main gets the checks and then the
+# deploy, so a broken build can never be what's live.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  # Superseded pull-request runs are wasted work; superseded deploys are not —
+  # cancelling one mid-flight would leave the machine half-updated.
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  checks:
+    name: Typecheck and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npx tsc --noEmit
+
+      # SESSION_SECRET and ADMIN_PASSWORD are read at request time, never at
+      # build time. These placeholders only satisfy the production guards in
+      # lib/crypto.ts and lib/auth.ts while pages render; no real value is
+      # needed to build, and none should ever be put here.
+      - run: npm run build
+        env:
+          NODE_ENV: production
+          SESSION_SECRET: build-only-placeholder-not-a-secret
+          ADMIN_PASSWORD: build-only-placeholder
+          NEXT_TELEMETRY_DISABLED: "1"
+
+  image:
+    name: Build the container
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: docker/setup-buildx-action@v3
+
+      # The Dockerfile is what actually runs in production, and it fails in
+      # ways `npm run build` cannot: a traced dependency missing from the
+      # standalone output, or sharp's native binaries not surviving the copy.
+      # Built here, not pushed — the deploy builds its own on Fly.
+      - uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: false
+          load: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  deploy:
+    name: Deploy to Fly
+    needs: [checks, image]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    # One deploy at a time, and never cancelled part-way.
+    concurrency:
+      group: fly-deploy
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      # Deploying without the token would fail the run on every merge until
+      # it is added, which reads as a broken repository rather than an
+      # unfinished setup. Say what's missing instead.
+      - name: Look for the Fly token
+        id: token
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: |
+          if [ -n "$FLY_API_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice title=Deploy skipped::FLY_API_TOKEN is not set on this repository. See docs/DEPLOY.md — the site will not go live until it is."
+          fi
+
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        if: steps.token.outputs.present == 'true'
+
+      # --remote-only builds on Fly's builder rather than this runner, so the
+      # image is built where it will run. The volume in fly.toml is created on
+      # the first deploy if it does not exist yet.
+      - name: flyctl deploy
+        if: steps.token.outputs.present == 'true'
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+        run: flyctl deploy --remote-only --wait-timeout 300
+
+      # fly.toml health-checks /api/health, so a failed deploy already rolls
+      # back. This is the same check from outside, against the real hostname.
+      - name: Check it answers
+        if: steps.token.outputs.present == 'true'
+        run: |
+          app="$(sed -n 's/^app *= *"\(.*\)".*/\1/p' fly.toml | head -1)"
+          echo "Checking https://$app.fly.dev/api/health"
+          curl --fail --silent --show-error \
+               --retry 5 --retry-delay 5 --retry-all-errors \
+               "https://$app.fly.dev/api/health"
+          echo

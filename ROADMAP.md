@@ -1,10 +1,11 @@
 # What's next
 
-The site is built and merged. Where it runs is decided and the deploy config is
-in the tree — what's left of step 1 is running four commands against a Fly
-account, which needs credentials this repository doesn't have. Until someone
-does, nobody can reach the site, and almost everything below is polish on
-something no one can see.
+The site is built and merged. Where it runs is decided, the deploy config is in
+the tree, and a merge to `main` now deploys it. What's left of step 1 is the
+one-time account setup — creating the Fly app, its two secrets, its volume and
+a deploy token — which needs credentials this repository doesn't have. Until
+someone does that, nobody can reach the site, and almost everything below is
+polish on something no one can see.
 
 Written as a handoff: enough context to pick any item up cold.
 
@@ -40,15 +41,26 @@ account: `standalone` builds clean, and the built server serves all four public
 pages, seeds the album store into `DATA_DIR`, resolves the zip route, and
 re-encodes an upload through `sharp`.
 
-**What's left is the account work**, which nobody but Joshua can do
-(`docs/DEPLOY.md` has each of these in full):
+Deploying is now a merge to `main`: `.github/workflows/ci.yml` typechecks,
+runs `next build`, builds the container, and only then hands it to Fly. That
+container build matters more than it looks — it is the one thing no session
+could verify without a Docker daemon, and it fails on exactly the problems
+`npm run build` cannot see.
+
+**What's left is the account work**, which nobody but Joshua can do. It stays
+by hand on purpose: it needs a Fly account, and the two secrets should never
+pass through a repository or a CI log. `docs/DEPLOY.md` has each step in full:
 
 ```bash
 fly apps create joshua-davis-photography
 fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
 fly volumes create jd_data --region dfw --size 10
-fly deploy
+fly tokens create deploy -x 8760h   # → GitHub repo secret FLY_API_TOKEN
+fly deploy                          # or just merge to main, once the token is set
 ```
+
+Without `FLY_API_TOKEN` the deploy job skips itself with a notice rather than
+failing, so `main` stays green while the setup is half-done.
 
 Then a domain — `fly certs add <domain>`, and the records it prints go at the
 registrar. HTTPS is not optional: both cookies are already `Secure` in
@@ -121,15 +133,16 @@ marketing.
 
 ## 5. Continuous integration
 
-There is no `.github/` directory and no test files. Every check so far has been
-a browser driven by hand inside a session, which a future session cannot cheaply
-repeat.
+**The build check exists now.** `.github/workflows/ci.yml` runs `npm ci`,
+`npx tsc --noEmit`, `npm run build` and a `docker build` on every pull request,
+which is what this step asked for as the cheapest useful step, plus the
+container build that guards the deploy path.
 
-Cheapest useful step: a GitHub Action on pull requests running `npm ci`,
-`npx tsc --noEmit` and `npm run build`. That alone stops a broken build merging.
-
-Then a small Playwright smoke suite over the flows that actually matter, all of
-which have been driven manually and would translate directly:
+What's still missing is tests. There are no test files, and every check so far
+has been a browser driven by hand inside a session, which a future session
+cannot cheaply repeat. A small Playwright smoke suite over the flows that
+actually matter — all of which have been driven manually and would translate
+directly:
 
 - passphrase gate: wrong word, right word, expired gallery
 - the admin gate leaking nothing signed out
