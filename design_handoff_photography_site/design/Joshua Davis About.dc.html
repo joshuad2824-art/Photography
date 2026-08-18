@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/surfaces.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/base.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/styles.css">
+  <script src="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/_ds_bundle.js"></script>
+  <script src="./cms.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grape+Nuts&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0b1a1b; }
+    :root { --font-hand: "Grape Nuts", "Bradley Hand", cursive; }
+    * { box-sizing: border-box; }
+    a { color: #C6862F; text-decoration: none; }
+    a:hover { color: #DCA24A; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { outline: 1px dashed rgba(198,134,47,0.55); outline-offset: 3px; cursor: text; background: rgba(198,134,47,0.07); }
+    [contenteditable="true"]:focus { outline: 1px solid #C6862F; outline-offset: 3px; background: rgba(198,134,47,0.1); }
+  </style>
+</helmet>
+
+<div data-screen-label="About" style="min-height:100vh;background:#0d1f20;color:#E8E3D7;font-family:var(--font-body);position:relative;overflow-x:hidden">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 1180px at 4% 300px, rgba(198,134,47,0.155), rgba(0,0,0,0) 68%),radial-gradient(74% 48% at 16% 86%, rgba(198,134,47,0.15), rgba(0,0,0,0) 72%),radial-gradient(46% 30% at 84% 6%, rgba(120,150,140,0.07), rgba(0,0,0,0) 74%)"></div>
+  <sc-if value="{{ wear }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.9;background-image:url('textures/desk-wear.png');background-size:100% 100%;background-repeat:no-repeat"></div></sc-if>
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.34;background-image:url('textures/desk-grain.png');background-size:256px 256px;background-repeat:repeat"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.34) 100%)"></div>
+
+  <header style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(22px,5vw,30px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</a>
+      <div contentEditable="{{ f.tagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tagline.onBlur }}" style="margin-top:9px;font-family:var(--font-hand);font-size:23px;line-height:1;color:#D9A354">{{ f.tagline.text }}</div>
+    </div>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-bottom:4px">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:0;border-radius:3px;cursor:pointer;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">Menu<span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0">▾</span></button>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;z-index:9;top:calc(100% + 12px);right:0;min-width:220px;transform:rotate(-0.8deg);background:#f6f3ec;padding:8px 0;box-shadow:0 22px 44px rgba(0,0,0,0.55),inset 0 0 0 1px rgba(20,42,43,0.12)">
+        <div style="position:absolute;top:-13px;right:26px;width:76px;height:26px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navHome.text }}</a>
+        <a href="Joshua%20Davis%20Galleries.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navGalleries.text }}</a>
+        <a href="Joshua%20Davis%20Your%20Session.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navSession.text }}</a>
+        <a href="#" aria-current="page" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#142A2B;border-top:1px solid rgba(20,42,43,0.1);box-shadow:inset 3px 0 0 #C6862F">{{ f.navAbout.text }}</a>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:2px clamp(16px,2.4vw,22px)">
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navHome.text }}</a>
+      <a href="Joshua%20Davis%20Galleries.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navGalleries.text }}</a>
+      <a href="Joshua%20Davis%20Your%20Session.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navSession.text }}</a>
+      <a href="#" aria-current="page" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#F1EDE2;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid #C6862F">{{ f.navAbout.text }}</a>
+    </nav>
+    </sc-if>
+  </header>
+
+  <div style="position:relative;z-index:3;max-width:1120px;margin:22px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="height:2px;background:#E8E3D7"></div>
+    <div style="height:1px;margin-top:3px;background:rgba(232,227,215,0.34)"></div>
+  </div>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(34px,6vw,46px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;gap:clamp(30px,4vw,44px);align-items:flex-start">
+
+    <div style="flex:1 1 300px;min-width:0;max-width:380px;position:relative;transform:rotate(-1.4deg)">
+      <div style="background:#fffdf6;padding:14px 14px 19px;box-shadow:0 26px 52px rgba(0,0,0,0.5),0 3px 0 rgba(0,0,0,0.3)">
+        <div style="position:relative;width:100%;aspect-ratio:4 / 5;overflow:hidden;background:#e9e4d5">
+          <sc-if value="{{ hasPortrait }}" hint-placeholder-val="{{ false }}">
+            <img src="{{ portraitSrc }}" alt="Portrait of Joshua Davis" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;filter:saturate(0.9)">
+          </sc-if>
+          <sc-if value="{{ noPortrait }}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#8b9490;font-family:var(--font-mono);font-size:11px;letter-spacing:0.1em;text-transform:uppercase;text-align:center;padding:20px">Portrait coming soon</div>
+          </sc-if>
+          <sc-if value="{{ admin }}" hint-placeholder-val="{{ false }}">
+            <button type="button" onClick="{{ pickPortrait }}" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(9,18,19,0.55);border:0;cursor:pointer;opacity:0;transition:opacity 150ms" style-hover="opacity:1">
+              <span style="font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.16em;text-transform:uppercase;color:#F1EDE2;padding:10px 18px;border:1px solid rgba(232,227,215,0.5);border-radius:3px">Replace photo</span>
+            </button>
+            <input ref="{{ fileInputRef }}" type="file" accept="image/*" onChange="{{ onPortraitFile }}" style="display:none"/>
+          </sc-if>
+        </div>
+        <div contentEditable="{{ f.portraitCaption.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.portraitCaption.onBlur }}" style="margin-top:12px;font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#5d6d6a">{{ f.portraitCaption.text }}</div>
+      </div>
+      <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-13px;left:-15px;width:118px;height:30px;transform:rotate(-19deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+      <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-10px;right:-13px;width:100px;height:27px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+    </div>
+
+    <div style="flex:1.4 1 360px;min-width:0;padding-top:6px">
+      <div contentEditable="{{ f.badge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.badge.onBlur }}" style="display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">{{ f.badge.text }}</div>
+      <h1 contentEditable="{{ f.title.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.title.onBlur }}" style="margin:14px 0 0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(32px,4.4vw,50px);line-height:1.04;color:#F4F0E6;text-wrap:pretty">{{ f.title.text }}</h1>
+      <div contentEditable="{{ f.hand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.hand.onBlur }}" style="margin:20px 0 0;font-family:var(--font-hand);font-size:clamp(23px,2.3vw,29px);line-height:1.36;color:#D8D2C4;text-wrap:pretty">{{ f.hand.text }}</div>
+      <p contentEditable="{{ f.body.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.body.onBlur }}" style="margin:22px 0 0;max-width:46ch;font-size:16px;line-height:1.62;color:#AEBAB5;text-wrap:pretty">{{ f.body.text }}</p>
+    </div>
+  </section>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:70px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="position:relative;transform:rotate(0.5deg);background:#f3efe2;box-shadow:0 26px 54px rgba(0,0,0,0.52);padding:clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)">
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(20px,4.4vw,40px) + clamp(14px,5.4vw,34px));width:1px;background:rgba(160,66,44,0.34)"></div>
+      <div style="position:absolute;top:clamp(26px,4.4vw,38px);right:clamp(20px,4.4vw,40px);bottom:clamp(28px,4.4vw,40px);left:calc(clamp(20px,4.4vw,40px) + clamp(38px,10vw,66px));pointer-events:none;background:repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 calc(1.28em - 1px), rgba(20,42,43,0.12) calc(1.28em - 1px) 1.28em);font-size:clamp(21px,4.4vw,27px)"></div>
+      <div style="position:relative;padding-left:clamp(38px,10vw,66px);max-width:64ch">
+        <div style="margin-bottom:20px"><div contentEditable="{{ f.noteEyebrow.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.noteEyebrow.onBlur }}" style="transform:rotate(-1.1deg);display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">{{ f.noteEyebrow.text }}</div></div>
+        <div contentEditable="{{ f.note1.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.note1.onBlur }}" style="font-family:var(--font-hand);font-size:clamp(21px,4.4vw,27px);line-height:1.3;color:#142A2B">{{ f.note1.text }}</div>
+        <div contentEditable="{{ f.note2.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.note2.onBlur }}" style="margin-top:22px;font-family:var(--font-hand);font-size:clamp(21px,4.4vw,27px);line-height:1.3;color:#142A2B">{{ f.note2.text }}</div>
+        <div contentEditable="{{ f.note3.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.note3.onBlur }}" style="margin-top:22px;font-family:var(--font-hand);font-size:clamp(21px,4.4vw,27px);line-height:1.3;color:#142A2B">{{ f.note3.text }}</div>
+        <div style="margin-top:clamp(26px,4vw,34px);font-family:var(--font-hand);font-size:clamp(26px,5vw,32px);line-height:1;color:#142A2B">Joshua</div>
+      </div>
+    </div>
+  </section>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(46px,7vw,64px) clamp(22px,5vw,34px) 0">
+    <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap">
+      <h2 contentEditable="{{ f.bagTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.bagTitle.onBlur }}" style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(25px,3vw,34px);line-height:1;color:#F4F0E6">{{ f.bagTitle.text }}</h2>
+      <span contentEditable="{{ f.bagHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.bagHand.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354;padding-bottom:2px">{{ f.bagHand.text }}</span>
+    </div>
+    <div style="margin-top:16px;height:1px;background:rgba(232,227,215,0.3)"></div>
+
+    <div style="margin-top:clamp(30px,4vw,40px);transform:rotate(-0.4deg);background:#fffdf6;box-shadow:0 22px 44px rgba(0,0,0,0.5);padding:clamp(24px,4vw,34px) clamp(22px,4vw,32px)">
+      <div contentEditable="{{ f.bagIntro.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.bagIntro.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1.4;color:#3a4d4b;max-width:56ch">{{ f.bagIntro.text }}</div>
+      <div style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px">
+        <div contentEditable="{{ f.tag1.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tag1.onBlur }}" style="transform:rotate(-1deg);display:inline-block;padding:7px 14px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">{{ f.tag1.text }}</div>
+        <div contentEditable="{{ f.tag2.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tag2.onBlur }}" style="transform:rotate(0.8deg);display:inline-block;padding:7px 14px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">{{ f.tag2.text }}</div>
+        <div contentEditable="{{ f.tag3.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tag3.onBlur }}" style="transform:rotate(-0.6deg);display:inline-block;padding:7px 14px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">{{ f.tag3.text }}</div>
+        <div contentEditable="{{ f.tag4.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tag4.onBlur }}" style="transform:rotate(1.1deg);display:inline-block;padding:7px 14px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">{{ f.tag4.text }}</div>
+        <div contentEditable="{{ f.tag5.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tag5.onBlur }}" style="transform:rotate(-1.3deg);display:inline-block;padding:7px 14px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-mono);font-size:11px;letter-spacing:0.04em">{{ f.tag5.text }}</div>
+      </div>
+    </div>
+
+    <div style="margin-top:52px;display:flex;justify-content:flex-end">
+      <a href="Joshua%20Davis%20Galleries.dc.html" contentEditable="{{ f.backLink.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.backLink.onBlur }}" style="font-family:var(--font-hand);font-size:26px;line-height:1;color:#D9A354;cursor:pointer;border-bottom:2px solid rgba(198,134,47,0.5);padding:9px 0 7px" style-hover="color:#E8BC6A">{{ f.backLink.text }}</a>
+    </div>
+  </section>
+
+  <footer style="position:relative;z-index:3;max-width:1120px;margin:78px auto 0;padding:0 clamp(22px,5vw,34px) 0">
+    <div style="height:1px;background:rgba(232,227,215,0.3)"></div>
+    <div style="padding:26px 0 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div style="font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</div>
+        <div contentEditable="{{ f.footerContact.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerContact.onBlur }}" style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#9DABA6">{{ f.footerContact.text }}</div>
+      </div>
+      <div contentEditable="{{ f.footerTagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerTagline.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354">{{ f.footerTagline.text }}</div>
+    </div>
+    <sc-if value="{{ engraving }}" hint-placeholder-val="{{ true }}"><div style="position:relative;overflow:hidden;height:clamp(92px,24vw,132px);margin-top:14px">
+      <img src="graphics/engraving-moose-puffin.png" alt="" aria-hidden="true" style="position:absolute;right:0;top:-20px;width:min(410px,80vw);opacity:0.4;pointer-events:none">
+    </div></sc-if>
+
+    <div style="margin-top:18px;padding:14px 0 26px;border-top:1px solid rgba(232,227,215,0.16);display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+      <sc-if value="{{ admin }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#D9A354">Editing as admin — click any text or photo to change it</div>
+        <button type="button" onClick="{{ adminLogout }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9DABA6;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#E8E3D7">Log out</button>
+      </sc-if>
+      <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <input type="password" placeholder="admin password" value="{{ apw }}" onChange="{{ onApw }}" onKeyDown="{{ onApwKey }}" style="min-height:34px;padding:0 10px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.5);color:#E8E3D7;font-family:var(--font-mono);font-size:11px"/>
+            <button type="button" onClick="{{ tryAdmin }}" style="min-height:34px;padding:0 12px;border:0;border-radius:3px;cursor:pointer;background:#C6862F;color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Sign in</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#c98a5a">{{ apwErr }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ adminClosed }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleAdminOpen }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#4d5a57;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#9DABA6">Admin</button>
+        </sc-if>
+      </sc-if>
+    </div>
+  </footer>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tape&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Tape strips&quot;},&quot;wear&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Worn desk texture&quot;},&quot;engraving&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Footer engraving&quot;}}">
+class Component extends DCLogic {
+  state = { narrow: false, menuOpen: false, admin: false, adminOpen: false, apw: "", apwErr: "", portrait: null };
+  fileInputRef = React.createRef();
+  componentDidMount() {
+    this.mq = window.matchMedia("(max-width: 720px)");
+    this.sync = () => this.setState({ narrow: this.mq.matches, menuOpen: false });
+    this.sync();
+    this.mq.addEventListener("change", this.sync);
+    this.away = e => { if (this.state.menuOpen && !e.target.closest("[aria-expanded]")) this.setState({ menuOpen: false }); };
+    document.addEventListener("click", this.away);
+    if (window.JDCms) this.setState({ admin: window.JDCms.isAdmin(), portrait: window.JDCms.image("about.portrait", null) });
+  }
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener("change", this.sync);
+    document.removeEventListener("click", this.away);
+  }
+  ed(id, fallback) {
+    const admin = this.state.admin;
+    const text = window.JDCms ? window.JDCms.text(id, fallback) : fallback;
+    return { text, editable: admin || undefined, onBlur: admin ? (e => window.JDCms.setText(id, e.currentTarget.textContent)) : undefined };
+  }
+  tryAdmin() {
+    if (window.JDCms && window.JDCms.login(this.state.apw)) this.setState({ admin: true, adminOpen: false, apw: "", apwErr: "" });
+    else this.setState({ apwErr: "That isn't it." });
+  }
+  onPortraitFile(e) {
+    const file = e.target.files && e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => {
+      window.JDCms.setImage("about.portrait", reader.result);
+      this.setState({ portrait: reader.result });
+    };
+    reader.readAsDataURL(file);
+  }
+  renderVals() {
+    const f = {
+      tagline: this.ed("site.tagline", "photographs, mostly close to home"),
+      navHome: this.ed("nav.home", "Home"),
+      navGalleries: this.ed("nav.galleries", "Galleries"),
+      navSession: this.ed("nav.session", "YOUR SESSION"),
+      navAbout: this.ed("nav.about", "About"),
+      portraitCaption: this.ed("about.portraitCaption", "Self-timer, ten seconds, one try"),
+      badge: this.ed("about.badge", "Tulsa, Oklahoma"),
+      title: this.ed("about.title", "The person behind the camera"),
+      hand: this.ed("about.hand", "Hospital IT by day, student minister by heart, and this is what I do with whatever's left of the evening."),
+      body: this.ed("about.body", "I picked up a camera about three years ago wanting to get better at paying attention, and it worked better than I expected. I'm still not sure I'd call myself a photographer — mostly I'm someone who stops the car a lot."),
+      noteEyebrow: this.ed("about.noteEyebrow", "How this started"),
+      note1: this.ed("about.note1", "I've spent most of my working life keeping hospital networks from falling over, which is a job made of other people's emergencies. Photography is the opposite kind of attention — nothing is broken, nobody's paging me, I just have to stand somewhere long enough to notice what's actually in front of me."),
+      note2: this.ed("about.note2", "Most of what ends up here happens within an hour of the house — a walk, a drive out toward the Ozarks, a Tuesday that turned out better than expected. I also lead a student ministry, which probably explains why I keep gravitating toward pictures of kids being exactly themselves and not performing for anyone."),
+      note3: this.ed("about.note3", "I don't sell prints and there's no mailing list. If you were in front of my camera for a session, I'll send you a word that opens your gallery, and it's yours to keep."),
+      bagTitle: this.ed("about.bagTitle", "What's in the bag"),
+      bagHand: this.ed("about.bagHand", "not much, on purpose"),
+      bagIntro: this.ed("about.bagIntro", "One camera, two lenses, no drone. I've found that owning less gear means fewer excuses to stay home."),
+      tag1: this.ed("about.tag1", "35mm, mostly wide open"),
+      tag2: this.ed("about.tag2", "50mm for portraits"),
+      tag3: this.ed("about.tag3", "no flash"),
+      tag4: this.ed("about.tag4", "tripod stays in the car"),
+      tag5: this.ed("about.tag5", "manual, most of the time"),
+      backLink: this.ed("about.backLink", "back to the drawer →"),
+      footerContact: this.ed("site.footerContact", "Tulsa, Oklahoma · Timberandink@outlook.com"),
+      footerTagline: this.ed("site.footerTagline", "made in spare moments")
+    };
+    return {
+      f,
+      tape: this.props.tape !== false,
+      wear: this.props.wear !== false,
+      engraving: this.props.engraving !== false,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      admin: this.state.admin,
+      notAdmin: !this.state.admin,
+      adminOpen: this.state.adminOpen,
+      adminClosed: !this.state.adminOpen,
+      apw: this.state.apw,
+      apwErr: this.state.apwErr,
+      onApw: e => this.setState({ apw: e.target.value, apwErr: "" }),
+      onApwKey: e => { if (e.key === "Enter") this.tryAdmin(); },
+      tryAdmin: () => this.tryAdmin(),
+      toggleAdminOpen: () => this.setState(s => ({ adminOpen: !s.adminOpen })),
+      adminLogout: () => { if (window.JDCms) window.JDCms.logout(); this.setState({ admin: false }); },
+      hasPortrait: !!this.state.portrait,
+      noPortrait: !this.state.portrait,
+      portraitSrc: this.state.portrait || "",
+      fileInputRef: this.fileInputRef,
+      pickPortrait: () => { if (this.fileInputRef.current) this.fileInputRef.current.click(); },
+      onPortraitFile: e => this.onPortraitFile(e)
+    };
+  }
+}
+
+</script>
+</body>
+</html>
