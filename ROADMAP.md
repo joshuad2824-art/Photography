@@ -1,45 +1,71 @@
 # What's next
 
-The site is built and merged. Nobody can reach it yet — it has never been
-deployed. That's the thing standing between here and a working site; almost
-everything below is polish on something no one can see.
+The site is built and merged. Where it runs is decided and the deploy config is
+in the tree — what's left of step 1 is running four commands against a Fly
+account, which needs credentials this repository doesn't have. Until someone
+does, nobody can reach the site, and almost everything below is polish on
+something no one can see.
 
 Written as a handoff: enough context to pick any item up cold.
 
 ---
 
-## 1. Decide where it runs, then deploy it
+## 1. Deploy it
 
-**This decision is coupled to the storage design, so make it first.**
+**Decided: path A — one small box with a persistent disk, on Fly.io.**
 
 `DATA_DIR` is a writable directory holding three things: the album records, the
-client-gallery records, and every uploaded photograph. That rules out platforms
+client-gallery records, and every uploaded photograph. That ruled out platforms
 with an ephemeral filesystem — on Vercel's serverless functions the store and
-the uploads would be wiped on each deploy.
+the uploads would be wiped on each deploy, and taking that path would have
+meant rewriting `lib/store.ts` onto Postgres and `lib/uploads.ts` onto object
+storage first. This is a hobby portfolio with one author and a handful of
+client galleries a year; one instance is the right shape, and it keeps the
+whole storage layer as it is.
 
-Two coherent paths:
+Everything needed to run it is now in the repository:
 
-**A — one small box with a persistent disk** (Fly.io with a volume, Railway,
-a $6 VPS). No code change at all. Set `SESSION_SECRET`, `ADMIN_PASSWORD` and
-`DATA_DIR`, point the volume at it, done.
+- `Dockerfile` + `docker-entrypoint.sh` — Next's `standalone` output on Debian
+  slim, running as a non-root user, with the mounted volume handed to it at
+  boot. Ordinary Docker, so the same image runs on Railway, Render or a VPS.
+- `fly.toml` — one `shared-cpu-1x`/1GB machine, a 10GB volume at `/data`,
+  `force_https`, and a health check.
+- `app/api/health/route.ts` — writes a byte to `DATA_DIR` and removes it, so an
+  unmounted or full volume fails the health check instead of the site quietly
+  losing every edit and every upload.
+- [`docs/DEPLOY.md`](docs/DEPLOY.md) — the runbook.
 
-**B — Vercel**, which then also needs a database for the records and object
-storage for the photographs: rewrite `lib/store.ts` (Postgres/Neon) and
-`lib/uploads.ts` (S3/R2/Vercel Blob). Both are deliberately single-purpose
-modules so this is a contained change, but it is real work.
+The image was verified as far as it can be from a session without a Fly
+account: `standalone` builds clean, and the built server serves all four public
+pages, seeds the album store into `DATA_DIR`, resolves the zip route, and
+re-encodes an upload through `sharp`.
 
-**Recommendation: A.** This is a hobby portfolio with one author and a handful
-of client galleries a year. One instance is the right shape, and it keeps the
-whole storage layer as it is. Take B only if never touching a server is worth
-more than the rewrite.
+**What's left is the account work**, which nobody but Joshua can do
+(`docs/DEPLOY.md` has each of these in full):
 
-Also needed at deploy time:
+```bash
+fly apps create joshua-davis-photography
+fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
+fly volumes create jd_data --region dfw --size 10
+fly deploy
+```
 
-- A domain, and HTTPS. Cookies are already `Secure` in production.
-- `SESSION_SECRET` — 32+ random characters. Changing it later signs everyone
-  out and makes stored words unreadable in the admin listing (galleries still
-  open; the check goes through the hash, not the sealed copy).
-- `ADMIN_PASSWORD` — something better than the development default.
+Then a domain — `fly certs add <domain>`, and the records it prints go at the
+registrar. HTTPS is not optional: both cookies are already `Secure` in
+production, so over plain HTTP neither the admin sign-in nor a client's gallery
+would hold.
+
+Two things to know before typing them:
+
+- `SESSION_SECRET` should be written down somewhere durable first. Changing it
+  later signs everyone out and makes stored words unreadable in the admin
+  listing (galleries still open; the check goes through the hash, not the
+  sealed copy).
+- `ADMIN_PASSWORD` should be something better than the development default.
+
+**Don't scale this past one machine.** The JSON store is process-local and the
+rate limiter is in memory. A second instance means the database-and-object-
+storage rewrite, not a config change.
 
 ## 2. Back up the client photographs
 
@@ -49,9 +75,11 @@ Right now everything lives on one disk with no copy anywhere. Client
 photographs are the one thing on this site that cannot be recreated — the
 albums are his own work, the copy is in git, but a family's session exists once.
 
-A nightly `DATA_DIR` snapshot off the box is enough. Whatever hosting choice
-lands in step 1 will shape how: a volume snapshot, `restic` to object storage,
-or a cron'd `rsync`.
+A nightly `DATA_DIR` snapshot off the box is enough. `fly.toml` already asks
+for nightly volume snapshots kept a fortnight, but those live on the same
+provider as the disk they copy — that's a floor, not the backup. Somewhere
+else entirely: `restic` to object storage from a cron'd `fly ssh console`, or
+pulled down on a schedule.
 
 ## 3. Real photographs
 
@@ -133,8 +161,8 @@ None of these exist yet:
   lean on inline styles and heavy background textures; worth measuring before
   assuming either is fine.
 - **The rate limiter is in-memory** (`lib/rate-limit.ts`), so it resets on
-  deploy and doesn't span instances. Correct for one box; revisit only if step 1
-  lands on more than one.
+  deploy and doesn't span instances. Correct for the one box step 1 landed on;
+  revisit only if that ever stops being true.
 
 ---
 
