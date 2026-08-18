@@ -22,11 +22,12 @@ export default async function SessionPage({
     currentGallery(),
     searchParams,
   ]);
+  const publicSession = session ? await toPublic(session) : null;
 
   return (
     <Shell>
       <SessionView
-        session={session ? toPublic(session) : null}
+        session={publicSession}
         linkExpired={params.link === "expired"}
       />
     </Shell>

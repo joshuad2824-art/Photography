@@ -14,7 +14,13 @@ const adminText = {
   textTransform: "uppercase" as const,
 };
 
-function AdminBar({ editablePhoto }: { editablePhoto: boolean }) {
+function AdminBar({
+  editablePhoto,
+  variant,
+}: {
+  editablePhoto: boolean;
+  variant: "site" | "admin";
+}) {
   const { admin, setAdmin } = useSite();
   const router = useRouter();
   const [open, setOpen] = useState(false);
@@ -57,10 +63,17 @@ function AdminBar({ editablePhoto }: { editablePhoto: boolean }) {
     return (
       <>
         <div style={{ ...adminText, color: "var(--amber-hand)" }}>
-          {editablePhoto
-            ? "Editing as admin — click any text or photo to change it"
-            : "Editing as admin — click any text to change it"}
+          {variant === "admin"
+            ? "Signed in — this page is only yours"
+            : editablePhoto
+              ? "Editing as admin — click any text or photo to change it"
+              : "Editing as admin — click any text to change it"}
         </div>
+        {variant === "site" ? (
+          <a href="/admin" className="admin-logout" style={{ ...adminText, color: "var(--text-faint)" }}>
+            The desk drawer
+          </a>
+        ) : null}
         <button
           type="button"
           onClick={signOut}
@@ -165,7 +178,13 @@ function AdminBar({ editablePhoto }: { editablePhoto: boolean }) {
   );
 }
 
-export function Footer({ editablePhoto = false }: { editablePhoto?: boolean }) {
+export function Footer({
+  editablePhoto = false,
+  variant = "site",
+}: {
+  editablePhoto?: boolean;
+  variant?: "site" | "admin";
+}) {
   return (
     <footer
       style={{
@@ -253,7 +272,7 @@ export function Footer({ editablePhoto = false }: { editablePhoto?: boolean }) {
           gap: "10px 16px",
         }}
       >
-        <AdminBar editablePhoto={editablePhoto} />
+        <AdminBar editablePhoto={editablePhoto} variant={variant} />
       </div>
     </footer>
   );

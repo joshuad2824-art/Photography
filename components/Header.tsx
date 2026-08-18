@@ -5,7 +5,8 @@ import type { CSSProperties } from "react";
 import { Editable } from "./Editable";
 import { tape } from "@/lib/tokens";
 
-export type NavKey = "home" | "galleries" | "session" | "about";
+/** "none" is the back-of-house page: reachable, but not in the nav. */
+export type NavKey = "home" | "galleries" | "session" | "about" | "none";
 
 const NAV: Array<{ key: NavKey; href: string; id: string }> = [
   { key: "home", href: "/", id: "nav.home" },

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Shell } from "@/components/Shell";
 import { GalleriesView } from "@/components/pages/GalleriesView";
-import { albums } from "@/lib/galleries";
+import { loadLiveAlbums } from "@/lib/albums";
 
 export const metadata: Metadata = {
   title: "Galleries",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 export default async function GalleriesPage() {
   return (
     <Shell>
-      <GalleriesView albums={albums} />
+      <GalleriesView albums={await loadLiveAlbums()} />
     </Shell>
   );
 }

@@ -4,17 +4,17 @@ import path from "node:path";
 import { Readable } from "node:stream";
 import { NextResponse } from "next/server";
 import { currentGallery } from "@/lib/auth";
+import { photoPath } from "@/lib/client-sessions";
 
 export const runtime = "nodejs";
 
-const PHOTO_ROOT = path.join(process.cwd(), "public");
-
 /**
- * One full-size original. The file path comes from the gallery record, never
- * from the request, so there is nothing to traverse.
+ * One of a client's photographs — inline for the gallery itself (`?view=1`),
+ * or as a download. Either way the file path comes from the gallery record,
+ * never from the request, so there is nothing to traverse.
  */
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const session = await currentGallery();
@@ -28,23 +28,27 @@ export async function GET(
     return NextResponse.json({ message: "Not your photo." }, { status: 404 });
   }
 
-  const file = path.join(PHOTO_ROOT, photo.file);
+  const file = photoPath(photo);
   const info = await stat(file).catch(() => null);
   if (!info) {
     return NextResponse.json({ message: "File is missing." }, { status: 404 });
   }
 
-  const filename = `${session.name.replace(/[^\w]+/g, "-")}-${photo.plate.replace(/\s+/g, "-")}${path.extname(photo.file)}`;
-  const stream = Readable.toWeb(
-    createReadStream(file),
-  ) as unknown as ReadableStream<Uint8Array>;
+  const inline = new URL(request.url).searchParams.get("view") === "1";
+  const filename = `${session.name.replace(/[^\w]+/g, "-")}-${photo.plate.replace(/\s+/g, "-")}${path.extname(file)}`;
 
-  return new NextResponse(stream, {
-    headers: {
-      "content-type": "image/jpeg",
-      "content-length": String(info.size),
-      "content-disposition": `attachment; filename="${filename}"`,
-      "cache-control": "private, no-store",
+  return new NextResponse(
+    Readable.toWeb(createReadStream(file)) as unknown as ReadableStream<Uint8Array>,
+    {
+      headers: {
+        "content-type": "image/jpeg",
+        "content-length": String(info.size),
+        "content-disposition": inline
+          ? "inline"
+          : `attachment; filename="${filename}"`,
+        // Private: a shared proxy must never hold a client's photographs.
+        "cache-control": inline ? "private, max-age=300" : "private, no-store",
+      },
     },
-  });
+  );
 }

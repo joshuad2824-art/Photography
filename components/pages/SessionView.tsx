@@ -3,10 +3,11 @@
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Editable } from "../Editable";
-import { Photo } from "../Photo";
 import { SiteFrame } from "../SiteFrame";
 import { Button, Input } from "../ui";
 import type { PublicClientSession } from "@/lib/client-sessions";
+import { sessionScatter } from "@/lib/scatter";
+import { photoFilter } from "@/lib/tokens";
 import {
   badgeDark,
   badgeIvory,
@@ -285,7 +286,16 @@ function Unlocked({ session }: { session: PublicClientSession }) {
         <h1 style={{ ...h1, fontSize: "clamp(30px,4.2vw,48px)", lineHeight: 1.03 }}>
           {session.name}
         </h1>
-        <div
+        <Editable
+          value={session.hand}
+          placeholder="a line in your hand"
+          onSave={(next) =>
+            void fetch(`/api/admin/galleries/${session.id}`, {
+              method: "PUT",
+              headers: { "content-type": "application/json" },
+              body: JSON.stringify({ hand: next }),
+            })
+          }
           style={{
             fontFamily: "var(--font-hand)",
             fontSize: "clamp(22px,2.2vw,26px)",
@@ -293,9 +303,7 @@ function Unlocked({ session }: { session: PublicClientSession }) {
             color: "var(--amber-hand)",
             paddingBottom: 6,
           }}
-        >
-          {session.hand}
-        </div>
+        />
       </div>
 
       <div
@@ -344,7 +352,7 @@ function Unlocked({ session }: { session: PublicClientSession }) {
         <Button
           onClick={() => {
             say(
-              `All ${session.frameCount} files on their way — ${session.archiveSize}, so give it a minute.`,
+              `All ${session.photos.length} files on their way — ${session.archiveSize}, so give it a minute.`,
             );
             window.location.href = "/api/session/download-all";
           }}
@@ -401,26 +409,36 @@ function Unlocked({ session }: { session: PublicClientSession }) {
           columnGap: "clamp(28px,4vw,40px)",
         }}
       >
-        {shown.map((photo) => {
+        {shown.map((photo, index) => {
           const isKept = kept.includes(photo.id);
+          const scatter = sessionScatter(index);
           return (
             <div
               key={photo.id}
               style={{
                 breakInside: "avoid",
                 margin: "0 0 clamp(32px,4vw,44px)",
-                marginLeft: photo.ml === "0" ? undefined : photo.ml,
-                width: photo.w,
-                transform: `rotate(${photo.rot})`,
+                marginLeft: scatter.marginLeft,
+                width: scatter.width,
+                transform: `rotate(${scatter.rotate})`,
               }}
             >
               <div style={printMat("11px 11px 14px")}>
-                <Photo
+                {/* Private photographs stay behind the cookie, so they are not
+                    routed through the image optimiser — it fetches without one. */}
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
                   src={photo.src}
                   alt={`${session.name} — ${photo.plate}`}
-                  ratio={photo.ratio}
-                  position={photo.pos}
-                  sizes="(max-width: 720px) 92vw, 300px"
+                  loading={index < 2 ? "eager" : "lazy"}
+                  style={{
+                    width: "100%",
+                    display: "block",
+                    aspectRatio: photo.ratio,
+                    objectFit: "cover",
+                    objectPosition: photo.pos,
+                    filter: photoFilter,
+                  }}
                 />
                 <div style={{ ...plateLine, marginTop: 10 }}>{photo.plate}</div>
                 <div

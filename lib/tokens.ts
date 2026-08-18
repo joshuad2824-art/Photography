@@ -276,3 +276,57 @@ export const hairline: CSSProperties = {
   height: 1,
   background: "var(--rule)",
 };
+
+/**
+ * The embossed strip that labels the back of house — a deeper, more physical
+ * plate than the leather badges, stamped rather than printed.
+ */
+export const embossedLabel = (rotate: string): CSSProperties => ({
+  display: "inline-block",
+  transform: `${rotate} translateY(1px)`,
+  marginLeft: -4,
+  padding: "9px 17px 8px",
+  borderRadius: 4,
+  background: "linear-gradient(180deg,#243530 0%,#16241f 46%,#0e1815 100%)",
+  color: "#EDF1E9",
+  fontFamily: "var(--font-ui)",
+  fontSize: 10,
+  fontWeight: 700,
+  letterSpacing: "0.32em",
+  textTransform: "uppercase",
+  textShadow: "0 -1px 0 rgba(0,0,0,0.78),0 1px 0 rgba(255,255,255,0.4)",
+  boxShadow:
+    "inset 0 1px 0 rgba(255,255,255,0.15),inset 0 -1px 0 rgba(0,0,0,0.62),inset 0 0 0 1px rgba(255,255,255,0.05),0 5px 12px rgba(0,0,0,0.5)",
+});
+
+/** The paper worksheet the admin editors are written on. */
+export const worksheet: CSSProperties = {
+  position: "relative",
+  background: "var(--paper)",
+  boxShadow: "0 26px 54px rgba(0,0,0,0.52)",
+  padding:
+    "clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)",
+};
+
+/** A single record's card in an admin listing. */
+export const adminCard: CSSProperties = {
+  position: "relative",
+  background: "var(--paper-card)",
+  boxShadow: "0 22px 44px rgba(0,0,0,0.5)",
+};
+
+export const fieldLabel: CSSProperties = {
+  fontFamily: "var(--font-ui)",
+  fontSize: 11,
+  fontWeight: 700,
+  letterSpacing: "0.2em",
+  textTransform: "uppercase",
+  color: "var(--text-ink-mid)",
+};
+
+export const inkNote: CSSProperties = {
+  fontFamily: "var(--font-mono)",
+  fontSize: 11,
+  letterSpacing: "0.04em",
+  color: "var(--text-ink-muted)",
+};

@@ -105,3 +105,55 @@ export function Field({
     </div>
   );
 }
+
+/** Underlined tabs on the dark desk — active in cream over an amber rule. */
+export function Tabs({
+  items,
+  value,
+  onChange,
+}: {
+  items: Array<{ value: string; label: string }>;
+  value: string;
+  onChange: (next: string) => void;
+}) {
+  return (
+    <div
+      role="tablist"
+      style={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: "0 clamp(18px,3vw,30px)",
+        borderBottom: "1px solid var(--rule)",
+      }}
+    >
+      {items.map((item) => {
+        const active = item.value === value;
+        return (
+          <button
+            key={item.value}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(item.value)}
+            className="ti-tab"
+            style={{
+              minHeight: 38,
+              padding: "0 0 10px",
+              border: 0,
+              background: "transparent",
+              cursor: "pointer",
+              fontFamily: "var(--font-ui)",
+              fontSize: 15,
+              fontWeight: active ? 700 : 500,
+              color: active ? "var(--text-wordmark)" : "var(--text-muted)",
+              borderBottom: `2px solid ${active ? "var(--amber)" : "transparent"}`,
+              marginBottom: -1,
+            }}
+          >
+            {item.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}

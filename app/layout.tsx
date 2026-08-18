@@ -3,16 +3,16 @@ import {
   Archivo,
   Bevan,
   Courier_Prime,
-  EB_Garamond,
+  Spectral,
   Grape_Nuts,
   Playfair_Display,
 } from "next/font/google";
 import "./globals.css";
 
 /**
- * Timber & Ink type stack. The handoff names the faces; the design-system
- * token files themselves were not part of the drop, so the variables are
- * declared here and consumed everywhere as var(--font-*).
+ * Timber & Ink type stack, per the design system's tokens/typography.css.
+ * The token files were not in the drop, so the variables are declared here
+ * and consumed everywhere as var(--font-*).
  */
 const display = Bevan({
   subsets: ["latin"],
@@ -49,7 +49,7 @@ const mono = Courier_Prime({
   display: "swap",
 });
 
-const body = EB_Garamond({
+const body = Spectral({
   subsets: ["latin"],
   weight: ["400", "500", "600"],
   variable: "--font-body",

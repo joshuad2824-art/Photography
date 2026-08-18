@@ -5,7 +5,10 @@ import { useCallback, useEffect, useState } from "react";
 import { Editable } from "../Editable";
 import { Photo } from "../Photo";
 import { SiteFrame } from "../SiteFrame";
-import type { Album } from "@/lib/galleries";
+import { useSite } from "../SiteProvider";
+import { patchAlbum, patchCaption } from "../album-actions";
+import { coverPhoto, type Album } from "@/lib/album-types";
+import { indexCardScatter, pileScatter } from "@/lib/scatter";
 import {
   badgeDark,
   badgeIvory,
@@ -15,7 +18,6 @@ import {
   plateLine,
   printMat,
   shell,
-  tape,
 } from "@/lib/tokens";
 
 /**
@@ -23,11 +25,12 @@ import {
  * page — the handoff is explicit that opening a pile does not change the URL.
  */
 export function GalleriesView({ albums }: { albums: Album[] }) {
-  const [openSlug, setOpenSlug] = useState<string | null>(null);
+  const { admin } = useSite();
+  const [openId, setOpenId] = useState<string | null>(null);
   const [lightIndex, setLightIndex] = useState(-1);
   const [viewport, setViewport] = useState({ w: 1200, h: 900 });
 
-  const album = albums.find((a) => a.slug === openSlug) ?? null;
+  const album = albums.find((a) => a.id === openId) ?? null;
   const photos = album?.photos ?? [];
 
   useEffect(() => {
@@ -66,17 +69,22 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
     };
   }, [lightIndex, closeLight, step]);
 
-  function openAlbum(slug: string) {
-    setOpenSlug(slug);
+  function openAlbum(id: string) {
+    setOpenId(id);
     setLightIndex(-1);
     window.scrollTo(0, 0);
   }
 
   function backToIndex() {
-    setOpenSlug(null);
+    setOpenId(null);
     setLightIndex(-1);
     window.scrollTo(0, 0);
   }
+
+  /** While signed in, clicking a line of copy edits it rather than opening the pile. */
+  const guard = admin
+    ? { onClick: (event: React.MouseEvent) => event.stopPropagation() }
+    : {};
 
   const light = lightIndex >= 0 ? photos[lightIndex] : null;
 
@@ -87,7 +95,7 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
       Math.min(880, viewport.w - (viewport.w < 560 ? 20 : 44)) - pad * 2;
     const availH = viewport.h - 44 - 54 - pad * 2 - 104;
     const [num, den] = light ? light.ratio.split("/") : ["1", "1"];
-    const ratio = Number(num.trim()) / Number(den.trim());
+    const ratio = Number(num!.trim()) / Number(den!.trim());
     const height = Math.max(160, Math.min(availH, availW / ratio));
     return { w: Math.round(height * ratio), h: Math.round(height), pad };
   })();
@@ -135,95 +143,106 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
               columnGap: "clamp(28px,4vw,40px)",
             }}
           >
-            {albums.map((item) => (
-              <div
-                key={item.slug}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open ${item.title}`}
-                onClick={() => openAlbum(item.slug)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    openAlbum(item.slug);
-                  }
-                }}
-                style={{
-                  breakInside: "avoid",
-                  margin: "0 0 clamp(34px,4.4vw,46px)",
-                  marginLeft: item.card.ml === "0" ? undefined : item.card.ml,
-                  width: item.card.w,
-                  transform: `rotate(${item.card.rot})`,
-                  cursor: "pointer",
-                }}
-              >
+            {albums.map((item, index) => {
+              const scatter = indexCardScatter(index);
+              const cover = coverPhoto(item);
+              return (
                 <div
-                  className={`print ${item.card.liftClass}`}
-                  style={printMat(
-                    item.card.matPadding,
-                    "0 24px 46px rgba(0,0,0,0.5)",
-                  )}
+                  key={item.id}
+                  role="button"
+                  tabIndex={0}
+                  aria-label={`Open ${item.name}`}
+                  onClick={() => openAlbum(item.id)}
+                  onKeyDown={(event) => {
+                    // Only the card itself opens: a space typed into a line of
+                    // copy being edited must stay in the copy.
+                    if (event.target !== event.currentTarget) return;
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      openAlbum(item.id);
+                    }
+                  }}
+                  style={{
+                    breakInside: "avoid",
+                    margin: "0 0 clamp(34px,4.4vw,46px)",
+                    marginLeft: scatter.marginLeft,
+                    width: scatter.width,
+                    transform: `rotate(${scatter.rotate})`,
+                    cursor: "pointer",
+                  }}
                 >
-                  <Photo
-                    src={item.card.cover}
-                    alt={item.card.coverAlt}
-                    ratio={item.card.ratio}
-                    position={item.card.pos}
-                    sizes="(max-width: 720px) 92vw, 320px"
-                  />
-                  <Editable
-                    id={item.card.titleId}
-                    fallback={item.title}
-                    style={{
-                      marginTop: 12,
-                      fontFamily: "var(--font-editorial)",
-                      fontWeight: 700,
-                      fontSize: 24,
-                      lineHeight: 1.1,
-                      color: "var(--ink)",
-                    }}
-                  />
-                  <Editable
-                    id={item.card.handId}
-                    fallback={item.card.hand}
-                    style={{
-                      marginTop: 6,
-                      fontFamily: "var(--font-hand)",
-                      fontSize: 22,
-                      lineHeight: 1.2,
-                      color: "var(--text-ink-soft)",
-                    }}
-                  />
                   <div
-                    style={{
-                      marginTop: 11,
-                      display: "flex",
-                      flexWrap: "wrap",
-                      gap: 9,
-                      alignItems: "center",
-                    }}
+                    className={`print ${scatter.liftClass}`}
+                    style={printMat(
+                      scatter.matPadding,
+                      "0 24px 46px rgba(0,0,0,0.5)",
+                    )}
                   >
-                    <div style={badgeDark("sm")}>{item.card.category}</div>
+                    {cover ? (
+                      <Photo
+                        src={cover.src}
+                        alt={cover.cap || item.name}
+                        ratio={cover.ratio}
+                        position={cover.pos}
+                        sizes="(max-width: 720px) 92vw, 320px"
+                      />
+                    ) : null}
+                    <div {...guard}>
+                      <Editable
+                        value={item.name}
+                        onSave={(next) => void patchAlbum(item.id, { name: next })}
+                        style={{
+                          marginTop: 12,
+                          fontFamily: "var(--font-editorial)",
+                          fontWeight: 700,
+                          fontSize: 24,
+                          lineHeight: 1.1,
+                          color: "var(--ink)",
+                        }}
+                      />
+                      <Editable
+                        value={item.hand}
+                        placeholder="a line in your hand"
+                        onSave={(next) => void patchAlbum(item.id, { hand: next })}
+                        style={{
+                          marginTop: 6,
+                          fontFamily: "var(--font-hand)",
+                          fontSize: 22,
+                          lineHeight: 1.2,
+                          color: "var(--text-ink-soft)",
+                        }}
+                      />
+                    </div>
                     <div
                       style={{
-                        fontFamily: "var(--font-mono)",
-                        fontSize: 11,
-                        letterSpacing: "0.06em",
-                        color: "var(--text-ink-muted)",
+                        marginTop: 11,
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 9,
+                        alignItems: "center",
                       }}
                     >
-                      {item.card.dates}
+                      {item.category ? (
+                        <div style={badgeDark("sm")}>{item.category}</div>
+                      ) : null}
+                      <div
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 11,
+                          letterSpacing: "0.06em",
+                          color: "var(--text-ink-muted)",
+                        }}
+                      >
+                        {item.sub}
+                      </div>
                     </div>
                   </div>
+                  <div style={{ position: "relative", height: 0 }}>
+                    <div aria-hidden style={scatter.tape} />
+                  </div>
                 </div>
-                <div style={{ position: "relative", height: 0 }}>
-                  <div
-                    aria-hidden
-                    style={tape(item.card.tape.stock, item.card.tape.style)}
-                  />
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div
@@ -301,15 +320,25 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
               gap: "14px 24px",
             }}
           >
-            <h1 style={{ ...h1, fontSize: "clamp(30px,4.2vw,48px)", lineHeight: 1.03 }}>
-              {album.title}
-            </h1>
+            <Editable
+              as="h1"
+              value={album.name}
+              onSave={(next) => void patchAlbum(album.id, { name: next })}
+              style={{
+                ...h1,
+                fontSize: "clamp(30px,4.2vw,48px)",
+                lineHeight: 1.03,
+              }}
+            />
             <div style={badgeIvory("md", { marginBottom: 8 })}>
               {photos.length} {photos.length === 1 ? "print" : "prints"} ·{" "}
               {album.sub}
             </div>
           </div>
-          <div
+          <Editable
+            value={album.note}
+            placeholder="a note about this pile"
+            onSave={(next) => void patchAlbum(album.id, { note: next })}
             style={{
               marginTop: 16,
               fontFamily: "var(--font-hand)",
@@ -319,9 +348,7 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
               maxWidth: "44ch",
               textWrap: "pretty",
             }}
-          >
-            {album.note}
-          </div>
+          />
 
           <div style={{ marginTop: 22, height: 1, background: "var(--rule)" }} />
 
@@ -332,54 +359,64 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
               columnGap: "clamp(28px,4vw,40px)",
             }}
           >
-            {photos.map((photo, index) => (
-              <div
-                key={photo.plate}
-                role="button"
-                tabIndex={0}
-                aria-label={`Open ${photo.plate} full screen`}
-                onClick={() => setLightIndex(index)}
-                onKeyDown={(event) => {
-                  if (event.key === "Enter" || event.key === " ") {
-                    event.preventDefault();
-                    setLightIndex(index);
-                  }
-                }}
-                style={{
-                  breakInside: "avoid",
-                  margin: "0 0 clamp(32px,4vw,44px)",
-                  marginLeft: photo.ml === "0" ? undefined : photo.ml,
-                  cursor: "pointer",
-                  width: photo.w,
-                  transform: `rotate(${photo.rot})`,
-                }}
-              >
+            {photos.map((photo, index) => {
+              const scatter = pileScatter(index);
+              return (
                 <div
-                  className="print pile-lift-flat"
-                  style={printMat("11px 11px 15px")}
+                  key={photo.id}
+                  style={{
+                    breakInside: "avoid",
+                    margin: "0 0 clamp(32px,4vw,44px)",
+                    marginLeft: scatter.marginLeft,
+                    width: scatter.width,
+                    transform: `rotate(${scatter.rotate})`,
+                  }}
                 >
-                  <Photo
-                    src={photo.src}
-                    alt={photo.cap}
-                    ratio={photo.ratio}
-                    position={photo.pos}
-                    sizes="(max-width: 720px) 92vw, 300px"
-                  />
                   <div
-                    style={{
-                      marginTop: 10,
-                      fontFamily: "var(--font-hand)",
-                      fontSize: 22,
-                      lineHeight: 1.2,
-                      color: "var(--ink)",
-                    }}
+                    className="print pile-lift-flat"
+                    style={printMat("11px 11px 15px")}
                   >
-                    {photo.cap}
+                    <div
+                      role="button"
+                      tabIndex={0}
+                      aria-label={`Open ${photo.plate} full screen`}
+                      onClick={() => setLightIndex(index)}
+                      onKeyDown={(event) => {
+                        if (event.target !== event.currentTarget) return;
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setLightIndex(index);
+                        }
+                      }}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <Photo
+                        src={photo.src}
+                        alt={photo.cap || photo.plate}
+                        ratio={photo.ratio}
+                        position={photo.pos}
+                        sizes="(max-width: 720px) 92vw, 300px"
+                      />
+                    </div>
+                    <Editable
+                      value={photo.cap}
+                      placeholder="a line in your hand, if it wants one"
+                      onSave={(next) => void patchCaption(album, photo.id, next)}
+                      style={{
+                        marginTop: 10,
+                        fontFamily: "var(--font-hand)",
+                        fontSize: 22,
+                        lineHeight: 1.2,
+                        color: "var(--ink)",
+                      }}
+                    />
+                    <div style={{ ...plateLine, marginTop: 9 }}>
+                      {photo.plate}
+                    </div>
                   </div>
-                  <div style={{ ...plateLine, marginTop: 9 }}>{photo.plate}</div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <div
@@ -430,7 +467,7 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={light.cap}
+          aria-label={light.cap || light.plate}
           style={{
             position: "fixed",
             inset: 0,
@@ -521,7 +558,7 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
                 >
                   <Image
                     src={light.src}
-                    alt={light.cap}
+                    alt={light.cap || light.plate}
                     fill
                     sizes="880px"
                     style={{
@@ -532,16 +569,18 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
                   />
                 </div>
                 <div style={{ width: box.w }}>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-hand)",
-                      fontSize: "clamp(21px,2.2vw,26px)",
-                      lineHeight: 1.26,
-                      color: "var(--ink)",
-                    }}
-                  >
-                    {light.cap}
-                  </div>
+                  {light.cap ? (
+                    <div
+                      style={{
+                        fontFamily: "var(--font-hand)",
+                        fontSize: "clamp(21px,2.2vw,26px)",
+                        lineHeight: 1.26,
+                        color: "var(--ink)",
+                      }}
+                    >
+                      {light.cap}
+                    </div>
+                  ) : null}
                   <div
                     style={{
                       marginTop: 10,
@@ -589,7 +628,7 @@ export function GalleriesView({ albums }: { albums: Album[] }) {
                 textAlign: "center",
               }}
             >
-              {album.title} · {lightIndex + 1} of {photos.length}
+              {album.name} · {lightIndex + 1} of {photos.length}
             </div>
             <button
               type="button"

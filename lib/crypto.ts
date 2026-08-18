@@ -1,5 +1,12 @@
 import "server-only";
-import { createHmac, randomBytes, timingSafeEqual } from "node:crypto";
+import {
+  createCipheriv,
+  createDecipheriv,
+  createHash,
+  createHmac,
+  randomBytes,
+  timingSafeEqual,
+} from "node:crypto";
 
 /**
  * Small signing helpers shared by the admin session and the client-gallery
@@ -56,4 +63,44 @@ export function hashPassphrase(word: string, salt: string): string {
 
 export function newSalt(): string {
   return randomBytes(16).toString("hex");
+}
+
+/**
+ * Reversible sealing for the one secret the admin page has to show back:
+ * the word that opens a client's gallery. Verification still goes through the
+ * salted hash above — this only exists so "the word is cottonwood" can be
+ * printed on Joshua's own screen, and so the store on disk is not a plain
+ * list of working passphrases.
+ */
+export function seal(text: string): string {
+  const key = createHash("sha256").update(`seal:${secret()}`).digest();
+  const iv = randomBytes(12);
+  const cipher = createCipheriv("aes-256-gcm", key, iv);
+  const body = Buffer.concat([cipher.update(text, "utf8"), cipher.final()]);
+  return [
+    iv.toString("base64url"),
+    cipher.getAuthTag().toString("base64url"),
+    body.toString("base64url"),
+  ].join(".");
+}
+
+export function unseal(token: string | undefined): string | null {
+  if (!token) return null;
+  const [iv, tag, body] = token.split(".");
+  if (!iv || !tag || !body) return null;
+  try {
+    const key = createHash("sha256").update(`seal:${secret()}`).digest();
+    const decipher = createDecipheriv(
+      "aes-256-gcm",
+      key,
+      Buffer.from(iv, "base64url"),
+    );
+    decipher.setAuthTag(Buffer.from(tag, "base64url"));
+    return Buffer.concat([
+      decipher.update(Buffer.from(body, "base64url")),
+      decipher.final(),
+    ]).toString("utf8");
+  } catch {
+    return null;
+  }
 }
