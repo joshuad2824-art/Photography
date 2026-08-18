@@ -151,14 +151,21 @@ configured for Fly.io in `fly.toml`. `DATA_DIR` is a mounted volume at `/data`,
 `/api/health` fails the host's check if that volume ever stops being writable,
 and the image is Next's `standalone` output running unprivileged.
 
-[`docs/DEPLOY.md`](docs/DEPLOY.md) is the runbook: creating the app, the
-secrets and the volume, pointing a domain at it, and what day two looks like.
-The short version, once `flyctl` is installed:
+Deploying a change is **merging to `main`**.
+`.github/workflows/ci.yml` typechecks, runs `next build` and builds the
+container on every pull request, and deploys only if all three pass.
+
+The one-time setup is by hand, because it needs a Fly account and two secrets
+that should never pass through CI. [`docs/DEPLOY.md`](docs/DEPLOY.md) is the
+runbook — creating the app, the secrets, the volume and the deploy token,
+pointing a domain at it, and what day two looks like. The short version, once
+`flyctl` is installed:
 
 ```bash
 fly apps create joshua-davis-photography
 fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
 fly volumes create jd_data --region dfw --size 10
+fly tokens create deploy -x 8760h   # → GitHub repo secret FLY_API_TOKEN
 fly deploy
 ```
 

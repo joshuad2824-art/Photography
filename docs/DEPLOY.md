@@ -22,14 +22,19 @@ are ordinary Docker, so the same image runs on Railway, Render or a VPS with
 | `.dockerignore` | Keeps `.git`, the two design-handoff directories and `data/` out of the image. |
 | `fly.toml` | One `shared-cpu-1x` machine, a 10GB volume at `/data`, health check on `/api/health`. |
 | `app/api/health/route.ts` | Writes a byte to `DATA_DIR` and removes it, so an unmounted volume fails the check instead of silently losing every edit. |
+| `.github/workflows/ci.yml` | Typecheck, `next build` and a container build on every pull request; on a merge to `main`, the deploy. |
 
 ## First deploy
+
+This is the one-time setup, and it has to be done by hand: it needs a Fly
+account, and the two secrets should never pass through a repository or a CI
+log. After it, deploying is merging to `main`.
 
 Run these from the repository root, on a machine with the
 [`flyctl` CLI](https://fly.io/docs/flyctl/install/) installed.
 
-**1. Sign in and create the app.** `--no-deploy` because the secrets and the
-volume have to exist first.
+**1. Sign in and create the app.** The app has to exist before anything can be
+deployed into it — `fly deploy` won't create one.
 
 ```bash
 fly auth login
@@ -67,7 +72,22 @@ fly volumes create jd_data --region dfw --size 10
 10GB is roughly 20,000 uploaded frames at the size they're stored, which is
 years of shoots. It can be grown later (`fly volumes extend`) but not shrunk.
 
-**4. Deploy:**
+**4. Give GitHub a deploy token**, so merges to `main` go out on their own:
+
+```bash
+fly tokens create deploy -x 8760h
+```
+
+Copy the whole thing, including the `FlyV1 ` prefix, and add it to the
+repository under **Settings → Secrets and variables → Actions → New
+repository secret**, named exactly `FLY_API_TOKEN`. It is scoped to deploying
+this one app, and expires in a year.
+
+Until that secret exists the deploy job skips itself with a notice rather than
+failing the run, so `main` stays green while the setup is half-done.
+
+**5. Deploy.** Either merge to `main` and let
+`.github/workflows/ci.yml` do it, or, for the very first one, run it by hand:
 
 ```bash
 fly deploy
@@ -85,7 +105,7 @@ curl https://joshua-davis-photography.fly.dev/api/health
 A healthy answer is `{"ok":true,"store":"writable","ms":<n>}`. `store` is the
 volume: if that comes back `unwritable`, the mount is wrong, not the app.
 
-**5. Check it end to end**, on the deployed URL:
+**6. Check it end to end**, on the deployed URL:
 
 - the four public pages load, and photographs render
 - the footer's **Admin** control takes the new `ADMIN_PASSWORD`
@@ -116,8 +136,13 @@ hold.
 
 ## Day two
 
-**Deploying a change** is `fly deploy` on the branch you want live. The volume
-is untouched by a deploy; only the image is replaced.
+**Deploying a change** is merging to `main`. `.github/workflows/ci.yml` runs
+the typecheck, the Next build and a container build first, and only deploys if
+all three pass — a broken build cannot become what's live. The volume is
+untouched by a deploy; only the image is replaced.
+
+`fly deploy` from a laptop still works and is the way to ship something
+urgently or from a branch, but it skips those checks.
 
 **Reading the logs** is `fly logs`, or `fly logs -a joshua-davis-photography`
 from elsewhere. Rate-limited sign-ins and zip errors show up here.
