@@ -1,0 +1,20 @@
+.git
+.github
+node_modules
+.next
+out
+*.tsbuildinfo
+
+# Runtime store — lives on the mounted volume, never in the image.
+data
+
+# Reference material, not built or served.
+design_handoff_photography_site
+design_handoff_photography_site_V2
+*.md
+docs
+
+.env
+.env.*
+!.env.example
+.DS_Store

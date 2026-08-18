@@ -144,6 +144,33 @@ rendered "March 2026 · 24 frames" string rather than the shoot date). The word
 itself was only ever hashed there, so a migrated gallery shows no word until
 Joshua sets a new one.
 
+## Deploying
+
+One machine with a persistent disk, built from the `Dockerfile` here and
+configured for Fly.io in `fly.toml`. `DATA_DIR` is a mounted volume at `/data`,
+`/api/health` fails the host's check if that volume ever stops being writable,
+and the image is Next's `standalone` output running unprivileged.
+
+[`docs/DEPLOY.md`](docs/DEPLOY.md) is the runbook: creating the app, the
+secrets and the volume, pointing a domain at it, and what day two looks like.
+The short version, once `flyctl` is installed:
+
+```bash
+fly apps create joshua-davis-photography
+fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
+fly volumes create jd_data --region dfw --size 10
+fly deploy
+```
+
+Nothing in the application knows about Fly, so the same image runs anywhere
+that can mount a disk. What it cannot run on is a platform with an ephemeral
+filesystem — that needs the store moved to a database and the uploads to
+object storage first.
+
+**This site runs as exactly one instance.** The JSON store is process-local and
+the rate limiter is in memory; both are right for one machine and wrong for
+two.
+
 ## Notes on fidelity
 
 The design system's own CSS was not part of either drop — the prototypes link
@@ -165,6 +192,6 @@ Two things the data model changes, deliberately:
 ## Still open
 
 See [ROADMAP.md](ROADMAP.md) for what needs doing next and in what order. The
-short version: the site has never been deployed, and where it runs is coupled
-to the storage design — `DATA_DIR` is a real directory, so a platform with an
-ephemeral filesystem needs a database and object storage first.
+hosting question is settled and the deploy config is in the tree; the next
+thing that matters is a backup of `DATA_DIR` somewhere off the box, before a
+real client is handed a word.

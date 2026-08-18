@@ -1,0 +1,54 @@
+# Joshua Davis Photography — one machine, one volume.
+#
+# The store is a directory of JSON files and photographs on disk
+# (lib/store.ts, lib/uploads.ts), and the rate limiter is in-memory
+# (lib/rate-limit.ts). Both are correct for exactly one instance and wrong for
+# two, so this app is deliberately not scaled horizontally: see
+# docs/DEPLOY.md before changing anything below about counts or volumes.
+
+app = "joshua-davis-photography"
+primary_region = "dfw"
+
+[build]
+
+[env]
+  DATA_DIR = "/data"
+  PORT = "3000"
+
+[[mounts]]
+  source = "jd_data"
+  destination = "/data"
+  initial_size = "10gb"
+  # Nightly volume snapshots, kept a fortnight. This is a floor, not the
+  # backup roadmap step 2 asks for — snapshots live on the same provider as
+  # the disk they copy.
+  snapshot_retention = 14
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_start_machines = true
+  # Never stop the machine: a suspended instance still holds the volume, and
+  # a cold start in front of a client opening their gallery is not worth the
+  # few dollars saved.
+  auto_stop_machines = "off"
+  min_machines_running = 1
+
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 40
+    hard_limit = 60
+
+  [[http_service.checks]]
+    path = "/api/health"
+    method = "GET"
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "15s"
+
+[[vm]]
+  size = "shared-cpu-1x"
+  # sharp re-encodes 40MB frames on upload, 20-40 at a time. 512MB is not
+  # enough headroom for that; 1GB is.
+  memory = "1gb"
+  cpus = 1
