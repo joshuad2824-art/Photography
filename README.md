@@ -164,9 +164,7 @@ Two things the data model changes, deliberately:
 
 ## Still open
 
-- The albums reuse the same five photographs, as in the handoff, until Joshua
-  has real ones to sort. Uploading through the admin replaces them.
-- Photographs are stored on the server's disk. Real volume wants object storage
-  and signed URLs; `lib/uploads.ts` is the single seam for that.
-- The album detail's EXIF line is seeded and has no admin field — the handoff's
-  worksheet doesn't offer one, so uploads simply have no EXIF line.
+See [ROADMAP.md](ROADMAP.md) for what needs doing next and in what order. The
+short version: the site has never been deployed, and where it runs is coupled
+to the storage design — `DATA_DIR` is a real directory, so a platform with an
+ephemeral filesystem needs a database and object storage first.
