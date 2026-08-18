@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/fonts.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/colors.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/typography.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/spacing.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/surfaces.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/tokens/base.css">
+  <link rel="stylesheet" href="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/styles.css">
+  <script src="_ds/timber-ink-design-system-53a1360a-e1b6-43b5-9ab2-ad386de11414/_ds_bundle.js"></script>
+  <script src="./cms.js"></script>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Grape+Nuts&amp;display=swap">
+  <style>
+    html, body { margin: 0; padding: 0; background: #0b1a1b; }
+    :root { --font-hand: "Grape Nuts", "Bradley Hand", cursive; }
+    * { box-sizing: border-box; }
+    a { color: #C6862F; text-decoration: none; }
+    a:hover { color: #DCA24A; }
+    [contenteditable="true"] { outline: none; border-radius: 2px; }
+    [contenteditable="true"]:hover { outline: 1px dashed rgba(198,134,47,0.55); outline-offset: 3px; cursor: text; background: rgba(198,134,47,0.07); }
+    [contenteditable="true"]:focus { outline: 1px solid #C6862F; outline-offset: 3px; background: rgba(198,134,47,0.1); }
+  </style>
+</helmet>
+
+<div data-screen-label="Journal home (dark)" style="min-height:100vh;background:#0d1f20;color:#E8E3D7;font-family:var(--font-body);position:relative;overflow-x:hidden">
+
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(980px 1180px at 4% 300px, rgba(198,134,47,0.155), rgba(0,0,0,0) 68%),radial-gradient(74% 48% at 16% 86%, rgba(198,134,47,0.15), rgba(0,0,0,0) 72%),radial-gradient(46% 30% at 84% 6%, rgba(120,150,140,0.07), rgba(0,0,0,0) 74%)"></div>
+  <sc-if value="{{ wear }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;inset:0;pointer-events:none;opacity:0.9;background-image:url('textures/desk-wear.png');background-size:100% 100%;background-repeat:no-repeat"></div></sc-if>
+  <div style="position:absolute;inset:0;pointer-events:none;opacity:0.34;background-image:url('textures/desk-grain.png');background-size:256px 256px;background-repeat:repeat"></div>
+  <div style="position:absolute;inset:0;pointer-events:none;background:radial-gradient(120% 80% at 50% 40%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.34) 100%)"></div>
+
+  <header style="position:relative;z-index:5;max-width:1120px;margin:0 auto;padding:clamp(22px,5vw,30px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+    <div>
+      <a href="Joshua%20Davis%20Journal%20Dark.dc.html" style="display:block;font-family:var(--font-display);font-size:clamp(26px,3.4vw,36px);line-height:0.92;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2" style-hover="color:#F1EDE2">Joshua Davis</a>
+      <div contentEditable="{{ f.tagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.tagline.onBlur }}" style="margin-top:9px;font-family:var(--font-hand);font-size:23px;line-height:1;color:#D9A354">{{ f.tagline.text }}</div>
+    </div>
+    <sc-if value="{{ narrow }}" hint-placeholder-val="{{ false }}">
+    <div style="position:relative;padding-bottom:4px">
+      <button type="button" onClick="{{ toggleMenu }}" aria-expanded="{{ menuOpen }}" style="display:flex;align-items:center;gap:10px;min-height:44px;padding:0 16px;border:0;border-radius:3px;cursor:pointer;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">Menu<span style="font-family:var(--font-mono);font-size:13px;letter-spacing:0">▾</span></button>
+      <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;z-index:9;top:calc(100% + 12px);right:0;min-width:220px;transform:rotate(-0.8deg);background:#f6f3ec;padding:8px 0;box-shadow:0 22px 44px rgba(0,0,0,0.55),inset 0 0 0 1px rgba(20,42,43,0.12)">
+        <div style="position:absolute;top:-13px;right:26px;width:76px;height:26px;transform:rotate(-8deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div>
+        <a href="#" aria-current="page" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#142A2B;box-shadow:inset 3px 0 0 #C6862F">{{ f.navHome.text }}</a>
+        <a href="Joshua%20Davis%20Galleries.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navGalleries.text }}</a>
+        <a href="Joshua%20Davis%20Your%20Session.dc.html" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navSession.text }}</a>
+        <a href="Joshua%20Davis%20About.dc.html" onClick="{{ closeMenu }}" style="display:flex;align-items:center;min-height:46px;padding:0 20px;font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#2c3f3e;border-top:1px solid rgba(20,42,43,0.1)" style-hover="background:rgba(20,42,43,0.05)">{{ f.navAbout.text }}</a>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+    <sc-if value="{{ wide }}" hint-placeholder-val="{{ true }}">
+    <nav style="display:flex;flex-wrap:wrap;align-items:center;gap:2px clamp(16px,2.4vw,22px);padding-bottom:0">
+      <a href="#" aria-current="page" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#F1EDE2;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid #C6862F">{{ f.navHome.text }}</a>
+      <a href="Joshua%20Davis%20Galleries.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navGalleries.text }}</a>
+      <a href="Joshua%20Davis%20Your%20Session.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navSession.text }}</a>
+      <a href="Joshua%20Davis%20About.dc.html" style="font-family:var(--font-ui);font-size:12px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:#AEBAB5;cursor:pointer;padding:11px 0 9px;border-bottom:2px solid transparent" style-hover="color:#F1EDE2;border-bottom-color:rgba(232,227,215,0.34)">{{ f.navAbout.text }}</a>
+    </nav>
+    </sc-if>
+  </header>
+
+  <div style="position:relative;z-index:3;max-width:1120px;margin:22px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="height:2px;background:#E8E3D7"></div>
+    <div style="height:1px;margin-top:3px;background:rgba(232,227,215,0.34)"></div>
+  </div>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(34px,6vw,46px) clamp(22px,5vw,34px) 0;display:flex;flex-wrap:wrap;gap:clamp(30px,4vw,44px);align-items:flex-start">
+
+    <div style="flex:1.5 1 420px;min-width:0;position:relative;transform:rotate(-1.3deg)">
+      <div style="background:#fffdf6;padding:15px 15px 20px;box-shadow:0 26px 52px rgba(0,0,0,0.5),0 3px 0 rgba(0,0,0,0.3)">
+        <img src="photos/high-country.jpg" alt="Grass and ridgeline above the treeline" style="width:100%;display:block;aspect-ratio:3 / 2;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+        <div style="margin-top:13px;display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div contentEditable="{{ f.heroCaption.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.heroCaption.onBlur }}" style="font-family:var(--font-hand);font-size:26px;line-height:1.16;color:#142A2B">{{ f.heroCaption.text }}</div>
+          <div style="display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18);white-space:nowrap">Aug 2026</div>
+        </div>
+      </div>
+      <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-13px;left:-16px;width:126px;height:32px;transform:rotate(-21deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+      <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-11px;right:-14px;width:112px;height:29px;transform:rotate(-9deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+    </div>
+
+    <div style="flex:1 1 340px;min-width:0;padding-top:6px">
+      <div contentEditable="{{ f.badge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.badge.onBlur }}" style="display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">{{ f.badge.text }}</div>
+      <h1 contentEditable="{{ f.heroTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.heroTitle.onBlur }}" style="margin:14px 0 0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(34px,4.6vw,54px);line-height:1.02;color:#F4F0E6;text-wrap:pretty">{{ f.heroTitle.text }}</h1>
+      <div contentEditable="{{ f.heroHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.heroHand.onBlur }}" style="margin:20px 0 0;font-family:var(--font-hand);font-size:clamp(23px,2.3vw,29px);line-height:1.36;color:#D8D2C4;text-wrap:pretty">{{ f.heroHand.text }}</div>
+      <p contentEditable="{{ f.heroBody.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.heroBody.onBlur }}" style="margin:22px 0 0;max-width:40ch;font-size:16px;line-height:1.62;color:#AEBAB5;text-wrap:pretty">{{ f.heroBody.text }}</p>
+      <div style="margin-top:26px;display:flex;flex-wrap:wrap;gap:12px">
+        <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" onClick="{{ goGalleries }}" hint-size="auto,48px">Look through the galleries</x-import>
+        <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" variant="secondary" size="lg" onClick="{{ goSession }}" hint-size="auto,48px">I have a passphrase</x-import>
+      </div>
+      <div style="margin-top:30px"><div contentEditable="{{ f.noPrints.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.noPrints.onBlur }}" style="transform:rotate(-1.6deg);display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#e8e3d2 0%,#d6d0bc 55%,#cbc4ae 100%);color:#1d2a28;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.6),inset 0 -1px 0 rgba(0,0,0,0.22),0 3px 9px rgba(0,0,0,0.48);text-shadow:0 1px 0 rgba(255,255,255,0.55)">{{ f.noPrints.text }}</div></div>
+    </div>
+  </section>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:0 auto;padding:clamp(46px,7vw,64px) clamp(22px,5vw,34px) 0">
+    <div style="display:flex;align-items:flex-end;gap:18px;flex-wrap:wrap">
+      <h2 contentEditable="{{ f.recentTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.recentTitle.onBlur }}" style="margin:0;font-family:var(--font-editorial);font-weight:700;font-size:clamp(25px,3vw,34px);line-height:1;color:#F4F0E6">{{ f.recentTitle.text }}</h2>
+      <span contentEditable="{{ f.recentHand.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.recentHand.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354;padding-bottom:2px">{{ f.recentHand.text }}</span>
+    </div>
+    <div style="margin-top:16px;height:1px;background:rgba(232,227,215,0.3)"></div>
+
+    <div style="margin-top:clamp(32px,5vw,44px);display:grid;gap:clamp(30px,4vw,38px);grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));align-items:start">
+
+      <div style="position:relative;transform:rotate(1.1deg)">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 22px 44px rgba(0,0,0,0.5);cursor:pointer;transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-3px) rotate(-0.6deg)">
+          <img src="photos/street-01-crossing.jpg" alt="A boy waiting at a downtown crossing" style="width:100%;display:block;aspect-ratio:2 / 3;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.card1.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.card1.onBlur }}" style="margin-top:11px;font-family:var(--font-hand);font-size:23px;line-height:1.2;color:#142A2B">{{ f.card1.text }}</div>
+          <div style="margin-top:10px"><div style="transform:rotate(-1.4deg);display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Plate 01 · Fifth &amp; Boston</div></div>
+        </div>
+        <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-11px;right:-12px;width:92px;height:27px;transform:rotate(16deg);background:repeating-linear-gradient(90deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),repeating-linear-gradient(0deg,rgba(42,46,40,0.5) 0 1px,rgba(0,0,0,0) 1px 7px),linear-gradient(178deg,rgba(226,219,198,0.94),rgba(203,195,170,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+      </div>
+
+      <div style="position:relative;transform:rotate(-1.4deg);margin-top:clamp(0px,3vw,26px)">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 22px 44px rgba(0,0,0,0.5);cursor:pointer;transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-3px) rotate(-0.4deg)">
+          <img src="photos/the-gap.jpg" alt="A figure standing in a gap between two rock faces" style="width:100%;display:block;aspect-ratio:2 / 3;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.card2.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.card2.onBlur }}" style="margin-top:11px;font-family:var(--font-hand);font-size:23px;line-height:1.2;color:#142A2B">{{ f.card2.text }}</div>
+          <div style="margin-top:10px"><div style="transform:rotate(1.2deg);display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Plate 02 · Above the treeline</div></div>
+        </div>
+        <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-12px;left:-13px;width:100px;height:28px;transform:rotate(-19deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+      </div>
+
+      <div style="position:relative;transform:rotate(0.7deg);margin-top:clamp(0px,1vw,8px)">
+        <div style="background:#fffdf6;padding:12px 12px 16px;box-shadow:0 22px 44px rgba(0,0,0,0.5);cursor:pointer;transition:transform 240ms var(--ease-out)" style-hover="transform:translateY(-3px) rotate(-0.5deg)">
+          <img src="photos/street-02-grin.jpg" alt="A boy in a fur-hooded coat, grinning" style="width:100%;display:block;aspect-ratio:2 / 3;object-fit:cover;filter:saturate(0.84) contrast(1.04)">
+          <div contentEditable="{{ f.card3.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.card3.onBlur }}" style="margin-top:11px;font-family:var(--font-hand);font-size:23px;line-height:1.2;color:#142A2B">{{ f.card3.text }}</div>
+          <div style="margin-top:10px"><div style="transform:rotate(-0.9deg);display:inline-block;padding:5px 11px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:9px;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">Plate 02 · Downtown</div></div>
+        </div>
+        <sc-if value="{{ tape }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;bottom:-10px;right:-11px;width:86px;height:25px;transform:rotate(-12deg);background:repeating-linear-gradient(90deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),repeating-linear-gradient(0deg,rgba(38,42,30,0.5) 0 1px,rgba(0,0,0,0) 1px 8px),linear-gradient(178deg,rgba(150,143,104,0.94),rgba(126,120,85,0.9));box-shadow:0 3px 8px rgba(0,0,0,0.42)"></div></sc-if>
+      </div>
+
+    </div>
+
+    <div style="margin-top:52px;display:flex;justify-content:flex-end">
+      <a href="Joshua%20Davis%20Galleries.dc.html" contentEditable="{{ f.moreLink.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.moreLink.onBlur }}" style="font-family:var(--font-hand);font-size:26px;line-height:1;color:#D9A354;cursor:pointer;border-bottom:2px solid rgba(198,134,47,0.5);padding:9px 0 7px" style-hover="color:#E8BC6A">{{ f.moreLink.text }}</a>
+    </div>
+  </section>
+
+  <section style="position:relative;z-index:3;max-width:1120px;margin:70px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="position:relative;transform:rotate(-0.5deg);background:#f3efe2;box-shadow:0 26px 54px rgba(0,0,0,0.52);padding:clamp(26px,4.4vw,38px) clamp(20px,4.4vw,40px) clamp(28px,4.4vw,40px)">
+      <div style="position:absolute;top:0;bottom:0;left:calc(clamp(20px,4.4vw,40px) + clamp(14px,5.4vw,34px));width:1px;background:rgba(160,66,44,0.34)"></div>
+      <div style="position:absolute;top:clamp(26px,4.4vw,38px);right:clamp(20px,4.4vw,40px);bottom:clamp(28px,4.4vw,40px);left:calc(clamp(20px,4.4vw,40px) + clamp(38px,10vw,66px));pointer-events:none;background:repeating-linear-gradient(to bottom, rgba(0,0,0,0) 0 calc(1.28em - 1px), rgba(20,42,43,0.12) calc(1.28em - 1px) 1.28em);font-size:clamp(21px,4.4vw,27px)"></div>
+      <div style="position:relative;padding-left:clamp(38px,10vw,66px);max-width:60ch">
+        <div style="margin-bottom:20px"><div contentEditable="{{ f.noteBadge.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.noteBadge.onBlur }}" style="transform:rotate(-1.1deg);display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">{{ f.noteBadge.text }}</div></div>
+        <div contentEditable="{{ f.noteBody.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.noteBody.onBlur }}" style="font-family:var(--font-hand);font-size:clamp(21px,4.4vw,27px);line-height:1.28;color:#142A2B">{{ f.noteBody.text }}</div>
+        <div style="margin-top:clamp(26px,4vw,34px);font-family:var(--font-hand);font-size:clamp(26px,5vw,32px);line-height:1;color:#142A2B">Joshua</div>
+      </div>
+    </div>
+  </section>
+
+  <section data-stock="paper" style="position:relative;z-index:3;max-width:1120px;margin:66px auto 0;padding:0 clamp(22px,5vw,34px)">
+    <div style="display:grid;gap:38px;grid-template-columns:repeat(auto-fit,minmax(min(100%,280px),1fr));align-items:center;background:#EFEADC;color:#142A2B;padding:clamp(26px,4.6vw,44px) clamp(20px,4.4vw,42px);box-shadow:0 26px 54px rgba(0,0,0,0.5)">
+      <div>
+        <div style="margin-bottom:18px"><div contentEditable="{{ f.ctaEyebrow.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.ctaEyebrow.onBlur }}" style="transform:rotate(-1.3deg);display:inline-block;padding:7px 15px;border-radius:3px;background:linear-gradient(180deg,#31403d 0%,#1e2a28 55%,#182220 100%);color:#eef0e8;font-family:var(--font-ui);font-size:11px;font-weight:700;letter-spacing:0.26em;text-transform:uppercase;box-shadow:inset 0 1px 0 rgba(255,255,255,0.16),inset 0 -1px 0 rgba(0,0,0,0.55),0 2px 6px rgba(20,42,43,0.3);text-shadow:0 -1px 0 rgba(0,0,0,0.5),0 1px 0 rgba(255,255,255,0.18)">{{ f.ctaEyebrow.text }}</div></div>
+        <h2 contentEditable="{{ f.ctaTitle.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.ctaTitle.onBlur }}" style="margin:0 0 12px;font-family:var(--font-editorial);font-weight:700;font-size:clamp(24px,2.8vw,32px);line-height:1.1;color:#142A2B">{{ f.ctaTitle.text }}</h2>
+        <div contentEditable="{{ f.ctaBody.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.ctaBody.onBlur }}" style="font-family:var(--font-hand);font-size:25px;line-height:1.34;color:#2c3f3e;max-width:34ch">{{ f.ctaBody.text }}</div>
+      </div>
+      <div style="background:#fffdf6;padding:clamp(18px,3vw,24px);box-shadow:4px 4px 0 rgba(20,42,43,0.2),inset 0 0 0 1px rgba(20,42,43,0.1)">
+        <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Field" label="Passphrase" error="{{ note }}" hint-size="100%,76px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Input" placeholder="the word I sent you" value="{{ pw }}" onChange="{{ onPw }}" onKeyDown="{{ onPwKey }}" hint-size="100%,42px"></x-import>
+        </x-import>
+        <div contentEditable="{{ f.ctaHint.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.ctaHint.onBlur }}" style="margin-top:9px;font-family:var(--font-mono);font-size:11px;color:var(--text-muted)">{{ f.ctaHint.text }}</div>
+        <div style="margin-top:16px">
+          <x-import component-from-global-scope="TimberInkDesignSystem_53a136.Button" size="lg" fullWidth="{{ true }}" onClick="{{ tryUnlock }}" hint-size="100%,48px">Open my gallery</x-import>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer style="position:relative;z-index:3;max-width:1120px;margin:78px auto 0;padding:0 clamp(22px,5vw,34px) 0">
+    <div style="height:1px;background:rgba(232,227,215,0.3)"></div>
+    <div style="padding:26px 0 0;display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:20px">
+      <div>
+        <div style="font-family:var(--font-display);font-size:17px;letter-spacing:-0.01em;text-transform:uppercase;color:#F1EDE2">Joshua Davis</div>
+        <div contentEditable="{{ f.footerContact.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerContact.onBlur }}" style="margin-top:7px;font-family:var(--font-mono);font-size:11px;letter-spacing:0.06em;color:#9DABA6">{{ f.footerContact.text }}</div>
+      </div>
+      <div contentEditable="{{ f.footerTagline.editable }}" suppressContentEditableWarning="{{ true }}" onBlur="{{ f.footerTagline.onBlur }}" style="font-family:var(--font-hand);font-size:24px;line-height:1;color:#D9A354">{{ f.footerTagline.text }}</div>
+    </div>
+    <sc-if value="{{ engraving }}" hint-placeholder-val="{{ true }}"><div style="position:relative;overflow:hidden;height:clamp(92px,24vw,132px);margin-top:14px">
+      <img src="graphics/engraving-moose-puffin.png" alt="" aria-hidden="true" style="position:absolute;right:0;top:-20px;width:min(410px,80vw);opacity:0.4;pointer-events:none">
+    </div></sc-if>
+
+    <div style="margin-top:18px;padding:14px 0 26px;border-top:1px solid rgba(232,227,215,0.16);display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px">
+      <sc-if value="{{ admin }}" hint-placeholder-val="{{ false }}">
+        <div style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#D9A354">Editing as admin — click any text to change it</div>
+        <button type="button" onClick="{{ adminLogout }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.1em;text-transform:uppercase;color:#9DABA6;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#E8E3D7">Log out</button>
+      </sc-if>
+      <sc-if value="{{ notAdmin }}" hint-placeholder-val="{{ true }}">
+        <sc-if value="{{ adminOpen }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+            <input type="password" placeholder="admin password" value="{{ apw }}" onChange="{{ onApw }}" onKeyDown="{{ onApwKey }}" style="min-height:34px;padding:0 10px;border:1px solid rgba(232,227,215,0.28);border-radius:3px;background:rgba(9,18,19,0.5);color:#E8E3D7;font-family:var(--font-mono);font-size:11px"/>
+            <button type="button" onClick="{{ tryAdmin }}" style="min-height:34px;padding:0 12px;border:0;border-radius:3px;cursor:pointer;background:#C6862F;color:#1d2a28;font-family:var(--font-ui);font-size:10px;font-weight:700;letter-spacing:0.14em;text-transform:uppercase">Sign in</button>
+            <span style="font-family:var(--font-mono);font-size:10px;color:#c98a5a">{{ apwErr }}</span>
+          </div>
+        </sc-if>
+        <sc-if value="{{ adminClosed }}" hint-placeholder-val="{{ true }}">
+          <button type="button" onClick="{{ toggleAdminOpen }}" style="font-family:var(--font-mono);font-size:10px;letter-spacing:0.12em;text-transform:uppercase;color:#4d5a57;background:transparent;border:0;cursor:pointer;padding:0" style-hover="color:#9DABA6">Admin</button>
+        </sc-if>
+      </sc-if>
+    </div>
+  </footer>
+
+</div>
+
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;tape&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Tape strips&quot;},&quot;wear&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Worn desk texture&quot;},&quot;engraving&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Journal&quot;,&quot;label&quot;:&quot;Footer engraving&quot;}}">
+class Component extends DCLogic {
+  state = { pw: "", note: "", narrow: false, menuOpen: false, admin: false, adminOpen: false, apw: "", apwErr: "" };
+  componentDidMount() {
+    this.mq = window.matchMedia("(max-width: 720px)");
+    this.sync = () => this.setState({ narrow: this.mq.matches, menuOpen: false });
+    this.sync();
+    this.mq.addEventListener("change", this.sync);
+    this.away = e => { if (this.state.menuOpen && !e.target.closest("[aria-expanded]")) this.setState({ menuOpen: false }); };
+    document.addEventListener("click", this.away);
+    if (window.JDCms) this.setState({ admin: window.JDCms.isAdmin() });
+  }
+  componentWillUnmount() {
+    if (this.mq) this.mq.removeEventListener("change", this.sync);
+    document.removeEventListener("click", this.away);
+  }
+  WORDS = { hartley: 1, cottonwood: 1, fellowship: 1 };
+  attempt() {
+    const v = this.state.pw.trim().toLowerCase();
+    if (!v) { this.setState({ note: "I'll need the word first." }); return; }
+    if (this.WORDS[v]) { this.setState({ note: "" }); window.location.href = "Joshua%20Davis%20Your%20Session.dc.html"; return; }
+    this.setState({ note: "That one doesn't open anything — try the word I sent you." });
+  }
+  ed(id, fallback) {
+    const admin = this.state.admin;
+    const text = window.JDCms ? window.JDCms.text(id, fallback) : fallback;
+    return { text, editable: admin || undefined, onBlur: admin ? (e => window.JDCms.setText(id, e.currentTarget.textContent)) : undefined };
+  }
+  tryAdmin() {
+    if (window.JDCms && window.JDCms.login(this.state.apw)) this.setState({ admin: true, adminOpen: false, apw: "", apwErr: "" });
+    else this.setState({ apwErr: "That isn't it." });
+  }
+  renderVals() {
+    const f = {
+      tagline: this.ed("site.tagline", "photographs, mostly close to home"),
+      navHome: this.ed("nav.home", "Home"),
+      navGalleries: this.ed("nav.galleries", "Galleries"),
+      navSession: this.ed("nav.session", "YOUR SESSION"),
+      navAbout: this.ed("nav.about", "About"),
+      heroCaption: this.ed("home.heroCaption", "Two days of walking for four minutes of light."),
+      badge: this.ed("home.badge", "Tulsa, Oklahoma"),
+      heroTitle: this.ed("home.heroTitle", "A drawer full of ordinary hours"),
+      heroHand: this.ed("home.heroHand", "River fog, wet streetlight, my kid on a corner downtown — I keep the ones I'd want to find again in twenty years."),
+      heroBody: this.ed("home.heroBody", "This is a hobby, not a storefront. Landscapes and street work live out in the open; portrait sessions live behind a word I send you."),
+      noPrints: this.ed("home.noPrints", "No prints for sale · no mailing list"),
+      recentTitle: this.ed("home.recentTitle", "Pasted in lately"),
+      recentHand: this.ed("home.recentHand", "newest on top, as always"),
+      card1: this.ed("home.card1", "He waited out three green lights before he'd look up."),
+      card2: this.ed("home.card2", "Stood there long enough to lose the feeling in my hands."),
+      card3: this.ed("home.card3", "Then, all at once, he did."),
+      moreLink: this.ed("home.moreLink", "the rest of the drawer →"),
+      noteBadge: this.ed("home.noteBadge", "A note before you look"),
+      noteBody: this.ed("home.noteBody", "I'm not trying to sell you anything here. I carry a camera on walks and on drives out toward the Ozarks, and this is where the good ones end up. Slow down, look closer — that's the whole invitation."),
+      ctaEyebrow: this.ed("home.ctaEyebrow", "IF WE DID A PHOTOSHOOT TOGETHER"),
+      ctaTitle: this.ed("home.ctaTitle", "Your gallery is waiting"),
+      ctaBody: this.ed("home.ctaBody", "I sent you a word. It opens your gallery and nothing else, and the full-size files are yours whenever you want them."),
+      ctaHint: this.ed("home.ctaHint", "Case doesn't matter."),
+      footerContact: this.ed("site.footerContact", "Tulsa, Oklahoma · Timberandink@outlook.com"),
+      footerTagline: this.ed("site.footerTagline", "made in spare moments")
+    };
+    return {
+      f,
+      tape: this.props.tape !== false,
+      wear: this.props.wear !== false,
+      engraving: this.props.engraving !== false,
+      narrow: this.state.narrow,
+      wide: !this.state.narrow,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      pw: this.state.pw,
+      note: this.state.note,
+      onPw: e => this.setState({ pw: e.target.value, note: "" }),
+      onPwKey: e => { if (e.key === "Enter") this.attempt(); },
+      tryUnlock: () => this.attempt(),
+      goGalleries: () => { window.location.href = "Joshua%20Davis%20Galleries.dc.html"; },
+      goSession: () => { window.location.href = "Joshua%20Davis%20Your%20Session.dc.html"; },
+      admin: this.state.admin,
+      notAdmin: !this.state.admin,
+      adminOpen: this.state.adminOpen,
+      adminClosed: !this.state.adminOpen,
+      apw: this.state.apw,
+      apwErr: this.state.apwErr,
+      onApw: e => this.setState({ apw: e.target.value, apwErr: "" }),
+      onApwKey: e => { if (e.key === "Enter") this.tryAdmin(); },
+      tryAdmin: () => this.tryAdmin(),
+      toggleAdminOpen: () => this.setState(s => ({ adminOpen: !s.adminOpen })),
+      adminLogout: () => { if (window.JDCms) window.JDCms.logout(); this.setState({ admin: false }); }
+    };
+  }
+}
+
+</script>
+</body>
+</html>
