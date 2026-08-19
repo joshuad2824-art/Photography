@@ -135,6 +135,25 @@ step list:
 | `flyctl deploy` **skipped** | `FLY_API_TOKEN` is not set on the repository. Nothing was deployed. The job log carries a notice saying so. |
 | `flyctl deploy` **success**, `Check it answers` **success** | It deployed and the live `/api/health` answered. |
 | `flyctl deploy` **failure** | The token is set but Fly refused — usually the app doesn't exist yet, or the token was scoped to a different one. |
+| `Look for the Fly token` **failure** | The token is set but malformed. The step's error says which way; see below. |
+
+### `invalid header field value for "Authorization"`
+
+If `flyctl deploy` fails with that, the token is not being rejected by Fly —
+it never reached them. flyctl puts the secret straight into an
+`Authorization` header, and Go refuses to send a header containing a control
+character, so a newline anywhere in the value fails before any request goes
+out. Copying a long token out of a terminal that wrapped it is the usual way
+one gets in there.
+
+The workflow now strips carriage returns and newlines and trims the ends
+before using the value, so a wrapped paste repairs itself. What it cannot
+repair — a non-breaking space or a smart quote picked up from a web page —
+it reports by name instead, and the fix is to run `fly tokens create deploy`
+again and paste the result as plain text.
+
+Whatever the cause, re-pasting is free: a Fly deploy token can be replaced at
+any time, and old ones are revoked with `fly tokens revoke`.
 
 The first of those is the state to expect until the setup above is finished.
 
