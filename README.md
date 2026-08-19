@@ -146,8 +146,8 @@ Joshua sets a new one.
 
 ## Deploying
 
-One machine with a persistent disk, built from the `Dockerfile` here and
-configured for Fly.io in `fly.toml`. `DATA_DIR` is a mounted volume at `/data`,
+**Live at https://photography.fly.dev.** One machine with a persistent disk,
+built from the `Dockerfile` here and configured for Fly.io in `fly.toml`. `DATA_DIR` is a mounted volume at `/data`,
 `/api/health` fails the host's check if that volume ever stops being writable,
 and the image is Next's `standalone` output running unprivileged.
 

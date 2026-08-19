@@ -1,83 +1,45 @@
 # What's next
 
-The site is built and merged. Where it runs is decided, the deploy config is in
-the tree, and a merge to `main` now deploys it. What's left of step 1 is the
-one-time account setup — creating the Fly app, its two secrets, its volume and
-a deploy token — which needs credentials this repository doesn't have. Until
-someone does that, nobody can reach the site, and almost everything below is
-polish on something no one can see.
+The site is built, merged and **live at https://photography.fly.dev**, deployed
+by a merge to `main`. Step 1 is done. Everything below is what a live site
+still needs — and the two that matter before Joshua hands a real client a word
+are the backup and the deletion sweep, because one protects photographs that
+exist only once and the other is a promise the site currently doesn't keep.
 
 Written as a handoff: enough context to pick any item up cold.
 
 ---
 
-## 1. Deploy it
+## 1. Deploy it — done
 
-**Decided: path A — one small box with a persistent disk, on Fly.io.**
+**Path A: one machine with a persistent disk, on Fly.io.** `DATA_DIR` is a real
+directory holding the album records, the client-gallery records and every
+uploaded photograph, so ephemeral-filesystem hosting was out; taking that path
+would have meant rewriting `lib/store.ts` onto Postgres and `lib/uploads.ts`
+onto object storage before anything could ship. No application code changed.
 
-`DATA_DIR` is a writable directory holding three things: the album records, the
-client-gallery records, and every uploaded photograph. That ruled out platforms
-with an ephemeral filesystem — on Vercel's serverless functions the store and
-the uploads would be wiped on each deploy, and taking that path would have
-meant rewriting `lib/store.ts` onto Postgres and `lib/uploads.ts` onto object
-storage first. This is a hobby portfolio with one author and a handful of
-client galleries a year; one instance is the right shape, and it keeps the
-whole storage layer as it is.
+Live at **https://photography.fly.dev**, on one `shared-cpu-1x`/1GB machine
+with a 10GB volume at `/data`.
 
-Everything needed to run it is now in the repository:
+Deploying is **merging to `main`**. `.github/workflows/ci.yml` typechecks, runs
+`next build`, builds the container, and only then hands it to Fly; the last
+step curls the live `/api/health` and fails the run if it doesn't answer.
 
-- `Dockerfile` + `docker-entrypoint.sh` — Next's `standalone` output on Debian
-  slim, running as a non-root user, with the mounted volume handed to it at
-  boot. Ordinary Docker, so the same image runs on Railway, Render or a VPS.
-- `fly.toml` — one `shared-cpu-1x`/1GB machine, a 10GB volume at `/data`,
-  `force_https`, and a health check.
-- `app/api/health/route.ts` — writes a byte to `DATA_DIR` and removes it, so an
-  unmounted or full volume fails the health check instead of the site quietly
-  losing every edit and every upload.
-- [`docs/DEPLOY.md`](docs/DEPLOY.md) — the runbook.
+`docs/DEPLOY.md` is the runbook — the account setup, the domain, day two, and
+how to read the deploy job when something is wrong.
 
-The image was verified as far as it can be from a session without a Fly
-account: `standalone` builds clean, and the built server serves all four public
-pages, seeds the album store into `DATA_DIR`, resolves the zip route, and
-re-encodes an upload through `sharp`.
+Two things learned getting here, both written down there:
 
-Deploying is now a merge to `main`: `.github/workflows/ci.yml` typechecks,
-runs `next build`, builds the container, and only then hands it to Fly. That
-container build matters more than it looks — it is the one thing no session
-could verify without a Docker daemon, and it fails on exactly the problems
-`npm run build` cannot see.
+- A green tick on `main` doesn't prove a deploy happened. The deploy job
+  reports success whether it deployed or skipped, because a missing token is
+  unfinished setup rather than a broken build.
+- `/api/health` writes a byte to `DATA_DIR` and removes it, so an unmounted or
+  full volume fails the check instead of the site serving pages while losing
+  every edit. It does **not** touch `SESSION_SECRET`, so a healthy check says
+  nothing about whether the admin door works.
 
-**What's left is the account work**, which nobody but Joshua can do. It stays
-by hand on purpose: it needs a Fly account, and the two secrets should never
-pass through a repository or a CI log. `docs/DEPLOY.md` has each step in full:
-
-```bash
-fly apps create photography
-fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
-fly volumes create jd_data --region dfw --size 10
-fly tokens create deploy -x 8760h   # → GitHub repo secret FLY_API_TOKEN
-fly deploy                          # or just merge to main, once the token is set
-```
-
-Without `FLY_API_TOKEN` the deploy job skips itself with a notice rather than
-failing, so `main` stays green while the setup is half-done.
-
-Then a domain — `fly certs add <domain>`, and the records it prints go at the
-registrar. HTTPS is not optional: both cookies are already `Secure` in
-production, so over plain HTTP neither the admin sign-in nor a client's gallery
-would hold.
-
-Two things to know before typing them:
-
-- `SESSION_SECRET` should be written down somewhere durable first. Changing it
-  later signs everyone out and makes stored words unreadable in the admin
-  listing (galleries still open; the check goes through the hash, not the
-  sealed copy).
-- `ADMIN_PASSWORD` should be something better than the development default.
-
-**Don't scale this past one machine.** The JSON store is process-local and the
-rate limiter is in memory. A second instance means the database-and-object-
-storage rewrite, not a config change.
+Still open here: **no custom domain.** `fly certs add <domain>` and the records
+it prints, whenever Joshua picks one.
 
 ## 2. Back up the client photographs
 
