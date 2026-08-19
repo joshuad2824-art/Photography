@@ -152,6 +152,15 @@ repair — a non-breaking space or a smart quote picked up from a web page —
 it reports by name instead, and the fix is to run `fly tokens create deploy`
 again and paste the result as plain text.
 
+Two other shapes get caught before flyctl runs. A value **wrapped in quotes**
+is refused outright — the secret box takes what you give it literally, so the
+quotes become part of the token, and Fly would answer with a bare 401 that
+explains nothing. A value with an **unfamiliar prefix** is only warned about,
+along with its length: Fly has shipped several token formats, so flyctl
+talking to Fly stays the authority on whether a token works. The length is the
+tell — a deploy token runs to hundreds of characters, so a warning reporting a
+dozen means something else got pasted.
+
 Whatever the cause, re-pasting is free: a Fly deploy token can be replaced at
 any time, and old ones are revoked with `fly tokens revoke`.
 
