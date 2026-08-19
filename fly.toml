@@ -1,54 +1,45 @@
-# Joshua Davis Photography — one machine, one volume.
+# fly.toml app configuration file generated for photography on 2026-08-19T01:35:35Z
 #
-# The store is a directory of JSON files and photographs on disk
-# (lib/store.ts, lib/uploads.ts), and the rate limiter is in-memory
-# (lib/rate-limit.ts). Both are correct for exactly one instance and wrong for
-# two, so this app is deliberately not scaled horizontally: see
-# docs/DEPLOY.md before changing anything below about counts or volumes.
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
 
-app = "photography"
-primary_region = "dfw"
+app = 'photography'
+primary_region = 'dfw'
 
 [build]
 
 [env]
-  DATA_DIR = "/data"
-  PORT = "3000"
+  DATA_DIR = '/data'
+  PORT = '3000'
 
 [[mounts]]
-  source = "jd_data"
-  destination = "/data"
-  initial_size = "10gb"
-  # Nightly volume snapshots, kept a fortnight. This is a floor, not the
-  # backup roadmap step 2 asks for — snapshots live on the same provider as
-  # the disk they copy.
+  source = 'jd_data'
+  destination = '/data'
+  initial_size = '10gb'
   snapshot_retention = 14
 
 [http_service]
   internal_port = 3000
   force_https = true
+  auto_stop_machines = 'off'
   auto_start_machines = true
-  # Never stop the machine: a suspended instance still holds the volume, and
-  # a cold start in front of a client opening their gallery is not worth the
-  # few dollars saved.
-  auto_stop_machines = "off"
   min_machines_running = 1
 
   [http_service.concurrency]
-    type = "requests"
-    soft_limit = 40
+    type = 'requests'
     hard_limit = 60
+    soft_limit = 40
 
   [[http_service.checks]]
-    path = "/api/health"
-    method = "GET"
-    interval = "30s"
-    timeout = "5s"
-    grace_period = "15s"
+    interval = '30s'
+    timeout = '5s'
+    grace_period = '15s'
+    method = 'GET'
+    path = '/api/health'
 
 [[vm]]
-  size = "shared-cpu-1x"
-  # sharp re-encodes 40MB frames on upload, 20-40 at a time. 512MB is not
-  # enough headroom for that; 1GB is.
-  memory = "1gb"
+  size = 'shared-cpu-1x'
+  memory = '1gb'
+  cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 1024
