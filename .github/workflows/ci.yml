@@ -102,11 +102,29 @@ jobs:
             exit 1
           fi
 
+          # A value wrapped in quotes is the one shape worth refusing outright:
+          # the quote is a legal header character, so flyctl would send it and
+          # Fly would answer with a plain 401 that says nothing about why.
           case "$clean" in
-            "FlyV1 "*|fm2_*|fo1_*) ;;
-            *)
-              echo "::error title=FLY_API_TOKEN does not look like a Fly token::Expected it to begin with 'FlyV1 ' or 'fm2_'. Create one with 'fly tokens create deploy' and paste the whole value, prefix included."
+            '"'*|"'"*)
+              echo "::error title=FLY_API_TOKEN is wrapped in quotes::The secret box takes the value literally — the quotes become part of the token. Re-paste it without them."
               exit 1
+              ;;
+          esac
+
+          # Fly has shipped several token formats over the years, so an
+          # unfamiliar prefix is worth flagging and not worth refusing:
+          # flyctl talking to Fly is the authority on whether a token works,
+          # and this check should never be the thing that outranks it. The
+          # length is safe to print and is usually enough to tell a real token
+          # from something pasted by mistake — a deploy token runs to hundreds
+          # of characters.
+          case "$clean" in
+            "FlyV1 "*|fm[0-9]*|fo1_*)
+              echo "Token looks like a Fly token (${#clean} characters)."
+              ;;
+            *)
+              echo "::warning title=Unfamiliar token format::FLY_API_TOKEN is ${#clean} characters and does not begin with 'FlyV1 ' or 'fm…'. Continuing anyway — flyctl will report whether Fly accepts it."
               ;;
           esac
 
