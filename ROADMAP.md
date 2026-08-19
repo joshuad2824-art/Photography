@@ -52,7 +52,7 @@ by hand on purpose: it needs a Fly account, and the two secrets should never
 pass through a repository or a CI log. `docs/DEPLOY.md` has each step in full:
 
 ```bash
-fly apps create joshua-davis-photography
+fly apps create photography
 fly secrets set SESSION_SECRET="$(node -e 'console.log(require("crypto").randomBytes(32).toString("hex"))')" ADMIN_PASSWORD='...'
 fly volumes create jd_data --region dfw --size 10
 fly tokens create deploy -x 8760h   # → GitHub repo secret FLY_API_TOKEN

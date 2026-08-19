@@ -38,11 +38,18 @@ deployed into it — `fly deploy` won't create one.
 
 ```bash
 fly auth login
-fly apps create joshua-davis-photography
+fly apps create photography
 ```
 
-If that name is taken, pick another and change `app =` at the top of
-`fly.toml` to match.
+The name comes from `app =` at the top of `fly.toml` and has to match it —
+`fly deploy` reads it from there, and the workflow's post-deploy health check
+derives `https://<app>.fly.dev` from the same line. If you change one, change
+the other.
+
+Fly app names are globally unique across every Fly account, not just yours, so
+a short generic name may already belong to someone else. `fly apps list` shows
+what you actually own; if `fly apps create` answers that the name is taken,
+pick a more specific one and update `fly.toml`.
 
 **2. Set the secrets.** Generate a fresh `SESSION_SECRET` — don't reuse one
 from anywhere, and don't paste the value into a shell that keeps history:
@@ -99,7 +106,7 @@ come up:
 ```bash
 fly status
 fly logs
-curl https://joshua-davis-photography.fly.dev/api/health
+curl https://photography.fly.dev/api/health
 ```
 
 A healthy answer is `{"ok":true,"store":"writable","ms":<n>}`. `store` is the
@@ -114,6 +121,22 @@ volume: if that comes back `unwritable`, the mount is wrong, not the app.
 - a demo gallery opens with `cottonwood`, and the wrong word is refused
 - upload one frame through **My photographs**, then `fly apps restart` and
   confirm it's still there — that is the volume doing its job
+
+## Telling whether the deploy is wired up
+
+The deploy job reports **success** whether it deployed or skipped, because a
+missing token is unfinished setup rather than a broken build. So a green tick
+on `main` is not by itself proof the site went out. Open the newest run under
+the repository's **Actions** tab, then the **Deploy to Fly** job, and read the
+step list:
+
+| What the steps show | What it means |
+| --- | --- |
+| `flyctl deploy` **skipped** | `FLY_API_TOKEN` is not set on the repository. Nothing was deployed. The job log carries a notice saying so. |
+| `flyctl deploy` **success**, `Check it answers` **success** | It deployed and the live `/api/health` answered. |
+| `flyctl deploy` **failure** | The token is set but Fly refused — usually the app doesn't exist yet, or the token was scoped to a different one. |
+
+The first of those is the state to expect until the setup above is finished.
 
 ## The domain
 
@@ -144,7 +167,7 @@ untouched by a deploy; only the image is replaced.
 `fly deploy` from a laptop still works and is the way to ship something
 urgently or from a branch, but it skips those checks.
 
-**Reading the logs** is `fly logs`, or `fly logs -a joshua-davis-photography`
+**Reading the logs** is `fly logs`, or `fly logs -a photography`
 from elsewhere. Rate-limited sign-ins and zip errors show up here.
 
 **Rotating the admin password** is `fly secrets set ADMIN_PASSWORD='…'`, which
