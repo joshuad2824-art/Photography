@@ -6,7 +6,7 @@
 # two, so this app is deliberately not scaled horizontally: see
 # docs/DEPLOY.md before changing anything below about counts or volumes.
 
-app = "joshua-davis-photography"
+app = "photography"
 primary_region = "dfw"
 
 [build]
