@@ -75,17 +75,43 @@ jobs:
       # Deploying without the token would fail the run on every merge until
       # it is added, which reads as a broken repository rather than an
       # unfinished setup. Say what's missing instead.
+      #
+      # A token that is present but malformed is the more confusing case.
+      # flyctl puts it straight into an Authorization header, and Go refuses
+      # to send a header containing a control character — the error is
+      # `invalid header field value`, which names the header rather than the
+      # secret and points nowhere useful. A newline in the middle of the
+      # value, from a paste that a terminal had wrapped, is the usual cause
+      # and costs nothing to repair here. Anything else is reported plainly.
       - name: Look for the Fly token
         id: token
         env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+          RAW_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: |
-          if [ -n "$FLY_API_TOKEN" ]; then
-            echo "present=true" >> "$GITHUB_OUTPUT"
-          else
+          if [ -z "$RAW_TOKEN" ]; then
             echo "present=false" >> "$GITHUB_OUTPUT"
             echo "::notice title=Deploy skipped::FLY_API_TOKEN is not set on this repository. See docs/DEPLOY.md — the site will not go live until it is."
+            exit 0
           fi
+
+          clean="$(printf '%s' "$RAW_TOKEN" | tr -d '\r\n' | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')"
+          echo "::add-mask::$clean"
+
+          if printf '%s' "$clean" | LC_ALL=C grep -q '[^ -~]'; then
+            echo "::error title=FLY_API_TOKEN is malformed::The secret contains a character that cannot go in an HTTP header — usually a non-breaking space or a smart quote picked up from a web page. Run 'fly tokens create deploy' again and paste the value as plain text."
+            exit 1
+          fi
+
+          case "$clean" in
+            "FlyV1 "*|fm2_*|fo1_*) ;;
+            *)
+              echo "::error title=FLY_API_TOKEN does not look like a Fly token::Expected it to begin with 'FlyV1 ' or 'fm2_'. Create one with 'fly tokens create deploy' and paste the whole value, prefix included."
+              exit 1
+              ;;
+          esac
+
+          echo "present=true" >> "$GITHUB_OUTPUT"
+          echo "FLY_API_TOKEN=$clean" >> "$GITHUB_ENV"
 
       - uses: superfly/flyctl-actions/setup-flyctl@master
         if: steps.token.outputs.present == 'true'
@@ -95,8 +121,6 @@ jobs:
       # the first deploy if it does not exist yet.
       - name: flyctl deploy
         if: steps.token.outputs.present == 'true'
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
         run: flyctl deploy --remote-only --wait-timeout 300
 
       # fly.toml health-checks /api/health, so a failed deploy already rolls
