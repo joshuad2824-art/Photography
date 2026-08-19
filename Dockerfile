@@ -30,9 +30,10 @@ FROM node:${NODE_VERSION}-slim AS runner
 WORKDIR /app
 
 # gosu drops from root to `node` in the entrypoint, after the mounted volume
-# has been given to the app user.
+# has been given to the app user. restic backs that volume up to object
+# storage off this machine — see docs/BACKUP.md.
 RUN apt-get update \
- && apt-get install -y --no-install-recommends gosu \
+ && apt-get install -y --no-install-recommends gosu restic ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
 ENV NODE_ENV=production \
@@ -48,7 +49,10 @@ COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
 
 COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+COPY scripts/backup.sh scripts/backup-daemon.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh \
+             /usr/local/bin/backup.sh \
+             /usr/local/bin/backup-daemon.sh
 
 EXPOSE 3000
 ENTRYPOINT ["docker-entrypoint.sh"]

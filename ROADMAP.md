@@ -2,9 +2,9 @@
 
 The site is built, merged and **live at https://photography.fly.dev**, deployed
 by a merge to `main`. Step 1 is done. Everything below is what a live site
-still needs — and the two that matter before Joshua hands a real client a word
-are the backup and the deletion sweep, because one protects photographs that
-exist only once and the other is a promise the site currently doesn't keep.
+still needs. The one that matters before Joshua hands a real client a word is
+now step 4: the site promises files come down on a date and nothing ever
+deletes a byte.
 
 Written as a handoff: enough context to pick any item up cold.
 
@@ -41,19 +41,37 @@ Two things learned getting here, both written down there:
 Still open here: **no custom domain.** `fly certs add <domain>` and the records
 it prints, whenever Joshua picks one.
 
-## 2. Back up the client photographs
+## 2. Back up the client photographs — done
 
-Before Joshua hands a real client a word.
+`restic` copies `DATA_DIR` to an S3-compatible bucket off this provider,
+roughly daily, from inside the app machine — the volume can only be mounted by
+one machine, so the thing backing it up has to live there too.
 
-Right now everything lives on one disk with no copy anywhere. Client
-photographs are the one thing on this site that cannot be recreated — the
-albums are his own work, the copy is in git, but a family's session exists once.
+- `scripts/backup.sh` — one run: init if needed, back up, prune, record.
+- `scripts/backup-daemon.sh` — every 15 minutes, runs one if the last **good**
+  backup is over 20 hours old. Not cron: the container restarts on every
+  deploy, and a cron entry set for 03:15 is silently missed by a machine that
+  restarted at 03:14.
+- `/api/health` reports `configured`, `ok`, `ageHours` and `stale`, so a
+  backup that quietly stopped is visible before the day it is needed.
 
-A nightly `DATA_DIR` snapshot off the box is enough. `fly.toml` already asks
-for nightly volume snapshots kept a fortnight, but those live on the same
-provider as the disk they copy — that's a floor, not the backup. Somewhere
-else entirely: `restic` to object storage from a cron'd `fly ssh console`, or
-pulled down on a schedule.
+Retention is 14 daily, 5 weekly, 12 monthly. The Fly volume snapshots in
+`fly.toml` remain a floor, not this.
+
+**[`docs/BACKUP.md`](docs/BACKUP.md)** covers the bucket, the secrets, and —
+the part that matters — how to restore, including to a machine that does not
+exist yet. The restore was verified end to end against a test repository:
+`diff -r` and SHA-256 of every photograph came back identical.
+
+**Still needs doing once:** the bucket and the four Fly secrets. Until
+`RESTIC_REPOSITORY` is set the site runs normally, says so once in the log, and
+`/api/health` reports `configured: false` — **nothing is being backed up.**
+
+Two things about `RESTIC_PASSWORD` worth knowing before setting it. It encrypts
+the repository and no provider can recover it: lose it and the bucket is
+ciphertext. And a restore needs the *old* `SESSION_SECRET` too, or the stored
+gallery words are unreadable in the admin listing afterwards — the galleries
+still open, since that check goes through the hash.
 
 ## 3. Real photographs
 

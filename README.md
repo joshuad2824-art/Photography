@@ -174,6 +174,11 @@ that can mount a disk. What it cannot run on is a platform with an ephemeral
 filesystem — that needs the store moved to a database and the uploads to
 object storage first.
 
+Backups are `restic` to an S3-compatible bucket, roughly daily, from inside the
+machine — see [`docs/BACKUP.md`](docs/BACKUP.md) for the setup and, more
+importantly, the restore. `/api/health` reports when the backup last succeeded,
+so one that has quietly stopped is visible before the day it is needed.
+
 **This site runs as exactly one instance.** The JSON store is process-local and
 the rate limiter is in memory; both are right for one machine and wrong for
 two.
