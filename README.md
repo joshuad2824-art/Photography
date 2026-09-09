@@ -54,6 +54,7 @@ lib/
   album-types.ts        the album model, shared by client and server
   albums.ts             the album store
   client-sessions.ts    per-shoot private galleries
+  photo-files.ts        what counts as a photograph, shared by both sides
   uploads.ts            photograph intake
   auth.ts               admin + gallery cookies, family share links
   store.ts              JSON-file persistence
@@ -114,6 +115,15 @@ image optimiser, which fetches without cookies.
 **Uploads.** `POST /api/admin/upload` takes full-size frames off the card,
 rotates by EXIF, caps the long edge at 3200px, re-encodes, and stores by
 content hash, so the same frame uploaded twice costs one file.
+
+Nothing is judged by the MIME type the browser attached — a frame off a card
+often arrives with none at all — so the decoder reads the bytes and whatever it
+can't read comes back named. The upload zone sends what Joshua picked in
+batches rather than one enormous body (`lib/photo-files.ts` holds the sizes
+both sides agree on), each batch's prints appearing as it lands: the machine
+never holds more than a handful of originals, and a long upload shows its
+progress. Camera RAW and — until the decoder ships with the HEIF licence —
+HEIC are turned away by name, with what to do about it.
 
 Downloads are real: `/api/session/photo/[id]` serves one original (or renders
 it inline for the gallery), `/api/session/download-all` streams a stored

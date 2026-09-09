@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
+import { isHeicName, isRawName, MAX_UPLOAD_BYTES } from "./photo-files";
 
 /**
  * Photograph uploads.
@@ -22,17 +23,33 @@ const UPLOAD_DIR = path.join(DATA_DIR, "uploads");
 
 /** Long edge kept for delivery. Enough for a full-screen lightbox on a 5K panel. */
 const MAX_EDGE = 3200;
-export const MAX_UPLOAD_BYTES = 40 * 1024 * 1024;
 
-export const ACCEPTED = new Set([
-  "image/jpeg",
-  "image/png",
-  "image/webp",
-  "image/avif",
-  "image/heic",
-  "image/heif",
-  "image/tiff",
-]);
+export { MAX_UPLOAD_BYTES };
+
+/**
+ * Whether this build's decoder can read what an iPhone calls a photograph.
+ * The prebuilt binaries ship without the HEIF licence, so asking is the only
+ * way to know — and the answer decides whether Joshua is told to export or
+ * left staring at a frame that never arrives.
+ */
+export const HEIC_READABLE: boolean =
+  sharp.format.heif?.input?.fileSuffix?.includes(".heic") ?? false;
+
+/**
+ * Why a frame the decoder refused couldn't be read. The reason goes back to
+ * the upload zone as it is, so it says what to do rather than only that
+ * something went wrong.
+ */
+export function unreadableReason(name: string): string {
+  const file = name || "That file";
+  if (isRawName(file)) {
+    return `${file} is a RAW file — export it as a JPEG and it'll go up`;
+  }
+  if (isHeicName(file) && !HEIC_READABLE) {
+    return `${file} is HEIC — in Photos, File › Export › JPEG, then try again`;
+  }
+  return `${file} wouldn't open — the file may be truncated`;
+}
 
 export type StoredUpload = {
   /** File name inside the upload directory; also the public id. */

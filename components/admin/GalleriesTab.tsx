@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UploadZone } from "./UploadZone";
+import { draftIds, UploadZone } from "./UploadZone";
 import { Button, Field, Input } from "../ui";
 import type { AdminGallery } from "@/lib/gallery-input";
 import type { StoredUpload } from "@/lib/uploads";
@@ -178,25 +178,31 @@ export function GalleriesTab({
   }
 
   function addUploads(uploads: StoredUpload[]) {
-    setDraft((current) =>
-      current
-        ? {
-            ...current,
-            photos: [
-              ...current.photos,
-              ...uploads.map((upload, index) => ({
-                id: upload.id.replace(/\.jpg$/, ""),
-                src: `/api/admin/uploads/${upload.id}`,
-                file: upload.id,
-                plate: `IMG ${String(current.photos.length + index + 1).padStart(4, "0")}`,
-                ratio: upload.ratio,
-                pos: "50% 50%",
-                bytes: upload.bytes,
-              })),
-            ],
-          }
-        : current,
-    );
+    setDraft((current) => {
+      if (!current) return current;
+      // Ids have to be the draft's own: two of the same frame share one file
+      // on disk, and a gallery that holds two rows under one id loses one of
+      // them the moment it's saved.
+      const ids = draftIds(
+        uploads,
+        current.photos.map((photo) => photo.id),
+      );
+      return {
+        ...current,
+        photos: [
+          ...current.photos,
+          ...uploads.map((upload, index) => ({
+            id: ids[index]!,
+            src: `/api/admin/uploads/${upload.id}`,
+            file: upload.id,
+            plate: `IMG ${String(current.photos.length + index + 1).padStart(4, "0")}`,
+            ratio: upload.ratio,
+            pos: "50% 50%",
+            bytes: upload.bytes,
+          })),
+        ],
+      };
+    });
   }
 
   function movePhoto(index: number, delta: number) {
