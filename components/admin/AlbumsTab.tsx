@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { UploadZone } from "./UploadZone";
+import { draftIds, UploadZone } from "./UploadZone";
 import { Button, Field, Input } from "../ui";
 import {
   HOME_MAX,
@@ -46,14 +46,29 @@ const quietAction = {
   color: "var(--text-ink-muted)",
 };
 
+/**
+ * A row on the worksheet: the stored shape, plus where its thumbnail comes
+ * from while the pile is still a draft.
+ *
+ * `src` is what the album keeps, and /api/photos only serves frames a saved
+ * album already claims — so a print that went up a moment ago has to be
+ * previewed through the admin's own route or it shows as nothing at all.
+ */
+type DraftPhoto = AlbumPhoto & { preview?: string };
+
 type Draft = {
   id: string | null;
   name: string;
   sub: string;
   live: boolean;
   cover: number;
-  photos: AlbumPhoto[];
+  photos: DraftPhoto[];
 };
+
+/** The stored row, without the draft-only preview. */
+function stored({ preview: _preview, ...photo }: DraftPhoto): AlbumPhoto {
+  return photo;
+}
 
 const blank = (): Draft => ({
   id: null,
@@ -135,7 +150,7 @@ export function AlbumsTab({
       sub: draft.sub,
       live: draft.live,
       cover: draft.cover,
-      photos: draft.photos,
+      photos: draft.photos.map(stored),
     };
     const failed = await refresh(
       await fetch(
@@ -207,25 +222,29 @@ export function AlbumsTab({
   }
 
   function addUploads(uploads: StoredUpload[]) {
-    setDraft((current) =>
-      current
-        ? {
-            ...current,
-            photos: [
-              ...current.photos,
-              ...uploads.map((upload) => ({
-                id: upload.id.replace(/\.jpg$/, ""),
-                src: `/api/photos/${upload.id}`,
-                plate: "",
-                cap: "",
-                home: false,
-                ratio: upload.ratio,
-                pos: "50% 50%",
-              })),
-            ],
-          }
-        : current,
-    );
+    setDraft((current) => {
+      if (!current) return current;
+      const ids = draftIds(
+        uploads,
+        current.photos.map((photo) => photo.id),
+      );
+      return {
+        ...current,
+        photos: [
+          ...current.photos,
+          ...uploads.map((upload, index) => ({
+            id: ids[index]!,
+            src: `/api/photos/${upload.id}`,
+            preview: `/api/admin/uploads/${upload.id}`,
+            plate: "",
+            cap: "",
+            home: false,
+            ratio: upload.ratio,
+            pos: "50% 50%",
+          })),
+        ],
+      };
+    });
   }
 
   if (draft) {
@@ -348,7 +367,7 @@ export function AlbumsTab({
                       <div style={printMat("4px", "0 2px 7px rgba(20,42,43,0.2)")}>
                         {/* eslint-disable-next-line @next/next/no-img-element */}
                         <img
-                          src={photo.src}
+                          src={photo.preview ?? photo.src}
                           alt=""
                           style={{
                             display: "block",
